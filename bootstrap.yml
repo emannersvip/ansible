@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+          - name: Install ansible
+            apt:
+                    name: ansible
+                    update_cache: yes
+          - name: Install git
+            apt:
+                    name: git
+                    update_cache: yes
+          - name: Install htop
+            apt:
+                    name: htop
+                    update_cache: yes
+          - name: Install ipmitool
+            apt:
+                    name: ipmitool
+                    update_cache: yes
+          - name: Install screen
+            apt:
+                    name: screen
+                    update_cache: yes
+          - name: Install vim
+            apt:
+                    name: vim
+                    update_cache: yes
