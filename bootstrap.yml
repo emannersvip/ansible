@@ -18,6 +18,10 @@
             apt:
                     name: ipmitool
                     update_cache: yes
+          - name: Install mlocate
+            apt:
+                    name: mlocate
+                    update_cache: yes
           - name: Install screen
             apt:
                     name: screen
