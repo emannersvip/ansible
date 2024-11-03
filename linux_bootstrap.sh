@@ -32,7 +32,7 @@ echo -e "\n--Adding useful apps... ${USEFUL_APPS}"
 sudo apt -y install ${USEFUL_APPS}
 
  
-echo "\n--Initialize GIT environment"
+echo -e "\n--Initialize GIT environment"
 if test -d "${REGULAR_USER_HOME}/Code"; then
 	echo "----No need to setup ${REGULAR_USER_HOME}, it already exists"
 else
