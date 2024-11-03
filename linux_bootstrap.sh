@@ -23,7 +23,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+by
 EOF
 fi
 
-echo '\n--Updating apt cache and running apt upgrade'
+echo -e '\n--Updating apt cache and running apt upgrade'
 sudo apt update
 sudo apt -y upgrade
 
