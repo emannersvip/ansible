@@ -10,17 +10,22 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 
 echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
 
-echo -e "\n--Checking for SSH keys in $SSH_AUTH"
-if test -f "$SSH_AUTH"; then
-	echo '----No need to setup SSH keys'
-else
-	echo '----Setting up SSH keys...'
-	mkdir $SSH_DIR
+echo -e "\n--Check for SSH directory setup--"
+if [ ! test -f ${SSH_DIR} ]; then
+	mkdir $SSH_DIR;
 	chmod 700 $SSH_DIR
-	touch $SSH_AUTH
-	cat << EOF > $SSH_AUTH
+
+ 	echo -e "\n--Checking for SSH keys in $SSH_AUTH"
+	if test -f "$SSH_AUTH"; then
+		echo '----No need to setup SSH keys'
+	else
+		echo -e "\n----Setting up SSH keys..."
+		touch $SSH_AUTH
+ 		chown ${REGULAR_USER}. ${SSH_AUTH}
+		cat << EOF > $SSH_AUTH
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+byUw3jDss5FwpSkjD8/2NKxojjsONybyC0DHNB8pzhuu/oMJuwR/s48t77cW305TfR7z4uwlim1I0BlX7u8oPop1DhFG/M2H6Gequ8Wi2FtlSvmDlclUgireIpHQypgG/8AL8BxujxNZVeK0t9yHDIXESw/btii45KzqXsU3P21zGzBNB4ZR145wcL+/J/lAlRBwD5ex9B08JJvatyLFlTZXOo0gHqO25+tkVLgaWI9Ou7Q5TgrWuFPNJb+M5/kgni0YokzwZ0pG06G4Fk+d9zGT4rv/8RaxKVt3f5czkQRVIp emanners@work_ubuntu
 EOF
+	fi
 fi
 
 echo -e '\n--Updating apt cache and running apt upgrade'
