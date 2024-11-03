@@ -8,9 +8,9 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 # TODO:
 # -- Check if run as Root
 
-echo "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
+echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
 
-echo "\n--Checking for SSH keys in $SSH_AUTH"
+echo -e "\n--Checking for SSH keys in $SSH_AUTH"
 if test -f "$SSH_AUTH"; then
 	echo '----No need to setup SSH keys'
 else
@@ -27,8 +27,8 @@ echo '\n--Updating apt cache and running apt upgrade'
 sudo apt update
 sudo apt -y upgrade
 
-USEFUL_APPS='vim git screen'
-echo "\n--Adding Pi useful apps... ${USEFUL_APPS}"
+USEFUL_APPS='vim git screen curl'
+echo -e "\n--Adding useful apps... ${USEFUL_APPS}"
 sudo apt -y install ${USEFUL_APPS}
 
  
@@ -67,5 +67,5 @@ UNNEEDED_SVCS='avahi-daemon cups bluetooth'
 sudo systemctl stop ${UNNEEDED_SVCS}
 sudo systemctl disable ${UNNEEDED_SVCS}
 
-echo "\n\n"
+echo -e "\n\n"
 
