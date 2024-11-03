@@ -24,8 +24,8 @@ EOF
 fi
 
 echo '\n--Updating apt cache and running apt upgrade'
-sudo apt update 2>/dev/null 1>/dev/null
-sudo apt -y upgrade 2>/dev/null 1>/dev/null
+sudo apt update
+sudo apt -y upgrade
 
 USEFUL_APPS='vim git screen'
 echo "\n--Adding Pi useful apps... ${USEFUL_APPS}"
@@ -64,8 +64,8 @@ fi
 
 # Stop uneeded services
 UNNEEDED_SVCS='avahi-daemon cups bluetooth'
-systemctl stop ${UNNEEDED_SVCS}
-systemctl disable ${UNNEEDED_SVCS}
+sudo systemctl stop ${UNNEEDED_SVCS}
+sudo systemctl disable ${UNNEEDED_SVCS}
 
 echo "\n\n"
 
