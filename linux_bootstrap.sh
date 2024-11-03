@@ -11,7 +11,7 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
 
 echo -e "\n--Check for SSH directory setup--"
-if [ ! test -f ${SSH_DIR} ]; then
+if ! [ test -f ${SSH_DIR} ]; then
 	mkdir $SSH_DIR;
 	chmod 700 $SSH_DIR
 
