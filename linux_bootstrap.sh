@@ -10,7 +10,7 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 
 echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
 
-echo -e "\n--Check for SSH directory setup--"
+echo -e "\n--Check for Local user SSH directory setup--"
 if ! [ test -f ${SSH_DIR} ]; then
 	mkdir $SSH_DIR;
 	chmod 700 $SSH_DIR
@@ -24,6 +24,23 @@ if ! [ test -f ${SSH_DIR} ]; then
  		chown ${REGULAR_USER}. ${SSH_AUTH}
 		cat << EOF > $SSH_AUTH
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+byUw3jDss5FwpSkjD8/2NKxojjsONybyC0DHNB8pzhuu/oMJuwR/s48t77cW305TfR7z4uwlim1I0BlX7u8oPop1DhFG/M2H6Gequ8Wi2FtlSvmDlclUgireIpHQypgG/8AL8BxujxNZVeK0t9yHDIXESw/btii45KzqXsU3P21zGzBNB4ZR145wcL+/J/lAlRBwD5ex9B08JJvatyLFlTZXOo0gHqO25+tkVLgaWI9Ou7Q5TgrWuFPNJb+M5/kgni0YokzwZ0pG06G4Fk+d9zGT4rv/8RaxKVt3f5czkQRVIp emanners@work_ubuntu
+EOF
+	fi
+fi
+echo -e "\n--Check for Root User SSH directory setup--"
+if ! [ test -f /root/.ssh ]; then
+	mkdir /root/.ssh;
+	chmod 700 /root/.ssh
+
+ 	echo -e "\n--Checking for SSH keys in /root/.ssh/authorized_keys"
+	if test -f "/root/.ssh/authorized_keys"; then
+		echo '----No need to setup Root SSH keys'
+	else
+		echo -e "\n----Setting up Root SSH keys..."
+		touch /root/.ssh/authorized_keys
+ 		chown root. /root/.ssh/authorizzed_keys
+		cat << EOF > /root/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCcGnCtPnIkI/dTA6lJHKaFskgoofFdGFbUPwMAOqp4R35BqCGtc2gcOjbCwyQjfirHzIK7r/HyKOyVp5Oz2p6bJybhaO+G2uSWvtWeXuOCs9qX4BpHt3t96eRKsqD6tN6s/fMx4knc3DbygNp14pShfevZkAhYHhoDDATvaHZuatRgJY8Oq+NumOwQcNSlbIA5jBes2lnVPAXyhai1OMShIuWpugs3Pht70G6zw43NVAqFWdSvOJRJ9QffUPuzFdvAfrai0RQuul4W9LIl0TwiUC9/tMSngCBuA8cJIBUe3WeTBaPbNAocBvTzoiFYVXpjHPJAfsCyIk9aUv2143lpv7a8euHgkdvrp5YQ8nkXzS7si7jhVs7Ycp6HW/O0npUW5s3KeE0943pclinmEwp+U+BqmX+MHl3TZCTsdhgWQFZbPNfG9aFhEIgYXjBE9kdlQQgN/dN3FDAhCswKzvFzuJg7PL00gkzqeo9CAUr/WZfM4obbTRg0pVjt9NT/9n8= foreman-proxy@katello.edsonmanners.com
 EOF
 	fi
 fi
