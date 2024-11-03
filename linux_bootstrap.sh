@@ -24,16 +24,13 @@ EOF
 fi
 
 echo '\n--Updating apt cache and running apt upgrade'
-apt update 2>/dev/null 1>/dev/null
-apt -y upgrade 2>/dev/null 1>/dev/null
+sudo apt update 2>/dev/null 1>/dev/null
+sudo apt -y upgrade 2>/dev/null 1>/dev/null
 
 USEFUL_APPS='vim git screen'
 echo "\n--Adding Pi useful apps... ${USEFUL_APPS}"
-apt -y install ${USEFUL_APPS}
+sudo apt -y install ${USEFUL_APPS}
 
-echo "\n--Adding Pi camera software..."
-# https://github.com/raspberrypi/picamera2#installation
-apt install -y python3-picamera2 --no-install-recommends
  
 echo "\n--Initialize GIT environment"
 if test -d "${REGULAR_USER_HOME}/Code"; then
