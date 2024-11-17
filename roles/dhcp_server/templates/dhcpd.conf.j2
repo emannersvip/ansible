@@ -31,7 +31,7 @@ subnet 192.168.68.0 netmask 255.255.255.0 {
   option domain-name-servers 192.168.68.100;
   option routers 192.168.68.1;
   pool {
-    failover peer "failover-partner";
+    failover peer "foo";
     range 192.168.68.140 192.168.68.200;
   }
 }
@@ -59,7 +59,7 @@ host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.
 # https://stackoverflow.com/questions/40086613/ansible-jinja2-string-comparison
 # You **CANNOT** use squiggly braces inside of a Jinja2 expression!!!!!!!!!
 {% if 'infra' == foreman['foreman_hostname'] %}
-failover peer "failover-partner" {
+failover peer "foo" {
   primary;
   address infra.edsonmanners.com;
   peer address pi-compute.edsonmanners.com;
@@ -70,7 +70,7 @@ failover peer "failover-partner" {
   load balance max seconds 3;
 }
 {% elif 'pi-compute' == foreman['foreman_hostname'] %}
-failover peer "failover-partner" {
+failover peer "foo" {
   secondary;
   address pi-compute.edsonmanners.com;
   peer address infra.edsonmanners.com;
