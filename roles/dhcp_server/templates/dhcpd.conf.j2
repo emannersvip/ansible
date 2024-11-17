@@ -52,8 +52,7 @@ host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.
 #host pi-robot-4 { hardware ethernet 08:00:07:26:c0:a5; fixed-address pi-robot-4.edsonmanners.com; }
 host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
 
-## https://jinja.palletsprojects.com/en/latest/templates/
-## {% if {{ foreman['foreman_hostname'] }} == 'infra' %}
-## {% elif {{ foreman['foreman_hostname'] }} == 'pi-compute' %}
-## {% else %}
-## {% endif %}
+# https://jinja.palletsprojects.com/en/latest/templates/
+{% if my_var == 1 %}
+{% else %}
+{% endif %}
