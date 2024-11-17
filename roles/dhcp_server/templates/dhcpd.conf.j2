@@ -30,7 +30,10 @@ authoritative;
 subnet 192.168.68.0 netmask 255.255.255.0 {
   option domain-name-servers 192.168.68.100;
   option routers 192.168.68.1;
-  range 192.168.68.140 192.168.68.200;
+  pool {
+    failover peer "failover-partner";
+    range 192.168.68.140 192.168.68.200;
+  }
 }
 
 # This is a very basic subnet declaration.
