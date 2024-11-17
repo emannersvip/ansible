@@ -54,5 +54,7 @@ host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.
 
 # https://jinja.palletsprojects.com/en/latest/templates/
 {% if /tmp is directory %}
+foo
 {% else %}
+bar
 {% endif %}
