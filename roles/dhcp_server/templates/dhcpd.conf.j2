@@ -63,6 +63,7 @@ failover peer "failover-partner" {
   split 128;
   load balance max seconds 3;
 }
+{{ foreman['foreman_hostname'] }}
 {% else %}
 failover peer "failover-partner" {
   secondary;
