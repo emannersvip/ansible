@@ -63,7 +63,7 @@ failover peer "failover-partner" {
   split 128;
   load balance max seconds 3;
 }
-{% else %}
+{% elif "{{ foreman['foreman_hostname'] }}" == 'pi-compute' %}
 failover peer "failover-partner" {
   secondary;
   address pi-compute.edsonmanners.com;
