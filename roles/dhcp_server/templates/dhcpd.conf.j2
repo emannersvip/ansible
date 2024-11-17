@@ -23,6 +23,17 @@ ddns-update-style none;
 # network, the authoritative directive should be uncommented.
 authoritative;
 
+omapi-port 7911;
+omapi-key omapi_key;
+
+key omapi_key {
+  algorithm hmac-md5;
+  secret dc21efc48b2dc087dc3ebfa48ec720cc;
+}
+
+# DHCP Failover Config
+# https://kb.isc.org/docs/aa-00502
+
 # https://stackoverflow.com/questions/40086613/ansible-jinja2-string-comparison
 # You **CANNOT** use squiggly braces inside of a Jinja2 expression!!!!!!!!!
 {% if 'infra' == foreman['foreman_hostname'] %}
