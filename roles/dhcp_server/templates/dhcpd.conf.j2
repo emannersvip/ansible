@@ -42,15 +42,15 @@ subnet 192.168.68.0 netmask 255.255.255.0 {
 # to which a BOOTP client is connected which has the dynamic-bootp flag
 # set.
 
-host gamingrig { hardware ethernet 14:dd:a9:25:84:96; fixed-address 192.168.68.192; }
-host katello { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.98; }
-host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.99; }
-host pi-robot-0 { hardware ethernet b8:27:eb:b0:ba:d9; fixed-address pi-robot-0.edsonmanners.com; }
-host pi-robot-1 { hardware ethernet dC:a6:32:11:ae:84; fixed-address pi-robot-1.edsonmanners.com; }
-host pi-robot-2 { hardware ethernet d8:3a:dd:3C:3f:e2; fixed-address pi-robot-2.edsonmanners.com; }
-host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.edsonmanners.com; }
-#host pi-robot-4 { hardware ethernet 08:00:07:26:c0:a5; fixed-address pi-robot-4.edsonmanners.com; }
-host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
+#host gamingrig { hardware ethernet 14:dd:a9:25:84:96; fixed-address 192.168.68.192; }
+#host katello { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.98; }
+#host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.99; }
+#host pi-robot-0 { hardware ethernet b8:27:eb:b0:ba:d9; fixed-address pi-robot-0.edsonmanners.com; }
+#host pi-robot-1 { hardware ethernet dC:a6:32:11:ae:84; fixed-address pi-robot-1.edsonmanners.com; }
+#host pi-robot-2 { hardware ethernet d8:3a:dd:3C:3f:e2; fixed-address pi-robot-2.edsonmanners.com; }
+#host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.edsonmanners.com; }
+##host pi-robot-4 { hardware ethernet 08:00:07:26:c0:a5; fixed-address pi-robot-4.edsonmanners.com; }
+#host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
 
 # https://jinja.palletsprojects.com/en/latest/templates/
 #{% if {{ foreman['foreman_hostname'] }} == 'infra' %}
