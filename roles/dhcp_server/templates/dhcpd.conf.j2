@@ -53,7 +53,7 @@ host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.
 host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
 
 # https://stackoverflow.com/questions/40086613/ansible-jinja2-string-comparison
-{% if 'infra' == {{ foreman['foreman_hostname'] }} %}
+{% if 'infra' == foreman['foreman_hostname'] %}
 failover peer "failover-partner" {
   primary;
   address infra.edsonmanners.com;
@@ -64,7 +64,7 @@ failover peer "failover-partner" {
   split 128;
   load balance max seconds 3;
 }
-{% elif 'pi-compute' == {{ foreman['foreman_hostname'] }} %}
+{% elif 'pi-compute' == foreman['foreman_hostname'] %}
 failover peer "failover-partner" {
   secondary;
   address pi-compute.edsonmanners.com;
