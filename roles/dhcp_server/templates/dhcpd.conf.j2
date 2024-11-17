@@ -54,7 +54,7 @@ host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.
 
 "{{ foreman['foreman_hostname'] }}"
 
-{% if "{{ foreman['foreman_hostname'] }}" == 'infra' %}
+{% if "{{ foreman['foreman_hostname'] }}" == "\"infra\"" %}
 failover peer "failover-partner" {
   primary;
   address infra.edsonmanners.com;
