@@ -10,7 +10,7 @@
     src: 'dhcpd.conf.j2'
     dest: "/etc/dhcp/dhcpd.conf"
     owner: 'root'
-    group: 'root'
+    group: 'dhcpd'
 
 - name: Start service isc-dhcp-server, if not started
   ansible.builtin.service:

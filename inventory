@@ -5,10 +5,17 @@
 #server1  ansible_host=<YOUR-WEB-SERVER-IP>  ansible_user=ec2-user  ansible_ssh_private_key_file=~/<YOUR-PEM-FILE>
 #server2  ansible_host=<YOUR-WEB-SERVER-IP>  ansible_user=ec2-user  ansible_ssh_private_key_file=~/<YOUR-PEM-FILE>
 [all]
+gamingrig.edsonmanners.com
+katello.edsonmanners.com
+infra.edsonmanners.com
 pi-compute.edsonmanners.com
 pi-robot-0.edsonmanners.com
 pi-robot-1.edsonmanners.com
-
+pi-robot-2.edsonmanners.com
+pi-robot-3.edsonmanners.com
+pi-robot-4.edsonmanners.com
+pi-robot-5.edsonmanners.com
+server.edsonmanners.com
 
 [pis]
 pi-compute
