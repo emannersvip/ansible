@@ -5,12 +5,13 @@
     name: isc-dhcp-server
     state: latest
 
+# Using user 'adm' since that user exists both on RPi and Ubuntu
 - name: 'DHCP config file'
   ansible.builtin.template:
     src: 'dhcpd.conf.j2'
     dest: "/etc/dhcp/dhcpd.conf"
     owner: 'root'
-    group: 'dhcpd'
+    group: 'adm'
 
 - name: Start service isc-dhcp-server, if not started
   ansible.builtin.service:
