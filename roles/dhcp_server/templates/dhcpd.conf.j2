@@ -53,25 +53,25 @@ host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.
 host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
 
 # https://jinja.palletsprojects.com/en/latest/templates/
-{% if {{ foreman['foreman_hostname'] }} == 'infra' %}
-failover peer "failover-partner" {
-     primary;
-     address infra.edsonmanners.com;
-     peer address pi-compute.edsonmanners.com;
-     max-response-delay 60;
-     max-unacked-updates 10;
-     mclt 3600;
-     split 128;
-     load balance max seconds 3;
-}
-{% elif {{ foreman['foreman_hostname'] }} == 'pi-compute' %}
-failover peer "failover-partner" {
-     secondary;
-     address pi-compute.edsonmanners.com;
-     peer address infra.edsonmanners.com;
-     max-response-delay 60;
-     max-unacked-updates 10;
-     load balance max seconds 3;
-}
-{% else %}
-{% endif %}
+#{% if {{ foreman['foreman_hostname'] }} == 'infra' %}
+#failover peer "failover-partner" {
+#     primary;
+#     address infra.edsonmanners.com;
+#     peer address pi-compute.edsonmanners.com;
+#     max-response-delay 60;
+#     max-unacked-updates 10;
+#     mclt 3600;
+#     split 128;
+#     load balance max seconds 3;
+#}
+#{% elif {{ foreman['foreman_hostname'] }} == 'pi-compute' %}
+#failover peer "failover-partner" {
+#     secondary;
+#     address pi-compute.edsonmanners.com;
+#     peer address infra.edsonmanners.com;
+#     max-response-delay 60;
+#     max-unacked-updates 10;
+#     load balance max seconds 3;
+#}
+#{% else %}
+#{% endif %}
