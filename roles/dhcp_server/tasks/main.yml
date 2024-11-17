@@ -1,0 +1,19 @@
+---
+# tasks file for dhcp_server
+- name: 'Install the lastest ISC DHCP Server'
+  apt:
+    name: isc-dhcp-server
+    state: latest
+
+- name: 'DHCP config file'
+  ansible.builtin.template:
+    src: 'dhcpd.conf.j2'
+    dest: "/etc/dhcp/dhcpd.conf"
+    owner: 'root'
+    group: 'root'
+
+- name: Start service isc-dhcp-server, if not started
+  ansible.builtin.service:
+    name: isc-dhcp-server
+    state: started
+    enabled: yes

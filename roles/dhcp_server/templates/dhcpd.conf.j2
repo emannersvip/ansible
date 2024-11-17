@@ -1,0 +1,49 @@
+# dhcpd.conf
+#
+# Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as
+# configuration file instead of this file.
+#
+
+option domain-name "edsonmanners.com";
+option domain-name-servers 192.168.68.100;
+#option domain-name-servers 192.168.68.100, ns2.example.org;
+
+default-lease-time 600;
+max-lease-time 7200;
+
+# The ddns-updates-style parameter controls whether or not the server will
+# attempt to do a DNS update when a lease is confirmed. We default to the
+# behavior of the version 2 packages ('none', since DHCP v2 didn't
+# have support for DDNS.)
+ddns-update-style none;
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+authoritative;
+
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+#log-facility local7;
+
+subnet 192.168.68.0 netmask 255.255.255.0 {
+  range 192.168.68.140 192.168.68.200;
+  option routers 192.168.68.1;
+}
+
+# This is a very basic subnet declaration.
+
+# Fixed IP addresses can also be specified for hosts.   These addresses
+# should not also be listed as being available for dynamic assignment.
+# Hosts for which fixed IP addresses have been specified can boot using
+# BOOTP or DHCP.   Hosts for which no fixed address is specified can only
+# be booted with DHCP, unless there is an address range on the subnet
+# to which a BOOTP client is connected which has the dynamic-bootp flag
+# set.
+host katello { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.98; }
+host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.99; }
+host pi-robot-0 { hardware ethernet b8:27:eb:b0:ba:d9; fixed-address pi-robot-0.edsonmanners.com; }
+host pi-robot-1 { hardware ethernet DC:A6:32:11:AE:84; fixed-address pi-robot-1.edsonmanners.com; }
+host pi-robot-2 { hardware ethernet D8:3A:DD:3C:3F:E2; fixed-address pi-robot-2.edsonmanners.com; }
+host pi-robot-3 { hardware ethernet B8:27:EB:C5:F1:81; fixed-address pi-robot-3.edsonmanners.com; }
+#host pi-robot-4 { hardware ethernet 08:00:07:26:c0:a5; fixed-address pi-robot-4.edsonmanners.com; }
+host pi-robot-5 { hardware ethernet D8:3A:DD:E8:56:99; fixed-address pi-robot-5.edsonmanners.com; }

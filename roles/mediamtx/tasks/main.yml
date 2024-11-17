@@ -1,0 +1,47 @@
+---
+# tasks file for mediamtx
+#- name: 'Download MediaMTX tarball'
+#  ansible.builtin.get_url:
+#    url: "{{ myurl }}"
+#    dest: "{{ mydest }}"
+#    mode: "0644"
+#    owner: 'emanners'
+#    group: 'emanners'
+
+- name: 'Download & Unarchive MediaMTX tarball'
+  unarchive:
+    src: "{{ mediamtx_url }}"
+    dest: "{{ install_tmp_path }}"
+    remote_src: yes
+
+- name: Copy unarchived MediaMTX files from {{ install_tmp_path }} to {{install_bin_path}}
+  copy: remote_src=True src={{ install_tmp_path }}/mediamtx dest={{ install_bin_path }}
+
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: "{{ install_bin_path }}/mediamtx"
+    mode: '0755'
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html
+- name: 'MediaMTX config yaml'
+  ansible.builtin.template:
+    #src: 'mediamtx/mediamtx.yml.j2'
+    src: 'mediamtx.yml.j2'
+    dest: "{{ install_cfg_path }}/mediamtx.yml"
+    owner: 'emanners'
+    group: 'emanners'
+    mode: '0644'
+
+- name: 'MediaMTX service'
+  ansible.builtin.template:
+    src: 'mediamtx.service.j2'
+    dest: "/etc/systemd/system/mediamtx.service"
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: Start service mediamtx, if not started
+  ansible.builtin.service:
+    name: mediamtx
+    state: started
+    enabled: yes

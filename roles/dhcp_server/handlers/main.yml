@@ -1,0 +1,7 @@
+---
+# handlers file for dhcp_server
+  - name: Restart 'dhcpd.conf'
+    systemd:
+      name: isc-dhcp-servers
+      state: restarted
+      daemon_reload: yes

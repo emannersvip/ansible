@@ -1,0 +1,8 @@
+---
+# defaults file for vim
+home_folder: '/home/emanners'
+#vim_dir: "{{ ansible_env.HOME }}/.vim"
+#vimrc: "{{ ansible_env.HOME }}/.vimrc"
+packages:
+  - vim-enhanced
+  - git

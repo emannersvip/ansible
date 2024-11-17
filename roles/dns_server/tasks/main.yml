@@ -1,0 +1,19 @@
+---
+# tasks file for dns_server
+- name: 'Install the lastest Bind Server'
+  apt:
+    name: dnsmasq
+    state: latest
+
+- name: 'DNSMasq config file'
+  ansible.builtin.template:
+    src: 'dnsmasq.conf.j2'
+    dest: "/etc/dnsmasq"
+    owner: 'root'
+    group: 'root'
+
+- name: Start service dnsmasq, if not started
+  ansible.builtin.service:
+    name: dnsmasq
+    state: started
+    enabled: yes

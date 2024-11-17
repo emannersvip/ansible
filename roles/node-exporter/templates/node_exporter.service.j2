@@ -1,0 +1,13 @@
+[Unit]
+Description=Node Exporter Service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=emanners
+ExecStart={{ install_bin_path }}/node_exporter
+
+[Install]
+WantedBy=multi-user.target

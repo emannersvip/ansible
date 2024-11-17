@@ -1,0 +1,13 @@
+[Unit]
+Description=MediaMTX service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=emanners
+ExecStart={{ install_bin_path }}/mediamtx {{ install_cfg_path }}/mediamtx.yml
+
+[Install]
+WantedBy=multi-user.target

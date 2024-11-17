@@ -1,0 +1,35 @@
+---
+# tasks file for node-exporter
+
+- name: 'Download & Unarchive Node Exporter tarball'
+  unarchive:
+    #src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz"
+    src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz"
+    dest: "{{ install_tmp_path }}"
+    remote_src: yes
+      #when:
+      #- ansible_facts['ansible_architecture'] == "aarch64"
+
+- name: Copy unarchived {{ package }} files from {{ install_tmp_path }} to {{ install_bin_path }}
+  copy: remote_src=True src={{ install_tmp_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ architecture }}/node_exporter dest={{ install_bin_path }}
+
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    #path: "{{ install_bin_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ architecture }}/node_exporter"
+    path: "{{ install_bin_path }}/node_exporter"
+    mode: '0755'
+
+- name: "{{ package }}"
+  ansible.builtin.template:
+    src: 'node_exporter.service.j2'
+    dest: '/etc/systemd/system/node_exporter.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: Start service {{ package }}, if not started
+  ansible.builtin.service:
+    name: node_exporter
+    state: started
+    enabled: yes
+
