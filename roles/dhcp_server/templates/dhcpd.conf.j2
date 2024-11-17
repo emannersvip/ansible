@@ -23,6 +23,30 @@ ddns-update-style none;
 # network, the authoritative directive should be uncommented.
 authoritative;
 
+# https://stackoverflow.com/questions/40086613/ansible-jinja2-string-comparison
+# You **CANNOT** use squiggly braces inside of a Jinja2 expression!!!!!!!!!
+{% if 'infra' == foreman['foreman_hostname'] %}
+failover peer "failover-partner" {
+  primary;
+  address infra.edsonmanners.com;
+  peer address pi-compute.edsonmanners.com;
+  max-response-delay 60;
+  max-unacked-updates 10;
+  mclt 3600;
+  split 128;
+  load balance max seconds 3;
+}
+{% elif 'pi-compute' == foreman['foreman_hostname'] %}
+failover peer "failover-partner" {
+  secondary;
+  address pi-compute.edsonmanners.com;
+  peer address infra.edsonmanners.com;
+  max-response-delay 60;
+  max-unacked-updates 10;
+  load balance max seconds 3;
+}
+{% endif %}
+
 # Use this to send dhcp log messages to a different log file (you also
 # have to hack syslog.conf to complete the redirection).
 #log-facility local7;
@@ -31,7 +55,7 @@ subnet 192.168.68.0 netmask 255.255.255.0 {
   option domain-name-servers 192.168.68.100;
   option routers 192.168.68.1;
   pool {
-    failover peer "foo";
+    failover peer "failover-partner";
     range 192.168.68.140 192.168.68.200;
   }
 }
@@ -55,27 +79,3 @@ host pi-robot-2 { hardware ethernet d8:3a:dd:3c:3f:e2; fixed-address pi-robot-2.
 host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.edsonmanners.com; }
 #host pi-robot-4 { hardware ethernet 08:00:07:26:c0:a5; fixed-address pi-robot-4.edsonmanners.com; }
 host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
-
-# https://stackoverflow.com/questions/40086613/ansible-jinja2-string-comparison
-# You **CANNOT** use squiggly braces inside of a Jinja2 expression!!!!!!!!!
-{% if 'infra' == foreman['foreman_hostname'] %}
-failover peer "foo" {
-  primary;
-  address infra.edsonmanners.com;
-  peer address pi-compute.edsonmanners.com;
-  max-response-delay 60;
-  max-unacked-updates 10;
-  mclt 3600;
-  split 128;
-  load balance max seconds 3;
-}
-{% elif 'pi-compute' == foreman['foreman_hostname'] %}
-failover peer "foo" {
-  secondary;
-  address pi-compute.edsonmanners.com;
-  peer address infra.edsonmanners.com;
-  max-response-delay 60;
-  max-unacked-updates 10;
-  load balance max seconds 3;
-}
-{% endif %}
