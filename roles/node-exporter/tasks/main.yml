@@ -1,7 +1,7 @@
 ---
 # tasks file for node-exporter
 
-- name: 'Download & Unarchive Node Exporter tarball'
+- name: 'Download & Unarchive Node Exporter {{ architecture }} tarball'
   unarchive:
     #src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz"
     #src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-armv7.tar.gz"
