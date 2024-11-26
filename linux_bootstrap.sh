@@ -43,7 +43,7 @@ else
 	else
 		echo -e "\n----Setting up Root SSH keys..."
 		touch /root/.ssh/authorized_keys
- 		chown root:root /root/.ssh/authorizzed_keys
+ 		chown root:root /root/.ssh/authorized_keys
 		cat << EOF > /root/.ssh/authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCcGnCtPnIkI/dTA6lJHKaFskgoofFdGFbUPwMAOqp4R35BqCGtc2gcOjbCwyQjfirHzIK7r/HyKOyVp5Oz2p6bJybhaO+G2uSWvtWeXuOCs9qX4BpHt3t96eRKsqD6tN6s/fMx4knc3DbygNp14pShfevZkAhYHhoDDATvaHZuatRgJY8Oq+NumOwQcNSlbIA5jBes2lnVPAXyhai1OMShIuWpugs3Pht70G6zw43NVAqFWdSvOJRJ9QffUPuzFdvAfrai0RQuul4W9LIl0TwiUC9/tMSngCBuA8cJIBUe3WeTBaPbNAocBvTzoiFYVXpjHPJAfsCyIk9aUv2143lpv7a8euHgkdvrp5YQ8nkXzS7si7jhVs7Ycp6HW/O0npUW5s3KeE0943pclinmEwp+U+BqmX+MHl3TZCTsdhgWQFZbPNfG9aFhEIgYXjBE9kdlQQgN/dN3FDAhCswKzvFzuJg7PL00gkzqeo9CAUr/WZfM4obbTRg0pVjt9NT/9n8= foreman-proxy@katello.edsonmanners.com
 EOF
@@ -56,19 +56,26 @@ echo -e "\n--Updating apt cache and running apt upgrade\n"
 sudo apt update
 sudo apt -y upgrade
 
+BIN='/usr/bin'
 USEFUL_APPS='vim git screen curl'
-echo -e "\n--Adding useful apps... ${USEFUL_APPS}"
-sudo apt -y install ${USEFUL_APPS}
+for i in USEFUL_APPS;
+  do if [ ! -f "{BIN}/${i}" ]; then
+    echo -e "\n--Adding useful app... ${i}"
+    sudo apt -y install ${i}
+  else
+    echo -e "\n--${i} already installed..."
+  fi
+done
 
- 
+
 echo -e "\n--Initialize GIT environment"
-if test -d "${REGULAR_USER_HOME}/Code"; then
+if [ -d "${REGULAR_USER_HOME}/Code" ]; then
 	echo "----No need to setup ${REGULAR_USER_HOME}, it already exists"
 else
 	echo "--Creating Code directory: ${REGULAR_USER_HOME}/Code"
 	sudo --user=${REGULAR_USER} mkdir ${REGULAR_USER_HOME}/Code
 	cd ${REGULAR_USER_HOME}/Code
-	if test -f "${REGULAR_USER}/Code/Robotics"; then
+	if [ -f "${REGULAR_USER}/Code/Robotics" ]; then
 		echo '--Git environment already setup'
 	else
 		sudo --user=${REGULAR_USER} git clone https://github.com/emannersvip/Robotics.git 
