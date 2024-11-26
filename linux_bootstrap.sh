@@ -8,15 +8,16 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 # TODO:
 # -- Check if run as Root
 
-echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
+echo -e "\n--Bootstrapping User Account ${SUDO_USER:-${HOSTNAME}}..."
 
+# First add  USER keys.
 echo -e "\n--Check for Local user SSH directory setup--"
-if ! [ test -f ${SSH_DIR} ]; then
+if [ ! -d ${SSH_DIR} ]; then
 	mkdir $SSH_DIR;
 	chmod 700 $SSH_DIR
-
+else
  	echo -e "\n--Checking for SSH keys in $SSH_AUTH"
-	if test -f "$SSH_AUTH"; then
+	if [ -f "$SSH_AUTH" ] && test "grep work $SSH_AUTH" == 0; then
 		echo '----No need to setup SSH keys'
 	else
 		echo -e "\n----Setting up SSH keys..."
@@ -27,13 +28,15 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+by
 EOF
 	fi
 fi
+
+# Also add ROOT SSH keys
 echo -e "\n--Check for Root User SSH directory setup--"
-if ! [ test -f /root/.ssh ]; then
+if [ ! -d /root/.ssh ]; then
 	mkdir /root/.ssh;
 	chmod 700 /root/.ssh
 
  	echo -e "\n--Checking for SSH keys in /root/.ssh/authorized_keys"
-	if test -f "/root/.ssh/authorized_keys"; then
+	if [ -f "/root/.ssh/authorized_keys" ] && test "grep foreman /root/.ssh/authorized_keys" == 0; then
 		echo '----No need to setup Root SSH keys'
 	else
 		echo -e "\n----Setting up Root SSH keys..."
