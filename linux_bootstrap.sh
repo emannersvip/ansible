@@ -17,7 +17,7 @@ if [ ! -d ${SSH_DIR} ]; then
 	chmod 700 $SSH_DIR
 else
  	echo -e "\n--Checking for SSH keys in $SSH_AUTH"
-	if [ -f "$SSH_AUTH" ] && test "grep work $SSH_AUTH" != 0; then
+	if [ -f "$SSH_AUTH" ] && test "grep work $SSH_AUTH" == 0; then
 		echo '----No need to setup SSH keys'
 	else
 		echo -e "\n----Setting up SSH keys..."
