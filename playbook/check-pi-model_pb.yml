@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - name: Check Raspberry Pi Model
+      debug:
+        msg: Hello Ansible World
