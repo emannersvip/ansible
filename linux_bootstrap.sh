@@ -10,6 +10,7 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 
 echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
 
+# First add  USER keys.
 echo -e "\n--Check for Local user SSH directory setup--"
 if [ ! -d ${SSH_DIR} ]; then
 	mkdir $SSH_DIR;
@@ -27,8 +28,10 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+by
 EOF
 	fi
 fi
+
+# Also add ROOT SSH keys
 echo -e "\n--Check for Root User SSH directory setup--"
-if ! [ test -f /root/.ssh ]; then
+if [ ! -d /root/.ssh ]; then
 	mkdir /root/.ssh;
 	chmod 700 /root/.ssh
 
