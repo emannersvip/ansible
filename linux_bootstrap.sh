@@ -8,14 +8,14 @@ SSH_AUTH=$SSH_DIR/authorized_keys
 # TODO:
 # -- Check if run as Root
 
-echo -e "\n--Bootstrapping ${SUDO_USER:-${HOSTNAME}}..."
+echo -e "\n--Bootstrapping User Account ${SUDO_USER:-${HOSTNAME}}..."
 
 # First add  USER keys.
 echo -e "\n--Check for Local user SSH directory setup--"
 if [ ! -d ${SSH_DIR} ]; then
 	mkdir $SSH_DIR;
 	chmod 700 $SSH_DIR
-
+else
  	echo -e "\n--Checking for SSH keys in $SSH_AUTH"
 	if test -f "$SSH_AUTH"; then
 		echo '----No need to setup SSH keys'
