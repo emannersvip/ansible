@@ -34,7 +34,7 @@ echo -e "\n--Check for Root User SSH directory setup--"
 if [ ! -d /root/.ssh ]; then
 	mkdir /root/.ssh;
 	chmod 700 /root/.ssh
-
+else
  	echo -e "\n--Checking for SSH keys in /root/.ssh/authorized_keys"
 	if [ -f "/root/.ssh/authorized_keys" ] && test "grep foreman /root/.ssh/authorized_keys" == 0; then
 		echo '----No need to setup Root SSH keys'
