@@ -58,7 +58,7 @@ sudo apt -y upgrade
 
 BIN='/usr/bin'
 USEFUL_APPS='vim git screen curl'
-for i in USEFUL_APPS;
+for i in ${USEFUL_APPS};
   do if [ ! -f "{BIN}/${i}" ]; then
     echo -e "\n--Adding useful app... ${i}"
     sudo apt -y install ${i}
