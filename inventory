@@ -9,6 +9,7 @@ gamingrig.edsonmanners.com
 katello.edsonmanners.com
 infra.edsonmanners.com
 pi-compute.edsonmanners.com
+pi-keyboard.edsonmanners.com
 pi-robot-0.edsonmanners.com
 pi-robot-1.edsonmanners.com
 pi-robot-2.edsonmanners.com
@@ -19,6 +20,7 @@ server.edsonmanners.com
 
 [pis]
 pi-compute
+pi-keyboard
 pi-robot-0
 pi-robot-1
 pi-robot-2
