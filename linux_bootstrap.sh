@@ -16,6 +16,7 @@ if [ ! -d ${SSH_DIR} ]; then
 	echo -e "\n---- $SSH_DIR does not exist, creating it..."
 	mkdir $SSH_DIR;
 	chmod 700 $SSH_DIR
+ 	chown ${REGULAR_USER}:${REGULAR_USER} ${SSH_DIR}
 else
  	echo -e "\n--Checking for SSH keys in $SSH_AUTH"
 	if [ -f "$SSH_AUTH" ] && test "grep work $SSH_AUTH" == 0; then
@@ -51,10 +52,15 @@ EOF
 	fi
 fi
 
-echo -e "\n--Updating apt cache and running apt upgrade\n"
-
-sudo apt update
-sudo apt -y upgrade
+OS = $(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
+if [ $OS == 'rhel' ]; then
+  echo -e "\n--Update packages\n"
+  sudo dnf -y update
+else
+  echo -e "\n--Updating apt cache and running apt upgrade\n"
+  sudo apt update
+  sudo apt -y upgrade
+fi
 
 BIN='/usr/bin'
 USEFUL_APPS='vim git screen curl'
