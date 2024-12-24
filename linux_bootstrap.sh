@@ -52,7 +52,7 @@ EOF
 	fi
 fi
 
-OS = $(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
+OS=$(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
 if [ $OS == 'rhel' ]; then
   echo -e "\n--Update packages\n"
   sudo dnf -y update
