@@ -54,12 +54,14 @@ fi
 
 OS=$(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
 if [ $OS == 'rhel' ]; then
+  export INSTALL_PKG="dnf"
   echo -e "\n--Update packages\n"
-  sudo dnf -y update
+  sudo ${INSTALL_PKG} -y update
 else
+  export INSTALL_PKG="apt"
   echo -e "\n--Updating apt cache and running apt upgrade\n"
-  sudo apt update
-  sudo apt -y upgrade
+  sudo ${INSTALL_PKG} update
+  sudo ${INSTALL_PKG} -y upgrade
 fi
 
 BIN='/usr/bin'
@@ -67,7 +69,7 @@ USEFUL_APPS='vim git screen curl'
 for i in ${USEFUL_APPS};
   do if [ ! -f "{BIN}/${i}" ]; then
     echo -e "\n--Adding useful app... ${i}"
-    sudo apt -y install ${i}
+    sudo ${INSTALL_PKG} -y install ${i}
   else
     echo -e "\n--${i} already installed..."
   fi
