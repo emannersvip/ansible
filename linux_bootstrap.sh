@@ -61,7 +61,7 @@ EOF
 fi
 
 OS=$(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
-if [ $OS == 'rhel' ]; then
+if [ "$OS" == 'rhel' ]; then
   export INSTALL_PKG="dnf"
   echo -e "\n--Update packages\n"
   sudo ${INSTALL_PKG} -y update
