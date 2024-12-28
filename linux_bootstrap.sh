@@ -47,28 +47,28 @@ if [ ! -d /root/.ssh ]; then
 	mkdir /root/.ssh;
 	chmod 0700 /root/.ssh
 else
- 	echo -e "\n---- Checking for SSH keys in /root/.ssh/authorized_keys"
+ 	echo -e "---- Checking for SSH keys in /root/.ssh/authorized_keys"
 	if [ -f "/root/.ssh/authorized_keys" ] && test "grep foreman /root/.ssh/authorized_keys" == 0; then
 		echo -e '---- No need to setup Root SSH keys'
 	else
-		echo -e "\n---- Setting up Root SSH keys..."
+		echo -e "---- Setting up Root SSH keys..."
 		touch /root/.ssh/authorized_keys
  		cat << EOF > /root/.ssh/authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCcGnCtPnIkI/dTA6lJHKaFskgoofFdGFbUPwMAOqp4R35BqCGtc2gcOjbCwyQjfirHzIK7r/HyKOyVp5Oz2p6bJybhaO+G2uSWvtWeXuOCs9qX4BpHt3t96eRKsqD6tN6s/fMx4knc3DbygNp14pShfevZkAhYHhoDDATvaHZuatRgJY8Oq+NumOwQcNSlbIA5jBes2lnVPAXyhai1OMShIuWpugs3Pht70G6zw43NVAqFWdSvOJRJ9QffUPuzFdvAfrai0RQuul4W9LIl0TwiUC9/tMSngCBuA8cJIBUe3WeTBaPbNAocBvTzoiFYVXpjHPJAfsCyIk9aUv2143lpv7a8euHgkdvrp5YQ8nkXzS7si7jhVs7Ycp6HW/O0npUW5s3KeE0943pclinmEwp+U+BqmX+MHl3TZCTsdhgWQFZbPNfG9aFhEIgYXjBE9kdlQQgN/dN3FDAhCswKzvFzuJg7PL00gkzqeo9CAUr/WZfM4obbTRg0pVjt9NT/9n8= foreman-proxy@katello.edsonmanners.com
 EOF
 		chmod 0600 /root/.ssh/authorized_keys
-  		echo -e "\n----Keys added to /root/.ssh"
+  		echo -e "---- Keys added to /root/.ssh"
 	fi
 fi
 
 OS=$(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
 if [ "$OS" == 'rhel' ]; then
   export INSTALL_PKG="dnf"
-  echo -e "\n--Update packages\n"
+  echo -e "\n-- Update packages\n"
   sudo ${INSTALL_PKG} -y update
 else
   export INSTALL_PKG="apt"
-  echo -e "\n--Updating apt cache and running apt upgrade\n"
+  echo -e "\n-- Updating apt cache and running apt upgrade\n"
   sudo ${INSTALL_PKG} update
   sudo ${INSTALL_PKG} -y upgrade
 fi
@@ -77,20 +77,20 @@ BIN='/usr/bin'
 USEFUL_APPS='vim git screen curl'
 for i in ${USEFUL_APPS};
   do if [ ! -f "{BIN}/${i}" ]; then
-    echo -e "\n--Adding useful app... ${i}"
+    echo -e "\n-- Adding useful app... ${i}"
     sudo ${INSTALL_PKG} -y install ${i}
   else
-    echo -e "\n--${i} already installed..."
+    echo -e "\n-- ${i} already installed..."
   fi
 done
 
 
 echo -e "\n--Initialize GIT environment"
 if [ -d "${REGULAR_USER_HOME}/Code" ]; then
-	echo "----No need to setup ${REGULAR_USER_HOME}, it already exists"
+	echo "---- No need to setup ${REGULAR_USER_HOME}, it already exists\n\n"
 else
-	echo "--Creating Code directory: ${REGULAR_USER_HOME}/Code"
-	sudo --user=${REGULAR_USER} mkdir ${REGULAR_USER_HOME}/Code
+	echo "-- Creating Code directory: ${REGULAR_USER_HOME}/Code"
+	sudo -- user=${REGULAR_USER} mkdir ${REGULAR_USER_HOME}/Code
 	cd ${REGULAR_USER_HOME}/Code
 	if [ -f "${REGULAR_USER}/Code/Robotics" ]; then
 		echo '--Git environment already setup'
