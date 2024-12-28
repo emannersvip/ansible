@@ -30,6 +30,7 @@ else
    		chgrp ${REGULAR_USER} ${SSH_DIR}
 		cat << EOF > $SSH_AUTH
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+byUw3jDss5FwpSkjD8/2NKxojjsONybyC0DHNB8pzhuu/oMJuwR/s48t77cW305TfR7z4uwlim1I0BlX7u8oPop1DhFG/M2H6Gequ8Wi2FtlSvmDlclUgireIpHQypgG/8AL8BxujxNZVeK0t9yHDIXESw/btii45KzqXsU3P21zGzBNB4ZR145wcL+/J/lAlRBwD5ex9B08JJvatyLFlTZXOo0gHqO25+tkVLgaWI9Ou7Q5TgrWuFPNJb+M5/kgni0YokzwZ0pG06G4Fk+d9zGT4rv/8RaxKVt3f5czkQRVIp emanners@work_ubuntu
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOUO++HHCIRsbTiam+A4PE6eC9+ErNirvIa8FS+PiyayzfTa4/rgxwjiNuFk/Iyz8S/nTD1FAv5uLnTtA4DPBO8= emanners@server
 EOF
 		echo -e "------ Setting the .ssh/authorized_keys permissions"
   		chmod 0600 ${SSH_AUTH}
