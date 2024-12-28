@@ -85,9 +85,9 @@ for i in ${USEFUL_APPS};
 done
 
 
-echo -e "\n--Initialize GIT environment"
+echo -e "\n-- Initialize GIT environment --"
 if [ -d "${REGULAR_USER_HOME}/Code" ]; then
-	echo "---- No need to setup ${REGULAR_USER_HOME}, it already exists\n\n"
+	echo -e "---- No need to setup ${REGULAR_USER_HOME}, it already exists\n\n"
 else
 	echo "-- Creating Code directory: ${REGULAR_USER_HOME}/Code"
 	sudo -- user=${REGULAR_USER} mkdir ${REGULAR_USER_HOME}/Code
@@ -102,9 +102,9 @@ fi
 
 # SSH Keys in order to make GitHUB changes?
 #if test -f "${SSH_DIR}/id_ecdsa"; then
-#	echo '--It looks like SSH keys are already in place' 
+#	echo '-- It looks like SSH keys are already in place' 
 #	if test -f "${SSH_DIR}/config"; then
-#		echo '----SSH config is also in place. Good!' 
+#		echo '---- SSH config is also in place. Good!' 
 #	else
 #		cat << EOF > ${SSH_DIR}/config
 #Host github.com
@@ -113,7 +113,7 @@ fi
 #EOF
 #	fi
 #else
-#	echo '--It looks like SSH keys are *NOT* setup. Copy SSH keys at first convenience'
+#	echo '-- It looks like SSH keys are *NOT* setup. Copy SSH keys at first convenience'
 #fi
 
 # Stop uneeded services
@@ -121,5 +121,5 @@ UNNEEDED_SVCS='avahi-daemon cups bluetooth'
 sudo systemctl stop ${UNNEEDED_SVCS}
 sudo systemctl disable ${UNNEEDED_SVCS}
 
-echo -e "\n\n"
+echo -e "\n"
 
