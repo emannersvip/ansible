@@ -95,7 +95,8 @@ else
 	if [ -f "${REGULAR_USER}/Code/Robotics" ]; then
 		echo '--Git environment already setup'
 	else
-		sudo --user=${REGULAR_USER} git clone https://github.com/emannersvip/Robotics.git 
+		sudo --user=${REGULAR_USER} git clone https://github.com/emannersvip/Robotics.git
+		sudo --user=${REGULAR_USER} git clone https://github.com/emannersvip/ansible.git
 	fi
 fi
 
