@@ -26,12 +26,17 @@ else
   		echo -e "\n------ Creating '.ssh' directory."
 		touch $SSH_AUTH
   		echo -e "\n------ Setting the .ssh directory ownership."
- 		chown ${REGULAR_USER} ${SSH_AUTH}
-   		chgrp ${REGULAR_USER} ${SSH_AUTH}
+ 		chown ${REGULAR_USER} ${SSH_DIR}
+   		chgrp ${REGULAR_USER} ${SSH_DIR}
 		cat << EOF > $SSH_AUTH
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+byUw3jDss5FwpSkjD8/2NKxojjsONybyC0DHNB8pzhuu/oMJuwR/s48t77cW305TfR7z4uwlim1I0BlX7u8oPop1DhFG/M2H6Gequ8Wi2FtlSvmDlclUgireIpHQypgG/8AL8BxujxNZVeK0t9yHDIXESw/btii45KzqXsU3P21zGzBNB4ZR145wcL+/J/lAlRBwD5ex9B08JJvatyLFlTZXOo0gHqO25+tkVLgaWI9Ou7Q5TgrWuFPNJb+M5/kgni0YokzwZ0pG06G4Fk+d9zGT4rv/8RaxKVt3f5czkQRVIp emanners@work_ubuntu
 EOF
-		echo -e "\n----Keys added to ${SSH_AUTH}"
+		echo -e "\n------ Setting the .ssh/authorized_keys permissions"
+  		chmod 700 ${SSH_AUTH}
+  		echo -e "\n------ Setting the .ssh/authorized_keys ownership"
+  		chown ${REGULAR_USER} ${SSH_AUTH}
+   		chgrp ${REGULAR_USER} ${SSH_AUTH}
+  		echo -e "\n----Keys added to ${SSH_AUTH}"
 	fi
 fi
 
