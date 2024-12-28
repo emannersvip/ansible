@@ -15,7 +15,7 @@ echo -e "\n--Check for Local user SSH directory setup--"
 if [ ! -d ${SSH_DIR} ]; then
 	echo -e "\n---- $SSH_DIR DOES NOT exist! Creating it..."
 	mkdir $SSH_DIR;
-	chmod 700 $SSH_DIR
+	chmod 0700 $SSH_DIR
  	chown ${REGULAR_USER}:${REGULAR_USER} ${SSH_DIR}
 else
  	echo -e "\n---- $SSH_DIR DOES exist!"
@@ -32,7 +32,7 @@ else
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXP7oE/7jhnxcQXNVYzTC0ZbtHV2m9sMin7rSel+byUw3jDss5FwpSkjD8/2NKxojjsONybyC0DHNB8pzhuu/oMJuwR/s48t77cW305TfR7z4uwlim1I0BlX7u8oPop1DhFG/M2H6Gequ8Wi2FtlSvmDlclUgireIpHQypgG/8AL8BxujxNZVeK0t9yHDIXESw/btii45KzqXsU3P21zGzBNB4ZR145wcL+/J/lAlRBwD5ex9B08JJvatyLFlTZXOo0gHqO25+tkVLgaWI9Ou7Q5TgrWuFPNJb+M5/kgni0YokzwZ0pG06G4Fk+d9zGT4rv/8RaxKVt3f5czkQRVIp emanners@work_ubuntu
 EOF
 		echo -e "\n------ Setting the .ssh/authorized_keys permissions"
-  		chmod 700 ${SSH_AUTH}
+  		chmod 0700 ${SSH_AUTH}
   		echo -e "\n------ Setting the .ssh/authorized_keys ownership"
   		chown ${REGULAR_USER} ${SSH_AUTH}
    		chgrp ${REGULAR_USER} ${SSH_AUTH}
@@ -44,7 +44,7 @@ fi
 echo -e "\n--Check for Root User SSH directory setup--"
 if [ ! -d /root/.ssh ]; then
 	mkdir /root/.ssh;
-	chmod 700 /root/.ssh
+	chmod 0700 /root/.ssh
 else
  	echo -e "\n--Checking for SSH keys in /root/.ssh/authorized_keys"
 	if [ -f "/root/.ssh/authorized_keys" ] && test "grep foreman /root/.ssh/authorized_keys" == 0; then
@@ -52,11 +52,11 @@ else
 	else
 		echo -e "\n----Setting up Root SSH keys..."
 		touch /root/.ssh/authorized_keys
- 		chown root:root /root/.ssh/authorized_keys
-		cat << EOF > /root/.ssh/authorized_keys
+ 		cat << EOF > /root/.ssh/authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCcGnCtPnIkI/dTA6lJHKaFskgoofFdGFbUPwMAOqp4R35BqCGtc2gcOjbCwyQjfirHzIK7r/HyKOyVp5Oz2p6bJybhaO+G2uSWvtWeXuOCs9qX4BpHt3t96eRKsqD6tN6s/fMx4knc3DbygNp14pShfevZkAhYHhoDDATvaHZuatRgJY8Oq+NumOwQcNSlbIA5jBes2lnVPAXyhai1OMShIuWpugs3Pht70G6zw43NVAqFWdSvOJRJ9QffUPuzFdvAfrai0RQuul4W9LIl0TwiUC9/tMSngCBuA8cJIBUe3WeTBaPbNAocBvTzoiFYVXpjHPJAfsCyIk9aUv2143lpv7a8euHgkdvrp5YQ8nkXzS7si7jhVs7Ycp6HW/O0npUW5s3KeE0943pclinmEwp+U+BqmX+MHl3TZCTsdhgWQFZbPNfG9aFhEIgYXjBE9kdlQQgN/dN3FDAhCswKzvFzuJg7PL00gkzqeo9CAUr/WZfM4obbTRg0pVjt9NT/9n8= foreman-proxy@katello.edsonmanners.com
 EOF
-		echo -e "\n----Keys added to /root/.ssh"
+		chmod 0700 /root/.ssh/authorized_keys
+  		echo -e "\n----Keys added to /root/.ssh"
 	fi
 fi
 
