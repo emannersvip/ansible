@@ -2,7 +2,7 @@
 # tasks file for dhcp_server
 - name: 'Install the lastest ISC DHCP Server'
   ansible.builtin.package:
-    name: "{{ service_name }}"
+    name: "{{ package_name }}"
     state: latest
 
 # Using user 'wheel' for RedHat based distros Rocky.
