@@ -1,7 +1,7 @@
 ---
 # tasks file for dhcp_server
 - name: 'Install the lastest ISC DHCP Server'
-  #apt:
+  ansible.builtin.package:
     name: "{{ service_name }}"
     state: latest
 
