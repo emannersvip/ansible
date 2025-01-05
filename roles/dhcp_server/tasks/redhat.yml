@@ -1,7 +1,6 @@
 ---
 # tasks file for dhcp_server
 - name: 'Install the lastest ISC DHCP Server'
-  apt:
     name: "{{ service_name }}"
     state: latest
 
