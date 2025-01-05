@@ -62,12 +62,12 @@ failover peer "failover-partner" {
 # have to hack syslog.conf to complete the redirection).
 #log-facility local7;
 
-subnet 192.168.68.0 netmask 255.255.255.0 {
+subnet 192.168.68.0 netmask 255.255.252.0 {
   option domain-name-servers 192.168.68.100;
   option routers 192.168.68.1;
   pool {
     failover peer "failover-partner";
-    range 192.168.68.140 192.168.68.200;
+    range 192.168.70.100 192.168.70.200;
   }
 }
 
@@ -95,5 +95,13 @@ host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.
 host pi-zero-2 { hardware ethernet e4:5f:01:52:eb:38; fixed-address 192.168.68.122; }
 
 # STATIC #host server { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.100; }
+host ap-tpl7-AlexusRoom	{ hardware ethernet b0:19:21:20:f5:e0; fixed-address 192.168.68.1; }
+host ap-tpl7-Den	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.241; }
+host ap-tpl7-LivingRoom	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.242; }
+host ap-tpl5-GuestBed	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.243; }
+host ap-tpl5-MasterBed	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.244; }
+host ap-tpl5-Dining	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.245; }
+host ap-tpl5-Kitchen	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.246; }
+host ap-tpl5-Office	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.247; }
 
 

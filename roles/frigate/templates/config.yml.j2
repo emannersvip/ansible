@@ -1,0 +1,99 @@
+mqtt:
+  enabled: False
+  host: 192.168.68.100
+
+motion:
+  threshold: 30
+  contour_area: 10
+  #lightning_threshold: 0.8
+
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+
+cameras:
+  pi-robot-new:
+    ffmpeg:
+      inputs:
+        - path: rtsp://192.168.68.110:8554/cam
+          roles:
+            - rtmp
+            - detect
+            - record
+    detect:
+      enabled: false
+      width: 1280
+      height: 720
+  den-broken-neck:
+    ffmpeg:
+      inputs:
+        - path: rtsp://192.168.68.111:8554/cam
+          roles:
+            - rtmp
+            - detect
+            - record
+    detect:
+      enabled: false
+      width: 1280
+      height: 720
+  ## Camera 2 
+  den-robot-2:
+    ffmpeg:
+      inputs:
+        - path: rtsp://192.168.68.112:8554/cam
+          roles:
+            - rtmp
+            - detect
+            - record
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+    record:
+      enabled: true
+  ## Camera 3
+  office-robot-3:
+    ffmpeg:
+      inputs:
+        #- path: rtsp://pi-robot-3.edsonmanners.com:8554/cam
+        - path: rtsp://192.168.68.113:8554/cam
+          roles:
+            - rtmp
+            - detect
+            - record
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+    record:
+      enabled: true
+  ## Camera 4
+  #cam4:
+  #  ffmpeg:
+  #    inputs:
+  #      - path: rtsp://pi-robot-4.edsonmanners.com:8554/cam
+  #      #- path: rtsp://pi-robot-4.edsonmanners.com:5556/cam1
+  #        roles:
+  #          - rtmp
+  #          - detect
+  #          - record
+  #  detect:
+  #    enabled: false
+  #    width: 1280
+  #    height: 720
+  cam5:
+    ffmpeg:
+      inputs:
+        #- path: rtsp://pi-robot-5.edsonmanners.com:8554/cam
+        - path: rtsp://192.168.68.115:8554/cam
+          roles:
+            - rtmp
+            - detect
+            - record
+    detect:
+      enabled: false
+      width: 1280
+      height: 720
