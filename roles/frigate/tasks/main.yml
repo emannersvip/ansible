@@ -1,0 +1,44 @@
+---
+# tasks file for frigate
+
+# Expected to run on docker
+# TODO: Add docker check in the future.
+- name: Create Docker container environment directories
+  ansible.builtin.file:
+    path: /opt/frigate
+    state: directory
+    owner: emanners
+    group: emanners
+    mode: 0774
+    recurse: no
+
+- name: Create Docker container environment directories
+  ansible.builtin.file:
+    path: "{{ frigate_nvr_dirs }}"
+    state: directory
+    owner: emanners
+    group: emanners
+    mode: 0774
+    recurse: no
+  loop:
+    - /opt/frigate/config
+    - /opt/frigate/storage
+
+- name: Create Frigate_NVR config
+  ansible.builtin.template:
+    src: 'config.yml.j2'
+    dest: '/opt/frigate/config.yml'
+    owner: 'emanners'
+    group: 'emanners'
+    mode: '0664'
+
+- name: Create Docker Compose config
+  ansible.builtin.template:
+    src: 'docker-compose.yml.j2'
+    dest: '/opt/frigate/docker-compose.yml'
+    owner: 'emanners'
+    group: 'emanners'
+    mode: '0664'
+
+
+
