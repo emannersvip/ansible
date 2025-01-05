@@ -81,9 +81,23 @@ subnet 192.168.68.0 netmask 255.255.252.0 {
 # to which a BOOTP client is connected which has the dynamic-bootp flag
 # set.
 
+#host infra  { hardware ethernet --:--:--:--:--:--:--; fixed-address 192.168.68.4; }
+host katello    { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.6; }
 host gamingrig  { hardware ethernet 14:dd:a9:25:84:96; fixed-address 192.168.68.20; }
-host katello    { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.98; }
-host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.99; }
+# -- Pi Compute Space [32-48]
+host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.32; }
+#host pi-compute4-b { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.33; }
+#host pi-compute4-c { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.34; }
+#host pi-compute4-d { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.35; }
+# -- Pi Compute 5
+#host pi-compute5-a { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.40; }
+#host pi-compute5-b { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.41; }
+#host pi-compute5-c { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.42; }
+#host pi-compute5-d { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.43; }
+# --
+#########host katello    { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.98; }
+#########host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.99; }
+# --
 #host pi-keyboard-wifi { hardware ethernet dc:a6:32:ea:d8:46; fixed-address 192.168.68.120; }
 host pi-keyboard { hardware ethernet dc:a6:32:ea:d8:45; fixed-address 192.168.68.120; }
 host pi-robot-0 { hardware ethernet b8:27:eb:b0:ba:d9; fixed-address pi-robot-0.edsonmanners.com; }
@@ -92,14 +106,18 @@ host pi-robot-2 { hardware ethernet d8:3a:dd:3c:3f:e2; fixed-address pi-robot-2.
 host pi-robot-3 { hardware ethernet b8:27:eb:c5:f1:81; fixed-address pi-robot-3.edsonmanners.com; }
 host pi-robot-4 { hardware ethernet d8:3a:dd:ca:d5:20; fixed-address pi-robot-4.edsonmanners.com; }
 host pi-robot-5 { hardware ethernet d8:3a:dd:e8:56:99; fixed-address pi-robot-5.edsonmanners.com; }
-host pi-zero-2 { hardware ethernet e4:5f:01:52:eb:38; fixed-address 192.168.68.122; }
+# -- Pi Zeros
+#########host pi-zero-2 { hardware ethernet e4:5f:01:52:eb:38; fixed-address 192.168.68.122; }
+host pi-zero-2w { hardware ethernet e4:5f:01:52:eb:38; fixed-address 192.168.68.130; }
+host pi-zero-20 { hardware ethernet 2c:cf:67:b7:f4:af; fixed-address 192.168.68.131; }
+#host pi-zero-10 { hardware ethernet e4:5f:01:52:eb:38; fixed-address 192.168.68.132; }
 
-# # GW AP
+# -- Gateway Access Point
 host ap-tpl7-AlexusRoom	{ hardware ethernet b0:19:21:20:f5:e0; fixed-address 192.168.68.1; }
-#-- Deco BE 11000 APs
+# -- Deco BE 11000 APs
 host ap-tpl7-Den	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.221; }
 host ap-tpl7-LivingRoom	{ hardware ethernet b0:19:21:20:f5:aa; fixed-address 192.168.71.222; }
-#-- Deco M5 APs
+# -- Deco M5 APs
 host ap-tpl5-Dining	{ hardware ethernet 0c:80:63:cf:43:d0; fixed-address 192.168.71.223; }
 host ap-tpl5-GuestBed	{ hardware ethernet 0c:80:63:cf:52:ac; fixed-address 192.168.71.224; }
 host ap-tpl5-Kitchen	{ hardware ethernet 0c:80:63:cf:53:88; fixed-address 192.168.71.225; }
