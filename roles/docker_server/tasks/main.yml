@@ -1,2 +1,14 @@
 ---
 # tasks file for docker_server
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html#ansible-collections-ansible-builtin-shell-module
+- name: 'Download and install docker with the SHELL'
+  ansible.builtin.shell:
+    cmd: curl -sSL https://get.docker.com | sh
+    creates: /usr/bin/docker
+
+# https://serverfault.com/questions/542910/adding-a-user-to-an-additional-group-using-ansible
+- name: 'Adding emanners to the docker group'
+  user:
+    name: emanners
+    groups: docker
+    append: yes
