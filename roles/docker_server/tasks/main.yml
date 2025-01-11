@@ -7,6 +7,7 @@
     creates: /usr/bin/docker
 
 # https://serverfault.com/questions/542910/adding-a-user-to-an-additional-group-using-ansible
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html
 - name: 'Adding emanners to the docker group'
   user:
     name: emanners

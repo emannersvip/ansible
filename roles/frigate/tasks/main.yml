@@ -12,17 +12,36 @@
     mode: 0774
     recurse: no
 
-- name: Create Docker container environment directories
+- name: Create Docker container environment sub-directories
   ansible.builtin.file:
-    path: "{{ frigate_nvr_dirs }}"
+    path: /opt/frigate/config
     state: directory
     owner: emanners
     group: emanners
     mode: 0774
     recurse: no
-  loop:
-    - /opt/frigate/config
-    - /opt/frigate/storage
+
+- name: Create Docker container environment sub-directories
+  ansible.builtin.file:
+    path: /opt/frigate/storage
+    state: directory
+    owner: emanners
+    group: emanners
+    mode: 0774
+    recurse: no
+
+# - name: Create Docker container environment sub-directories
+#  ansible.builtin.file:
+#    #path: "{{ frigate_nvr_dirs }}"
+#    path: "/opt/frigate"
+#    state: directory
+#    owner: emanners
+#    group: emanners
+#    mode: 0774
+#    recurse: no
+#  loop:
+#    - /opt/frigate/config
+#    - /opt/frigate/storage
 
 - name: Create Frigate_NVR config
   ansible.builtin.template:
