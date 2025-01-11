@@ -13,3 +13,9 @@
     name: emanners
     groups: docker
     append: yes
+
+# Install docker compose. (Give the option to NOT install in the future)
+- name: 'Install the lastest Docker Compose'
+  ansible.builtin.package:
+    name: "docker-compose"
+    state: latest

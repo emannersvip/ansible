@@ -1,0 +1,28 @@
+---
+# tasks file for prometheus
+- name: Create Prometheus config directory
+  ansible.builtin.file:
+    path: /etc/prometheus
+    state: directory
+    owner: emanners
+    group: emanners
+    mode: 0775
+    recurse: no
+
+- name: Create Prometheus data directory
+  ansible.builtin.file:
+    path: /opt/prometheus
+    state: directory
+    owner: emanners
+    group: emanners
+    mode: 0775
+    recurse: no
+
+- name: 'Prometheus config file'
+  ansible.builtin.template:
+    src: 'prometheus.yml.j2'
+    dest: "/etc/prometheus/prometheus.yml"
+    owner: 'root'
+    group: 'emanners'
+    mode: 0664
+
