@@ -26,3 +26,4 @@
     group: 'emanners'
     mode: 0664
 
+# Need a task for `docker volume create prometheus-data`
