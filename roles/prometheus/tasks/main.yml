@@ -21,7 +21,7 @@
 - name: 'Prometheus config file'
   ansible.builtin.template:
     src: 'prometheus.yml.j2'
-    dest: "/etc/prometheus/prometheus.yml"
+    dest: '/etc/prometheus/prometheus.yml'
     owner: 'root'
     group: 'emanners'
     mode: 0664
