@@ -1,0 +1,25 @@
+---
+# tasks file for report_alive
+- name: 'Install the lastest `mailutils` package'
+  ansible.builtin.package:
+    name: "mailutils"
+    state: latest
+
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: "{{ install_bin_path }}/eom_report_alive"
+    mode: '0755'
+
+- name: "{{ package }}"
+  ansible.builtin.template:
+    src: 'report_alive.service.j2'
+    dest: '/etc/systemd/system/eom_report_alive.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: Start service {{ package }}, if not started
+  ansible.builtin.service:
+    name: eom_report_alive
+    state: started
+    enabled: yes
