@@ -10,13 +10,21 @@
     path: "/usr/local/bin/eom_report_alive"
     mode: '0755'
 
-- name: "mailutils"
+- name: "mailutils service"
   ansible.builtin.template:
-    src: 'report_alive.service.j2'
+    src: 'eom_report_alive.service.j2'
     dest: '/etc/systemd/system/eom_report_alive.service'
     owner: 'root'
     group: 'root'
     mode: '0644'
+
+- name: "mailutils service file"
+  ansible.builtin.template:
+    src: 'eom_report_alive.sh.j2'
+    dest: '/usr/local/bin/eom_report_alive.sh'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
 
 - name: Start service {{ package }}, if not started
   ansible.builtin.service:
