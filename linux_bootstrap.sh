@@ -90,7 +90,7 @@ if [ -d "${REGULAR_USER_HOME}/Code" ]; then
 	echo -e "---- No need to setup ${REGULAR_USER_HOME}, it already exists\n\n"
 else
 	echo "-- Creating Code directory: ${REGULAR_USER_HOME}/Code"
-	sudo -- user=${REGULAR_USER} mkdir ${REGULAR_USER_HOME}/Code
+	sudo --user=${REGULAR_USER} mkdir ${REGULAR_USER_HOME}/Code
 	cd ${REGULAR_USER_HOME}/Code
 	if [ -f "${REGULAR_USER}/Code/Robotics" ]; then
 		echo '--Git environment already setup'
