@@ -7,43 +7,39 @@ motion:
   contour_area: 10
   #lightning_threshold: 0.8
 
-detectors:
-  coral:
-    type: edgetpu
-    device: usb
+#detectors:
+#  coral:
+#    type: edgetpu
+#    device: usb
 
 cameras:
-  pi-robot-new:
+  game-pantilt-1:
     ffmpeg:
       inputs:
-        - path: rtsp://192.168.68.110:8554/cam
+        - path: rtsp://192.168.69.101:8554/cam
           roles:
-            - rtmp
             - detect
             - record
     detect:
       enabled: false
       width: 1280
       height: 720
-  den-broken-neck:
+  den-sunfoundryPT-2:
     ffmpeg:
       inputs:
-        - path: rtsp://192.168.68.111:8554/cam
+        - path: rtsp://192.168.69.102:8554/cam
           roles:
-            - rtmp
             - detect
             - record
     detect:
       enabled: false
       width: 1280
       height: 720
-  ## Camera 2 
-  den-robot-2:
+  office-camIR-3:
     ffmpeg:
       inputs:
-        - path: rtsp://192.168.68.112:8554/cam
+        - path: rtsp://192.168.69.103:8554/cam
           roles:
-            - rtmp
             - detect
             - record
     detect:
@@ -70,30 +66,19 @@ cameras:
       fps: 5
     record:
       enabled: true
-  ## Camera 4
-  #cam4:
-  #  ffmpeg:
-  #    inputs:
-  #      - path: rtsp://pi-robot-4.edsonmanners.com:8554/cam
-  #      #- path: rtsp://pi-robot-4.edsonmanners.com:5556/cam1
-  #        roles:
-  #          - rtmp
-  #          - detect
-  #          - record
-  #  detect:
-  #    enabled: false
-  #    width: 1280
-  #    height: 720
-  cam5:
+  livingroom-cam3-5:
     ffmpeg:
       inputs:
         #- path: rtsp://pi-robot-5.edsonmanners.com:8554/cam
-        - path: rtsp://192.168.68.115:8554/cam
+        - path: rtsp://192.168.69.105:8554/cam
           roles:
-            - rtmp
             - detect
             - record
     detect:
       enabled: false
       width: 1280
       height: 720
+      fps: 5
+    record:
+      enabled: true
+version: 0.14
