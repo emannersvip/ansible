@@ -1,0 +1,7 @@
+---
+# tasks file for casaos
+# https://stackoverflow.com/questions/47994497/how-to-pipe-commands-using-ansible-e-g-curl-sl-host-com-sudo-bash
+- name: Install CasaOS
+  shell: curl -fsSL https://get.casaos.io | sudo bash
+  args:
+    warn: no
