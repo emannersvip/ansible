@@ -35,8 +35,7 @@ cameras:
       enabled: false
       width: 1280
       height: 720
-  ## Camera 2 
-  den-robot-2:
+  den-sunfoundryPT-2:
     ffmpeg:
       inputs:
         - path: rtsp://192.168.69.102:8554/cam
@@ -44,17 +43,12 @@ cameras:
             - detect
             - record
     detect:
-      enabled: true
+      enabled: false
       width: 1280
       height: 720
-      fps: 5
-    record:
-      enabled: true
-  ## Camera 3
-  office-robot-3:
+  office-camIR-3:
     ffmpeg:
       inputs:
-        #- path: rtsp://pi-robot-3.edsonmanners.com:8554/cam
         - path: rtsp://192.168.69.103:8554/cam
           roles:
             - detect
@@ -66,7 +60,7 @@ cameras:
       fps: 5
     record:
       enabled: true
-  cam5:
+  livingroom-cam3-5:
     ffmpeg:
       inputs:
         - path: rtsp://192.168.69.105:8554/cam
@@ -77,3 +71,6 @@ cameras:
       enabled: false
       width: 1280
       height: 720
+    record:
+      enabled: true
+version: 0.14
