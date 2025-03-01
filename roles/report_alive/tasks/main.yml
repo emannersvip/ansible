@@ -5,11 +5,6 @@
     name: "mailutils"
     state: latest
 
-- name: Change file ownership, group and permissions
-  ansible.builtin.file:
-    path: "/usr/local/bin/eom_report_alive"
-    mode: '0755'
-
 - name: "mailutils service"
   ansible.builtin.template:
     src: 'eom_report_alive.service.j2'
@@ -26,7 +21,12 @@
     group: 'root'
     mode: '0755'
 
-- name: Start service {{ package }}, if not started
+#- name: Change file ownership, group and permissions
+#  ansible.builtin.file:
+#    path: "/usr/local/bin/eom_report_alive"
+#    mode: '0755'
+
+- name: "Start service {{ package }}, if not started"
   ansible.builtin.service:
     name: eom_report_alive
     state: started
