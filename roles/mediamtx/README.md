@@ -1,11 +1,12 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This is a role created for managing the mediamtx Pi Camera client.
 
 Requirements
 ------------
 
+https://spacelift.io/blog/ansible-roles
 Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
