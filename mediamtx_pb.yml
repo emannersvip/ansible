@@ -2,3 +2,5 @@
   become: true
   roles:
     - mediamtx
+    vars:
+      foo: bar
