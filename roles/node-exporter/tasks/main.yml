@@ -1,5 +1,14 @@
 ---
 # tasks file for node-exporter
+- name: 'Install archive packages'
+  ansible.builtin.package:
+    name: unzip
+    state: present
+
+- name: 'Install archive packages'
+  ansible.builtin.package:
+    name: tar
+    state: present
 
 - name: 'Download & Unarchive Node Exporter {{ architecture }} tarball'
   unarchive:
