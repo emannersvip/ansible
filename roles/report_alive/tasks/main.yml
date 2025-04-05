@@ -1,9 +1,16 @@
 ---
 # tasks file for report_alive
-- name: 'Install the lastest `mailutils` package'
+- name: 'Install the lastest `mailutils` package Debina'
   ansible.builtin.package:
     name: "mailutils"
     state: latest
+    when: ansible_os_family == Debian
+
+- name: 'Install the lastest `mailutils` package Redhat'
+  ansible.builtin.package:
+    name: "s-nail"
+    state: latest
+    when: ansible_os_family == Redhat
 
 - name: "mailutils service"
   ansible.builtin.template:
