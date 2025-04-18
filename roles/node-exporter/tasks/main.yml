@@ -41,7 +41,7 @@
 - name: Enable TCP 9100 statically. Also enable dynamically if possible.
   ansible.posix.firewalld:
     port: 9100/tcp
-    permanant: true
+    permanent: true
     state: enabled
 
 - name: Start service {{ package }}, if not started
