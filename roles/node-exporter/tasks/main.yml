@@ -37,6 +37,13 @@
     group: 'root'
     mode: '0644'
 
+# https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html
+- name: Enable TCP 9100 statically. Also enable dynamically if possible.
+  ansible.posix.firewalld:
+    port: 9100/tcp
+    permanant: true
+    state: enbled
+
 - name: Start service {{ package }}, if not started
   ansible.builtin.service:
     name: node_exporter
