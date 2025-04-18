@@ -10,7 +10,7 @@
   ansible.builtin.package:
     name: "s-nail"
     state: latest
-    when: ansible_os_family == Redhat
+    when: ansible_os_family == RedHat
 
 - name: "mailutils service"
   ansible.builtin.template:
