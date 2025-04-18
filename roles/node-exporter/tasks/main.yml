@@ -38,7 +38,7 @@
     mode: '0644'
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html
-- name: Enable TCP 9100 statically. Also enable dynamically if possible.
+- name: Enable TCP 9100 statically. Also enable dynamically if possible (not on infra01).
   ansible.posix.firewalld:
     port: 9100/tcp
     permanent: true
