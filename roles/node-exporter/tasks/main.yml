@@ -42,7 +42,7 @@
   ansible.posix.firewalld:
     port: 9100/tcp
     permanant: true
-    state: enbled
+    state: enabled
 
 - name: Start service {{ package }}, if not started
   ansible.builtin.service:
