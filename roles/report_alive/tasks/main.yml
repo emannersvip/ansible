@@ -1,6 +1,6 @@
 ---
 # tasks file for report_alive
-- name: 'Install the lastest `mailutils` package Debina'
+- name: 'Install the lastest `mailutils` package Debian'
   ansible.builtin.package:
     name: "mailutils"
     state: latest
