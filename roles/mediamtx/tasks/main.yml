@@ -8,7 +8,7 @@
 #    owner: 'emanners'
 #    group: 'emanners'
 
-- name: 'Download & Unarchive MediaMTX tarball'
+- name: "Download & Unarchive MediaMTX tarball {{ mediamtx_url }}"
   unarchive:
     src: "{{ mediamtx_url }}"
     dest: "{{ install_tmp_path }}"
