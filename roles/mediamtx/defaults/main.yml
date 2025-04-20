@@ -3,11 +3,11 @@
 # https://github.com/bluenviron/mediamtx/releases/
 mtxvers: '1.9.2'
 #mtxarch: '64v8'
-mtxarch: '7'
+mtxarch: 'v7'
 #mtxvers: '1.9.3'
 #mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v1.9.2/mediamtx_v1.9.2_linux_arm64v8.tar.gz"
 #mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v1.9.2/mediamtx_v1.9.2_linux_armv7.tar.gz"
-mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v{{ mtxvers }}/mediamtx_v{{ mtxvers }}_linux_armv{{ mtxarch }}.tar.gz"
+mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v{{ mtxvers }}/mediamtx_{{ mtxvers }}_linux_armv{{ mtxarch }}.tar.gz"
 install_tmp_path: '/tmp'
 install_bin_path: '/usr/local/bin'
 install_cfg_path: '/usr/local/etc'
