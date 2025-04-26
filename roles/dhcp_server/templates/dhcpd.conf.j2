@@ -82,6 +82,7 @@ subnet 192.168.68.0 netmask 255.255.252.0 {
 # set.
 
 #host infra  { hardware ethernet --:--:--:--:--:--:--; fixed-address 192.168.68.4; }
+host infra01    { hardware ethernet a4:1f:72:93:ef:4c; fixed-address 192.168.68.5; }
 host katello    { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.6; }
 host gamingrig  { hardware ethernet 14:dd:a9:25:84:96; fixed-address 192.168.68.20; }
 # -- Pi Compute Space [32-48]
@@ -95,8 +96,6 @@ host pi-compute4-a { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.
 #host pi-compute5-c { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.69.7; }
 #host pi-compute5-d { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.69.8; }
 # --
-#########host katello    { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.98; }
-#########host pi-compute { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.68.99; }
 # --
 #host pi-keyboard-wifi { hardware ethernet dc:a6:32:ea:d8:46; fixed-address 192.168.68.120; }
 host pi-keyboard-400 { hardware ethernet dc:a6:32:ea:d8:45; fixed-address 192.168.69.60; }
