@@ -12,6 +12,7 @@
     dest: "/etc/dhcp/dhcpd.conf"
     owner: 'root'
     group: "{{ admin_group }}"
+  register: dhcpd_conf
 
 - name: 'DHCP runtime variable file'
   ansible.builtin.template:
@@ -19,9 +20,11 @@
     dest: "/etc/default/isc-dhcp-server"
     owner: 'root'
     group: 'root'
+  #register: dhcpd_var_conf
 
 - name: Start service {{ service_name }}, if not started
   ansible.builtin.service:
     name: "{{ service_name }}"
     state: started
     enabled: yes
+  when: dhcpd_conf.changed
