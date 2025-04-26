@@ -13,6 +13,13 @@
     owner: 'root'
     group: "{{ admin_group }}"
 
+- name: 'DHCP runtime variable file'
+  ansible.builtin.template:
+    src: 'isc-dhcp-server.j2'
+    dest: "/etc/default/isc-dhcp-server"
+    owner: 'root'
+    group: 'root'
+
 - name: Start service {{ service_name }}, if not started
   ansible.builtin.service:
     name: "{{ service_name }}"
