@@ -1,5 +1,6 @@
 ---
 # tasks file for dhcp_server
+# https://stackoverflow.com/questions/57571765/restart-service-when-service-file-changes-when-using-ansible
 - name: 'Install the lastest ISC DHCP Server'
   ansible.builtin.package:
     name: "{{ package_name }}"
