@@ -1,2 +1,13 @@
 ---
 # tasks file for webhook_receiver
+
+- name: 'Python Webhook Receiver'
+  ansible.builtin.template:
+    src: 'python_flask_webhook_server.pl'
+    dest: '/usr/local/bin/webhook.py'
+    mode: '0755'
+
+- name: 'Install Flask Python package'
+  ansible.builtin.pip:
+    name: flask
+
