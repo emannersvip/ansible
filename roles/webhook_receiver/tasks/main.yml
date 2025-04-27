@@ -3,7 +3,7 @@
 
 - name: 'Python Webhook Receiver'
   ansible.builtin.template:
-    src: 'python_flask_webhook_server.pl'
+    src: 'python_flask_webhook_server.py.j2'
     dest: '/usr/local/bin/webhook.py'
     mode: '0755'
 
