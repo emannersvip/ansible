@@ -16,3 +16,16 @@
   ansible.builtin.pip:
     name: flask
 
+- name: 'Add SystemD service file'
+  ansible.builtin.template:
+    src: 'webhool_python.service.j2'
+    dest: '/etc/systemd/system/webhook_python.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: 'Use SystemD service for webhook'
+  ansible.builtin.service:
+    name: webhook_python
+    state: started
+    enabled: yes
