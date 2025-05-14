@@ -64,7 +64,8 @@ failover peer "failover-partner" {
 #log-facility local7;
 
 subnet 192.168.68.0 netmask 255.255.252.0 {
-  option domain-name-servers 192.168.69.5, 192.168.70.90;
+  option domain-name-servers 192.168.70.90;
+  #option domain-name-servers 192.168.69.5, 192.168.70.90;
   option routers 192.168.68.1;
   pool {
     failover peer "failover-partner";
