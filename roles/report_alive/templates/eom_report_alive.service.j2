@@ -1,11 +1,12 @@
 [Unit]
 Description=Report Alive Service
-After=network.target
-StartLimitIntervalSec=0
+After=network.target systemd-tmpfiles-setup-dev.service
+#Requires=postfix.service
+#Requires=exim4.service
+
 [Service]
-Type=simple
-Restart=always
-RestartSec=1
+Type=oneshot
+KillMode=process
 User=emanners
 ExecStart=/usr/local/bin/eom_report_alive.sh
 
