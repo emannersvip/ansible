@@ -23,6 +23,14 @@
 - name: Copy unarchived {{ package }} files from {{ install_tmp_path }} to {{ install_bin_path }}
   copy: remote_src=True src={{ install_tmp_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ architecture }}/node_exporter dest={{ install_bin_path }}
 
+- name: Create node_exporter service account
+  ansible.builtin.user:
+    name: node_exporter
+    #password: 'none'
+    state: present
+    shell: /bin/bash
+    createhome: yes
+
 - name: Change file ownership, group and permissions
   ansible.builtin.file:
     #path: "{{ install_bin_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ architecture }}/node_exporter"
