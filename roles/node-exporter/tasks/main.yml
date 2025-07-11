@@ -44,6 +44,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
+  register: node_exporter_service
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html
 - name: Enable TCP 9100 statically. Also enable dynamically if possible (not on infra01).
@@ -58,4 +59,5 @@
     name: node_exporter
     state: started
     enabled: yes
+  when: node_exporter_service.changed
 
