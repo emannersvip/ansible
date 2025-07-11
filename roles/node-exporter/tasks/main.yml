@@ -54,10 +54,14 @@
     state: enabled
   when: ansible_os_family == 'RedHat'
 
+- name: reload systemd daemons
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  when: node_exporter_service.changed
+
 - name: Start service {{ package }}, if not started
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: node_exporter
     state: started
     enabled: yes
-  when: node_exporter_service.changed
 
