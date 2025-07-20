@@ -20,3 +20,12 @@
     state: started
     enabled: yes
   when: named_conf.changed
+
+# DNS Zone files
+- name: 'REVERSE ZONE file'
+  ansible.builtin.template:
+    src: '68.168.192.in-addr.arpa.j2'
+    dest: "/var/named/68.168.192.in-addr.arpa"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
