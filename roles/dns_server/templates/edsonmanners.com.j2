@@ -3,14 +3,14 @@
 ;
 ; The full zone file
 ;
-$TTL 3D
-@       IN      SOA     ns1.edsonmanners.com. (
-                        2025072000  ;serial 
-                        14400       ;refresh
-                        3600        ;retry
-                        604800      ;expire
-                        10800       ; minimum
-                        )
+$TTL 60
+@   IN  SOA ns1.edsonmanners.com. root.domain.com. (
+2025072000  ;serial 
+14400       ;refresh
+3600        ;retry
+604800      ;expire
+10800       ; minimum
+)
 
                 NS      ns              ; Inet Address of name server
                 MX      10 mail         ; Primary Mail Exchanger
@@ -22,6 +22,7 @@ ftp             CNAME   ns
 gw              A       192.168.68.1
                 TXT     "Network gateway"
 mail            A       192.168.68.2
-mail2           CNAME   otherbox
+mail2            A       192.168.68.3
+mail3           CNAME   otherbox
 otherbox         A      192.168.68.3
                 TXT     "Otherbox"
