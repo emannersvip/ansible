@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2025072001  ;serial 
+2025072002  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -26,11 +26,14 @@ deco-living-room    A   192.168.68.247
 deco-mo-office      A   192.168.68.249
 deco-office         A   192.168.68.250
 ;
+dhcp                CNAME   infra01
+dhcp1               CNAME   infra01
+dhcp2               CNAME   pi-compute
+;
 ns1             A       192.168.68.5
 infra0          A       192.168.68.5
 katello         A       192.168.68.6
 www             CNAME   www.debuntu.org.
-ftp             CNAME   ns
 ;
 gw              A       192.168.68.1
                 TXT     "Network gateway"
