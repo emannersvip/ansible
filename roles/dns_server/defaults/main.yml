@@ -1,2 +1,7 @@
 ---
 # defaults file for dns_server
+# Default Redhat service name. ('dns_masq' for Debian)
+package_name: 'bind'
+service_name: 'named'
+# Default Redhat service admin group name. ('??' for Debian)
+admin_group: 'named'
