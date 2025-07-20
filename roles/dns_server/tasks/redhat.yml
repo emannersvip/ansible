@@ -5,14 +5,14 @@
     name: "{{ dns_package_name }}"
     state: latest
 
-# Using user 'wheel' for RedHat based distros Rocky.
-#- name: 'BIND config file'
-#  ansible.builtin.template:
-#    src: 'named.conf.j2'
-#    dest: "/etc/dhcp/dhcpd.conf"
-#    owner: 'root'
-#    group: "{{ admin_group }}"
-#  register: dhcpd_conf
+# Using user 'named' for RedHat based distros Rocky.
+- name: 'BIND config file'
+  ansible.builtin.template:
+    src: 'named.conf.j2'
+    dest: "/etc/named.conf"
+    owner: 'root'
+    group: "{{ admin_group }}"
+  register: named_conf
 
 #- name: Start service {{ service_name }}, if not started
 #  ansible.builtin.service:
