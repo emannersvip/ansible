@@ -14,12 +14,14 @@ $TTL 60
 10800       ; minimum
 )
 
+$ORIGIN edsonmanners.com.
                 NS      ns1                     ; Inet Address of name server
                 NS      pi-keyboard-500-wired   ; Inet Address of name server
                 MX      10 mail                 ; Primary Mail Exchanger
                 MX      20 mail2                ; Secondary Mail Exchanger
 
-ns1             A       192.168.68.5
+infra0          A       192.168.68.5
+ns1             CNAME   infra01.
 katello         A       192.168.68.6
 www             CNAME   www.debuntu.org.
 ftp             CNAME   ns
