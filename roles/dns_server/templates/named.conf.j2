@@ -54,6 +54,12 @@ zone "." IN {
 	file "named.ca";
 };
 
+zone "edsonmanners.com" IN {
+	type master;
+	file "edsonmanners.com";
+	allow-update { none; };
+};
+
 zone "68.168.192.in-addr.arpa" IN {
 	type master;
 	file "68.168.192.in-addr.arpa";

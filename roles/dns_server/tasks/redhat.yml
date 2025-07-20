@@ -22,6 +22,14 @@
   when: named_conf.changed
 
 # DNS Zone files
+- name: 'FORWARD ZONE file'
+  ansible.builtin.template:
+    src: 'edsonmanners.com.j2'
+    dest: "/var/named/edsonmanners.com"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
+
 - name: 'REVERSE ZONE file'
   ansible.builtin.template:
     src: '68.168.192.in-addr.arpa.j2'

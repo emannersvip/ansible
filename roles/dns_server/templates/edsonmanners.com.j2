@@ -1,0 +1,26 @@
+;
+; Zone file for edsonmanners.com
+;
+; The full zone file
+;
+$TTL 3D
+@       IN      SOA     ns1.edsonmanners.com. (
+                        200608081       ; serial, todays date + todays serial # 
+                        8H              ; refresh, seconds
+                        2H              ; retry, seconds
+                        4W              ; expire, seconds
+                        1D )            ; minimum, seconds
+;
+                NS      ns              ; Inet Address of name server
+                MX      10 mail         ; Primary Mail Exchanger
+                MX      20 mail2        ; Secondary Mail Exchanger
+;
+ns              A       192.168.68.5
+www             CNAME   www.debuntu.org.
+ftp             CNAME   ns
+gw              A       192.168.68.1
+                TXT     "Network gateway"
+mail            A       192.168.68.2
+mail2           CNAME   otherbox
+otherbox         A      192.168.68.3
+                TXT     "Otherbox"
