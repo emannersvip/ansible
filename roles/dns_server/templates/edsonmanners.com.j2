@@ -6,10 +6,10 @@
 $TTL 3D
 @       IN      SOA     ns1.edsonmanners.com. (
                         200608081       ; serial, todays date + todays serial # 
-                        8H              ; refresh, seconds
-                        2H              ; retry, seconds
-                        4W              ; expire, seconds
-                        1D )            ; minimum, seconds
+                        14400              ; refresh, seconds
+                        3600              ; retry, seconds
+                        604800              ; expire, seconds
+                        10800 )            ; minimum, seconds
 ;
                 NS      ns              ; Inet Address of name server
                 MX      10 mail         ; Primary Mail Exchanger
