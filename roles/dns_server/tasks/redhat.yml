@@ -1,5 +1,5 @@
 ---
-# Tasks for Redhat BIND DNS install
+# Tasks for Redhat "{{ package_name }}" DNS install
 - name: 'Install the lastest ISC Bind DNS Server'
   ansible.builtin.package:
     name: "{{ package_name }}"
