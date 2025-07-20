@@ -5,24 +5,25 @@
 ;
 $TTL 60
 @   IN  SOA ns1.edsonmanners.com. root.domain.com. (
-2025072000  ;serial 
+2025072001  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
 10800       ; minimum
 )
 
-                NS      ns              ; Inet Address of name server
+                NS      ns1             ; Inet Address of name server
                 MX      10 mail         ; Primary Mail Exchanger
                 MX      20 mail2        ; Secondary Mail Exchanger
-;
-ns              A       192.168.68.5
+
+ns1             A       192.168.68.5
+katello         A       192.168.68.6
 www             CNAME   www.debuntu.org.
 ftp             CNAME   ns
 gw              A       192.168.68.1
                 TXT     "Network gateway"
 mail            A       192.168.68.2
-mail2            A       192.168.68.3
+mail2           A       192.168.68.3
 mail3           CNAME   otherbox
-otherbox         A      192.168.68.3
+otherbox        A       192.168.68.3
                 TXT     "Otherbox"

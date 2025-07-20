@@ -4,19 +4,18 @@
 ; The full zone file
 ;
 $TTL 60
-@       IN      SOA     ns1.edsonmanners.com. root.domain.com.     (
-2007040301      ;serial
+@   IN  SOA ns1.edsonmanners.com. root.domain.com.     (
+2025072001      ;serial
 14400                 ;refresh
 3600                   ;retry
 604800              ;expire
 10800                ;minimum
 )
 
-68.168.192.in-addr.arpa.                   IN      NS      ns1.yournameserver.com.
-;0.168.192.in-addr.arpa.                   IN      NS      ns2.yournameserver.com.
+68.168.192.in-addr.arpa.                   IN      NS      infra01.edsonmanners.com.
 
 2               IN      PTR     blah1.edsonmanners.com.
 3               IN      PTR     blah2.edsonmanners.com.
 4               IN      PTR     blah3.edsonmanners.com.
-5               IN      PTR     blah4.edsonmanners.com.
-6               IN      PTR     blah5.edsonmanners.com.
+5               IN      PTR     infra01.edsonmanners.com.
+6               IN      PTR     katello.edsonmanners.com.
