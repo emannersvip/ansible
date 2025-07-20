@@ -29,6 +29,8 @@ deco-office         A   192.168.68.250
 dhcp                CNAME   infra01
 dhcp1               CNAME   infra01
 dhcp2               CNAME   pi-compute
+dhcp-primary        CNAME   infra01
+dhcp-secondary      CNAME   pi-compute
 ;
 ns1             A       192.168.68.5
 infra0          A       192.168.68.5
@@ -38,12 +40,28 @@ www             CNAME   www.debuntu.org.
 gw              A       192.168.68.1
                 TXT     "Network gateway"
 gamingrig       A       192.168.68.20
+;
+jukebox         CNAME   pi-robot-0
+;
 mail            A       192.168.68.2
 mail2           A       192.168.68.3
 mail3           CNAME   otherbox
 otherbox        A       192.168.68.3
                 TXT     "Otherbox"
 ; 
+pc              CNAME   pi-compute
+pc5             CNAME   pi-compute5-a
+pk5             CNAME   pi-keyboard-500-wired
+; 
+pr0             CNAME   pi-robot-0
+pr1             CNAME   pi-robot-1
+pr2             CNAME   pi-robot-2
+pr3             CNAME   pi-robot-3
+pr4             CNAME   pi-robot-4
+pr5             CNAME   pi-robot-5
+;
+pz2             CNAME   pi-zero-2
+;
 pi-compute      A       192.168.69.1
 ;pi-compute-5    A       192.168.68.97
 pi-compute5-a   A       192.168.69.5
