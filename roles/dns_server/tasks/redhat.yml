@@ -1,8 +1,8 @@
 ---
 # Tasks for Redhat BIND DNS install
-- name: "Install the lastest ISC {{ package_name }} DNS Server"
+- name: "Install the lastest ISC {{ dns_package_name }} DNS Server"
   ansible.builtin.package:
-    name: "{{ package_name }}"
+    name: "{{ dns_package_name }}"
     state: latest
 
 # Using user 'wheel' for RedHat based distros Rocky.

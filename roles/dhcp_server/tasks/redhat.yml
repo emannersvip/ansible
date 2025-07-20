@@ -3,7 +3,7 @@
 # https://stackoverflow.com/questions/57571765/restart-service-when-service-file-changes-when-using-ansible
 - name: 'Install the lastest ISC DHCP Server'
   ansible.builtin.package:
-    name: "{{ package_name }}"
+    name: "{{ dhcp_package_name }}"
     state: latest
 
 # Using user 'wheel' for RedHat based distros Rocky.
@@ -12,12 +12,12 @@
     src: 'dhcpd.conf.j2'
     dest: "/etc/dhcp/dhcpd.conf"
     owner: 'root'
-    group: "{{ admin_group }}"
+    group: "{{ dhcp_admin_group }}"
   register: dhcpd_conf
 
-- name: Start service {{ service_name }}, if not started
+- name: Start service {{ dhcp_service_name }}, if not started
   ansible.builtin.service:
-    name: "{{ service_name }}"
+    name: "{{ dhcp_service_name }}"
     state: started
     enabled: yes
   when: dhcpd_conf.changed

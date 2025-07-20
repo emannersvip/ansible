@@ -1,7 +1,7 @@
 ---
 # defaults file for dhcp_server
 # Default Redhat service name. ('isc-dhcp-server' for Debian)
-package_name: 'dhcp-server'
-service_name: 'dhcpd'
+dhcp_package_name: 'dhcp-server'
+dhcp_service_name: 'dhcpd'
 # Default Redhat service admin group name. ('adm' for Debian)
-admin_group: 'wheel'
+dhcp_admin_group: 'wheel'
