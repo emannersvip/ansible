@@ -11,7 +11,7 @@
     src: 'named.conf.j2'
     dest: "/etc/named.conf"
     owner: 'root'
-    group: "{{ admin_group }}"
+    group: "{{ dns_admin_group }}"
   register: named_conf
 
 - name: Start service {{ dns_service_name }}, if not started
