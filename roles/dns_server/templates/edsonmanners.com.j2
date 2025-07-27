@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2025072002  ;serial 
+2025072700  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -32,7 +32,8 @@ dhcp2               CNAME   pi-compute
 dhcp-primary        CNAME   infra01
 dhcp-secondary      CNAME   pi-compute
 ;
-ns1             A       192.168.68.5
+dns1            A       192.168.68.5
+homeassistant   A       192.168.69.60
 infra01         A       192.168.68.5
 katello         A       192.168.68.6
 www             CNAME   www.debuntu.org.
@@ -46,6 +47,7 @@ jukebox         CNAME   pi-robot-0
 mail            A       192.168.68.2
 mail2           A       192.168.68.3
 mail3           CNAME   otherbox
+ns1             A       192.168.68.5
 otherbox        A       192.168.68.3
                 TXT     "Otherbox"
 ; 
