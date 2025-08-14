@@ -15,8 +15,8 @@
 
 - name: 'Promtail config file'
   ansible.builtin.template:
-    src: 'promtail-config.yml.j2'
-    dest: "/etc/promtail/config.yml"
+    src: promtail-config.yml.j2
+    dest: /etc/promtail/config.yml
     owner: 'promtail'
     group: "{{ grafana_stack_admin_group }}"
 
