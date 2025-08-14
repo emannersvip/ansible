@@ -1,0 +1,20 @@
+---
+- name: 'Install the lastest Promtail Package Server'
+  apt:
+    name: promtail_3.5.3_amd64.deb
+    apt: deb=https://github.com/grafana/loki/releases/download/v3.5.3/promtail_3.5.3_amd64.deb
+    state: present
+    update_cache: true
+
+#- name: 'DNSMasq config file'
+#  ansible.builtin.template:
+#    src: 'dnsmasq.conf.j2'
+#    dest: "/etc/dnsmasq"
+#    owner: 'root'
+#    group: 'root'
+
+#- name: Start service dnsmasq, if not started
+#  ansible.builtin.service:
+#    name: dnsmasq
+#    state: started
+#    enabled: yes

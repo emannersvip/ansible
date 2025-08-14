@@ -1,0 +1,48 @@
+---
+# Tasks for Redhat BIND DNS install
+- name: "Install the lastest ISC {{ dns_package_name }} DNS Server"
+  ansible.builtin.package:
+    name: "{{ dns_package_name }}"
+    state: latest
+
+# Using user 'named' for RedHat based distros Rocky.
+- name: 'BIND config file'
+  ansible.builtin.template:
+    src: 'named.conf.j2'
+    dest: "/etc/named.conf"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
+
+- name: Start service {{ dns_service_name }}, if not started
+  ansible.builtin.service:
+    name: "{{ dns_service_name }}"
+    state: started
+    enabled: yes
+  when: named_conf.changed
+
+# DNS Zone files
+- name: 'FORWARD ZONE file'
+  ansible.builtin.template:
+    src: 'edsonmanners.com.j2'
+    dest: "/var/named/edsonmanners.com"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
+
+- name: 'REVERSE ZONE file 68'
+  ansible.builtin.template:
+    src: '68.168.192.in-addr.arpa.j2'
+    dest: "/var/named/68.168.192.in-addr.arpa"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
+
+- name: 'REVERSE ZONE file 70'
+  ansible.builtin.template:
+    src: '70.168.192.in-addr.arpa.j2'
+    dest: "/var/named/70.168.192.in-addr.arpa"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
+
