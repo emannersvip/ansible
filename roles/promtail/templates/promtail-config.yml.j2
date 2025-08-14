@@ -20,4 +20,4 @@ scrape_configs:
       - localhost
     labels:
       job: varlogs1
-      __path__: /var/log/messages
+      __path__: /var/log/{{ promtail_distro_logfile }}
