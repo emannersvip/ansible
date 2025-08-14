@@ -16,8 +16,14 @@ scrape_configs:
     labels:
       job: varlogs
       __path__: /var/log/*log
-  - targets:
-      - localhost
+
+{% if {{ ansible_facts['os_family'] }} == "Debian" %}
+- job_name: journald
+  journal:
+    json: false
+    max_age: 12h
+    path: /var/log/journal
+    #matches: _TRANSPORT=kernel
     labels:
-      job: varlogs1
-      __path__: /var/log/{{ promtail_distro_logfile }}
+      job: systemd-journal
+{% endif %}

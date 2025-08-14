@@ -1,6 +1,7 @@
 ---
 # Tasks file for Grafana Loki
 # This config is based on a Docker install
+# https://blog.ayjc.net/posts/loki-homelab-logging/
 
 - name: 'Create Docker /opt/loki subdirectories for Loki'
   ansible.builtin.file:
