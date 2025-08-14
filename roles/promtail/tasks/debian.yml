@@ -19,7 +19,8 @@
     src: 'promtail-config.yml.j2'
     dest: "/etc/promtail/config.yml"
     owner: 'root'
-    group: "{{ grafana_stack_admin_group }}"
+    #group: "{{ grafana_stack_admin_group }}"
+    group: 'root'
 
 #- name: Start service dnsmasq, if not started
 #  ansible.builtin.service:
