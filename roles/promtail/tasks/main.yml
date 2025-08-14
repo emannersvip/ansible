@@ -1,6 +1,5 @@
 ---
 # Tasks file for promtail
-# This config is based on a Docker install
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
@@ -11,3 +10,9 @@
   when: ansible_os_family == "RedHat"
   tags:
     - unbound
+
+# This config is based on a Docker install
+#- include_tasks: docker.yml
+#  when: ansible_os_family == "RedHat"
+#  tags:
+#    - unbound

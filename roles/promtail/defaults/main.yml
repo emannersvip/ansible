@@ -1,4 +1,4 @@
 ---
 # defaults file for promtail
 # Default promtail container/service admin group name.
-grafana_stack_admin_group: 'prometheus'
+grafana_stack_admin_group: 'adm'
