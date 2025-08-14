@@ -1,5 +1,5 @@
 ---
-# tasks file for promtail
+# Tasks file for promtail
 # This config is based on a Docker install
 
 - name: 'Create Docker /opt/promtail subdirectories for Promtail'

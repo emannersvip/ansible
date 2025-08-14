@@ -1,0 +1,15 @@
+services:
+  loki:
+    container_name: loki
+      #image: grafana/loki:2.4.0
+    image: grafana/loki:latest
+    volumes:
+      - /opt/loki/etc:/etc/loki
+    ports:
+      - "3100:3100/tcp"
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    environment:
+      TZ: 'America/Chicago'
+        #networks:
+        #- loki

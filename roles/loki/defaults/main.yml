@@ -1,0 +1,4 @@
+---
+# defaults file for loki
+# Default loki container/service admin group name.
+grafana_stack_admin_group: 'prometheus'
