@@ -1,0 +1,21 @@
+;
+; Zone file for edsonmanners.com
+;
+; The full zone file
+; https://bind9.readthedocs.io/en/latest/chapter3.html
+;
+$TTL 60
+;
+@   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com.     (
+2025081400      ;serial
+14400                 ;refresh
+3600                   ;retry
+604800              ;expire
+10800                ;minimum
+)
+
+69.168.192.in-addr.arpa.                   IN      NS      infra01.edsonmanners.com.
+69.168.192.in-addr.arpa.                   IN      NS      pi-keyboard-500-wired.edsonmanners.com.
+
+5               IN      PTR     pi-compute-5a.edsonmanners.com.
+;
