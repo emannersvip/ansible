@@ -16,5 +16,8 @@ scrape_configs:
     labels:
       job: varlogs
       __path__: /var/log/*log
-      job: varlogs
+  - targets:
+      - localhost
+    labels:
+      job: varlogs1
       __path__: /var/log/messages
