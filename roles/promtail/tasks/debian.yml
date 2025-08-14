@@ -4,7 +4,7 @@
 - name: 'Install the lastest Promtail Package Server'
   ansible.builtin.apt:
     #name: promtail
-    deb: deb=https://github.com/grafana/loki/releases/download/v3.5.3/promtail_3.5.3_amd64.deb
+    deb: deb=http://github.com/grafana/loki/releases/download/v3.5.3/promtail_3.5.3_amd64.deb
     state: present
     update_cache: true
 
