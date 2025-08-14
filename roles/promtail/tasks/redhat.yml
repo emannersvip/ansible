@@ -1,48 +1,25 @@
 ---
-# Tasks for Redhat BIND DNS install
-- name: "Install the lastest ISC {{ dns_package_name }} DNS Server"
-  ansible.builtin.package:
-    name: "{{ dns_package_name }}"
-    state: latest
+# Tasks for Redhat Promtail install
+- name: Install the promtail RPM from a remote repo
+  ansible.builtin.dnf:
+    name: 'https://github.com/grafana/loki/releases/download/v3.5.3/promtail-3.5.3.x86_64.rpm'
+    state: present
 
-# Using user 'named' for RedHat based distros Rocky.
-- name: 'BIND config file'
+- name: 'Adding the "promtail" user to the adm group to read syslog file'
+  ansible.builtin.user:
+    name: 'promtail'
+    groups: "{{ grafana_stack_admin_group }}"
+    append: yes
+
+- name: 'Promtail config file'
   ansible.builtin.template:
-    src: 'named.conf.j2'
-    dest: "/etc/named.conf"
-    owner: 'root'
-    group: "{{ dns_admin_group }}"
-  register: named_conf
+    src: 'promtail-config.yml.j2'
+    dest: "/etc/promtail/config.yml"
+    owner: 'promtail'
+    group: "{{ grafana_stack_admin_group }}"
 
-- name: Start service {{ dns_service_name }}, if not started
+- name: Start service promtail, if not started
   ansible.builtin.service:
-    name: "{{ dns_service_name }}"
+    name: promtail
     state: started
     enabled: yes
-  when: named_conf.changed
-
-# DNS Zone files
-- name: 'FORWARD ZONE file'
-  ansible.builtin.template:
-    src: 'edsonmanners.com.j2'
-    dest: "/var/named/edsonmanners.com"
-    owner: 'root'
-    group: "{{ dns_admin_group }}"
-  register: named_conf
-
-- name: 'REVERSE ZONE file 68'
-  ansible.builtin.template:
-    src: '68.168.192.in-addr.arpa.j2'
-    dest: "/var/named/68.168.192.in-addr.arpa"
-    owner: 'root'
-    group: "{{ dns_admin_group }}"
-  register: named_conf
-
-- name: 'REVERSE ZONE file 70'
-  ansible.builtin.template:
-    src: '70.168.192.in-addr.arpa.j2'
-    dest: "/var/named/70.168.192.in-addr.arpa"
-    owner: 'root'
-    group: "{{ dns_admin_group }}"
-  register: named_conf
-

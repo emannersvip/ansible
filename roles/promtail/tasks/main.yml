@@ -1,5 +1,6 @@
 ---
 # Tasks file for promtail
+# https://www.osinachi.me/posts/configuring-promtail-step-by-step/
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
