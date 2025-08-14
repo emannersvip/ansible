@@ -26,4 +26,14 @@ scrape_configs:
     #matches: _TRANSPORT=kernel
     labels:
       job: systemd-journal
+  relabel_configs:
+    - source_labels:
+        - __journal_hostname
+      target_label: hostname
+    - source_labels:
+        - __journal_systemd_unit
+      target_label: unit
+    - source_labels:
+        - __journal_priority_keyword
+      target_label: level
 {% endif %}
