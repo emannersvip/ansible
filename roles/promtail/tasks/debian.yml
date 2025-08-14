@@ -14,6 +14,12 @@
 #    dest: "/etc/dnsmasq"
 #    owner: 'root'
 #    group: 'root'
+- name: 'Promtail config file'
+  ansible.builtin.template:
+    src: 'promtail-config.yml.j2'
+    dest: "/etc/promtail/config.yml"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
 
 #- name: Start service dnsmasq, if not started
 #  ansible.builtin.service:
