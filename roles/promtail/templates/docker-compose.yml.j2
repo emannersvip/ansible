@@ -1,0 +1,15 @@
+services:
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:latest
+    volumes:
+      - /var/log:/var/log
+      - /opt/promtail/etc:/etc/promtail
+    ports:
+      - "9080:9080/tcp"
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yml
+    environment:
+      TZ: 'America/Chicago'
+        #networks:
+        #- loki
