@@ -1,0 +1,42 @@
+---
+# Tasks file for grafana
+# This config is based on a Docker install
+
+- name: 'Create Docker /opt/grafana subdirectories for Grafana'
+  ansible.builtin.file:
+    path: /opt/grafana
+    state: directory
+    mode: '0755'
+
+- name: 'Create Docker /opt/grafana/etc subdirectories for Grafana'
+  ansible.builtin.file:
+    path: /opt/grafana/data
+    state: directory
+    mode: '0755'
+
+- name: 'Create Docker /opt/grafana/data subdirectories for Grafana'
+  ansible.builtin.file:
+    path: /opt/grafana/data
+    state: directory
+    mode: '0755'
+
+- name: 'Grafana config file'
+  ansible.builtin.template:
+    src: 'grafana.ini.j2'
+    dest: "/opt/grafana/etc/grafana.ini"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
+
+- name: 'Grafana LDAP config file'
+  ansible.builtin.template:
+    src: 'ldap.toml.j2'
+    dest: "/opt/grafana/etc/ldap.toml"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
+
+- name: 'Grafana Docker Compose file'
+  ansible.builtin.template:
+    src: 'docker-compose.yml.j2'
+    dest: "/opt/grafana/docker-compose.yml"
+    owner: 'emanners'
+    group: "{{ grafana_stack_admin_group }}"
