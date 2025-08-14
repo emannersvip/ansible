@@ -7,7 +7,7 @@
     state: present
     update_cache: true
 
-- name: 'Adding the "promtail" user to the adm group to read syslog file'
+- name: 'Adding the "promtail" user to the "{{ grafana_stack_admin_group }}" group to read syslog file'
   ansible.builtin.user:
     name: 'promtail'
     groups: "{{ grafana_stack_admin_group }}"
