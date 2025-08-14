@@ -12,6 +12,13 @@
     groups: "{{ grafana_stack_admin_group }}"
     append: yes
 
+- name: Ensure /var/log/message can be read by group "{{ grafana_stack_admin_group }}"
+  ansible.builtin.file:
+    path: /var/log/messages
+    owner: root
+    group: "{{ grafana_stack_admin_group }}"
+    mode: '0640'
+
 - name: 'Promtail config file'
   ansible.builtin.template:
     src: 'promtail-config.yml.j2'
