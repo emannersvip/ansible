@@ -1,0 +1,29 @@
+---
+# tasks file for promtail
+# This config is based on a Docker install
+
+- name: 'Create Docker /opt/promtail subdirectories for Promtail'
+  ansible.builtin.file:
+    path: /opt/promtail
+    state: directory
+    mode: '0755'
+
+- name: 'Create Docker /opt/promtail/etc subdirectories for Promtail'
+  ansible.builtin.file:
+    path: /opt/promtail/etc
+    state: directory
+    mode: '0755'
+
+- name: 'Promtail config file'
+  ansible.builtin.template:
+    src: 'promtail-config.yml.j2'
+    dest: "/opt/promtail/etc/promtail-config.yml"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
+
+- name: 'Promtail Docker Compose file'
+  ansible.builtin.template:
+    src: 'docker-compose.yml.j2'
+    dest: "/opt/promtail/docker-compose.yml"
+    owner: 'emanners'
+    group: "{{ grafana_stack_admin_group }}"
