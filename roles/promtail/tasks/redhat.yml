@@ -4,6 +4,7 @@
   ansible.builtin.dnf:
     name: 'https://github.com/grafana/loki/releases/download/v3.5.3/promtail-3.5.3.x86_64.rpm'
     state: present
+    disable_gpg_check: true
 
 - name: 'Adding the "promtail" user to the adm group to read syslog file'
   ansible.builtin.user:
