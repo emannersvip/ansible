@@ -53,7 +53,7 @@
 - name: 'Docker_Create the Grafana Container'
   community.docker.docker_container:
     name: 'grafana'
-    image: 'grafana/grafana-oss:latest'
+    image: 'grafana/grafana-oss'
     state: present
     ports:
       - "3000:3000/tcp"
