@@ -37,9 +37,8 @@
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "3100:3100/tcp"
-    #volumes:
-    #  - '/opt/grafana/etc:/etc/grafana'
-    #  - '/opt/grafana/data:/var/lib/grafana'
+    volumes:
+      - '/opt/loki/etc:/etc/loki'
     user: '1001'
     restart_policy: 'unless-stopped'
     env:
