@@ -10,7 +10,7 @@
 
 - name: 'Create Docker /opt/grafana/etc subdirectories for Grafana'
   ansible.builtin.file:
-    path: /opt/grafana/data
+    path: /opt/grafana/etc
     state: directory
     mode: '0755'
 
