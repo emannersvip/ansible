@@ -54,7 +54,8 @@
   community.docker.docker_container:
     name: 'grafana'
     image: 'grafana/grafana-oss:8.4.6'
-    state: present
+    state: started
+    #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "3000:3000/tcp"
     #volumes:
