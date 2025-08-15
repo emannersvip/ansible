@@ -40,3 +40,8 @@
     dest: "/opt/grafana/docker-compose.yml"
     owner: 'emanners'
     group: "{{ grafana_stack_admin_group }}"
+
+- name: 'Pull Grafana Docker image'
+  community.docker.docker_image:
+    name: 'grafana'
+    source: pull
