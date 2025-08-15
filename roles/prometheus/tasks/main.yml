@@ -27,3 +27,20 @@
     mode: 0664
 
 # Need a task for `docker volume create prometheus-data`
+
+- name: 'Docker_Create the Prometheus Container'
+  community.docker.docker_container:
+    name: 'prometheus'
+    image: 'prom/prometheus'
+    state: started
+    #TODO: Setup container healtcheck and switch to 'healthy'
+    ports:
+      - "9090:9090/tcp"
+    #volumes:
+    #  - '/opt/grafana/etc:/etc/grafana'
+    #  - '/opt/grafana/data:/var/lib/grafana'
+    #user: '1001'
+    restart_policy: 'unless-stopped'
+    env:
+      TZ: 'America/Chicago'
+    platform: 'linux/arm64/v8'
