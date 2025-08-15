@@ -41,7 +41,22 @@
     owner: 'emanners'
     group: "{{ grafana_stack_admin_group }}"
 
-- name: 'Pull Grafana Docker image'
+- name: 'Docker_Pull Grafana Image'
   community.docker.docker_image:
-    name: 'grafana/grafana'
+    name: 'grafana/grafana-oss'
     source: pull
+
+- name: 'Docker_Create the Grafana Container'
+  community.docker.docker_container:
+    name: 'grafana'
+    image: 'grafana/grafana-oss:latest'
+    state: present
+    ports:
+      - "3000:3000/tcp"
+    volumes:
+      - '/opt/grafana/etc:/etc/grafana'
+      - '/opt/grafana/data:/var/lib/grafana'
+    user: '1001'
+    restart_policy: 'unless-stopped'
+    env:
+      TZ: 'America/Chicago'
