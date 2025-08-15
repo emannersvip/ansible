@@ -36,9 +36,8 @@
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "9090:9090/tcp"
-    #volumes:
-    #  - '/opt/grafana/etc:/etc/grafana'
-    #  - '/opt/grafana/data:/var/lib/grafana'
+    volumes:
+      - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
     #user: '1001'
     restart_policy: 'unless-stopped'
     env:
