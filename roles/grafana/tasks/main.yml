@@ -41,9 +41,11 @@
     owner: 'emanners'
     group: "{{ grafana_stack_admin_group }}"
 
+# Grafana 8.4.6 is the last version compiled for docker image
+# https://github.com/grafana/grafana/issues/47676
 - name: 'Docker_Pull Grafana Image'
   community.docker.docker_image:
-    name: 'grafana/grafana-oss'
+    name: 'grafana/grafana-oss:8.4.6'
     source: pull
     pull:
       platform: 'linux/arm64'
