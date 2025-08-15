@@ -1,0 +1,14 @@
+services:
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss:latest
+    user: 1001
+    ports:
+      - "3000:3000/tcp"
+    environment:
+      TZ: 'America/Chicago'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '/opt/grafana/etc:/etc/grafana'
+      - '/opt/grafana/data:/var/lib/grafana'
+    restart: unless-stopped
