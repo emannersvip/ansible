@@ -34,6 +34,7 @@
     name: 'loki'
     image: 'grafana/loki'
     state: started
+    command: -config.file=/etc/loki/loki-config.yml
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "3100:3100/tcp"
