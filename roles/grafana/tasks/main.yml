@@ -43,5 +43,5 @@
 
 - name: 'Pull Grafana Docker image'
   community.docker.docker_image:
-    name: 'grafana'
+    name: 'grafana/grafana'
     source: pull
