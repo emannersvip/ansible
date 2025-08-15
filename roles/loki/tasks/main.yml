@@ -28,3 +28,20 @@
     dest: "/opt/loki/docker-compose.yml"
     owner: 'emanners'
     group: "{{ grafana_stack_admin_group }}"
+
+- name: 'Docker_Create the Loki Container'
+  community.docker.docker_container:
+    name: 'loki'
+    image: 'grafana/loki'
+    state: started
+    #TODO: Setup container healtcheck and switch to 'healthy'
+    ports:
+      - "3100:3100/tcp"
+    #volumes:
+    #  - '/opt/grafana/etc:/etc/grafana'
+    #  - '/opt/grafana/data:/var/lib/grafana'
+    user: '1001'
+    restart_policy: 'unless-stopped'
+    env:
+      TZ: 'America/Chicago'
+    platform: 'linux/arm64/v8'
