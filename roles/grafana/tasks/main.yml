@@ -57,9 +57,9 @@
     state: present
     ports:
       - "3000:3000/tcp"
-    volumes:
-      - '/opt/grafana/etc:/etc/grafana'
-      - '/opt/grafana/data:/var/lib/grafana'
+    #volumes:
+    #  - '/opt/grafana/etc:/etc/grafana'
+    #  - '/opt/grafana/data:/var/lib/grafana'
     user: '1001'
     restart_policy: 'unless-stopped'
     env:
