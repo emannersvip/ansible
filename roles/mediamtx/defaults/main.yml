@@ -3,6 +3,7 @@
 # https://github.com/bluenviron/mediamtx/releases/
 mtxvers: '1.9.2'
 #mtxarch: '64v8'
+#mtxarch: '64' # 1.14.0
 mtxarch: 'v7'
 #mtxvers: '1.9.3'
 #mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v1.9.2/mediamtx_v1.9.2_linux_arm64v8.tar.gz"

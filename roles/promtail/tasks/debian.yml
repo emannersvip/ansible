@@ -5,7 +5,7 @@
   ansible.builtin.apt:
     deb: https://github.com/grafana/loki/releases/download/v3.5.3/promtail_3.5.3_{{ promtail_architecture }}.deb
     state: present
-    update_cache: true
+    update_cache: false
 
 - name: 'Adding the "promtail" user to the "{{ grafana_stack_admin_group }}" group to read syslog file'
   ansible.builtin.user:
