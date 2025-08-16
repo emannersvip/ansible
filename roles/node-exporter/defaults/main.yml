@@ -4,7 +4,7 @@
 # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz
 package: 'Node Exporter'
 node_exporter_version: 1.8.2
-architecture: arm64
+node_exporter_architecture: arm64
 operating_system: linux
 install_tmp_path: '/tmp'
 install_bin_path: '/usr/local/bin'

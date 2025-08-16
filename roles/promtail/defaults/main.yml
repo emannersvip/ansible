@@ -3,6 +3,6 @@
 # Default promtail container/service admin group name.
 
 # arm64 || amd64
-architecture: arm64
+promtail_architecture: arm64
 grafana_stack_admin_group: 'adm'
 promtail_distro_logfile: 'syslog'
