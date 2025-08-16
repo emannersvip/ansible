@@ -10,20 +10,20 @@
     name: tar
     state: present
 
-- name: 'Download & Unarchive Node Exporter {{ architecture }} tarball'
+- name: 'Download & Unarchive Node Exporter {{ node_exporter_architecture }} tarball'
   unarchive:
     # https://github.com/prometheus/node_exporter/releases
     #src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz"
     #src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-armv7.tar.gz"
     #src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz"
-    src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-{{ architecture }}.tar.gz"
+    src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_architecture }}.tar.gz"
     dest: "{{ install_tmp_path }}"
     remote_src: yes
       #when:
       #- ansible_facts['ansible_architecture'] == "aarch64"
 
 - name: Copy unarchived {{ package }} files from {{ install_tmp_path }} to {{ install_bin_path }}
-  copy: remote_src=True src={{ install_tmp_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ architecture }}/node_exporter dest={{ install_bin_path }}
+  copy: remote_src=True src={{ install_tmp_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ node_exporter_architecture }}/node_exporter dest={{ install_bin_path }}
 
 - name: Create node_exporter service account
   ansible.builtin.user:
@@ -35,7 +35,7 @@
 
 - name: Change file ownership, group and permissions
   ansible.builtin.file:
-    #path: "{{ install_bin_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ architecture }}/node_exporter"
+    #path: "{{ install_bin_path }}/node_exporter-{{ node_exporter_version }}.{{ operating_system }}-{{ node_exporter_architecture }}/node_exporter"
     path: "{{ install_bin_path }}/node_exporter"
     mode: '0755'
 
