@@ -1,7 +1,5 @@
 ---
-# Tasks file for promtail
-# https://www.osinachi.me/posts/configuring-promtail-step-by-step/
-# https://grafana.com/docs/loki/latest/send-data/promtail/scraping/#journal-scraping-linux-only
+# Tasks file for alloy
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"

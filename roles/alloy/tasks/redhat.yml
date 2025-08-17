@@ -1,12 +1,13 @@
 ---
-# Tasks for Redhat Promtail install
+# Tasks for Redhat Alloy install
 - name: Install the promtail RPM from a remote repo
   ansible.builtin.dnf:
-    name: 'https://github.com/grafana/loki/releases/download/v3.5.3/promtail-3.5.3.x86_64.rpm'
+    #name: 'https://github.com/grafana/alloy/releases/download/v3.5.3/promtail-3.5.3.x86_64.rpm'
+    name: 'https://github.com/grafana/alloy/releases/download/v1.10.1/alloy-1.10.1-1.amd64.rpm'
     state: present
     disable_gpg_check: true
 
-- name: 'Adding the "promtail" user to the "{{ grafana_stack_admin_group }}" group to read syslog file'
+- name: 'Adding the "alloy" user to the "{{ grafana_stack_admin_group }}" group to read syslog file'
   ansible.builtin.user:
     name: 'promtail'
     groups: "{{ grafana_stack_admin_group }}"
@@ -20,15 +21,15 @@
     mode: '0640'
     #mode: u=rw,g=r,o=none
 
-- name: 'Promtail config file'
+- name: 'Alloy config file'
   ansible.builtin.template:
-    src: 'promtail-config.yml.j2'
-    dest: "/etc/promtail/config.yml"
-    owner: 'promtail'
+    src: 'alloy-config.yml.j2'
+    dest: "/etc/alloy/config.yml"
+    owner: 'alloy'
     group: "{{ grafana_stack_admin_group }}"
 
 - name: Start service promtail, if not started
   ansible.builtin.service:
-    name: promtail
+    name: alloy
     state: started
     enabled: yes
