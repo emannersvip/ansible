@@ -1,6 +1,6 @@
 ---
 # Tasks for Redhat Alloy install
-- name: Install the promtail RPM from a remote repo
+- name: Install the Alloy RPM from a remote repo
   ansible.builtin.dnf:
     #name: 'https://github.com/grafana/alloy/releases/download/v3.5.3/promtail-3.5.3.x86_64.rpm'
     name: 'https://github.com/grafana/alloy/releases/download/v1.10.1/alloy-1.10.1-1.amd64.rpm'
@@ -28,7 +28,7 @@
     owner: 'alloy'
     group: "{{ grafana_stack_admin_group }}"
 
-- name: Start service promtail, if not started
+- name: Start service alloy, if not started
   ansible.builtin.service:
     name: alloy
     state: started
