@@ -31,14 +31,14 @@ prometheus.scrape "default" {
 local.file_match "local" {
   path_targets = [
     {
-      __address__ = "localhost",
-      __path__    = "/var/log/*log",
-      job         = "alloyvar",
-    }
+    __address__ = "localhost",
+    __path__    = "/var/log/*log",
+    job         = "alloyvar",
+    },
     {
-      __path__    = "/var/log/messages",
-      job         = "alloyvar",
-    }
+    __path__    = "/var/log/messages",
+    job         = "alloyvar",
+    },
   ]
 }
 
