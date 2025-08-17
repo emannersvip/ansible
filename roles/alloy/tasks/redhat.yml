@@ -23,8 +23,8 @@
 
 - name: 'Alloy config file'
   ansible.builtin.template:
-    src: 'alloy-config.yml.j2'
-    dest: "/etc/alloy/config.yml"
+    src: 'config.alloy.j2'
+    dest: '/etc/alloy/config.alloy'
     owner: 'alloy'
     group: "{{ grafana_stack_admin_group }}"
 
