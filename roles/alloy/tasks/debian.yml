@@ -21,6 +21,15 @@
     owner: 'alloy'
     group: "{{ grafana_stack_admin_group }}"
 
+# /etc/defaults for debian?
+#- name: 'Alloy sysconfig config file'
+#  ansible.builtin.template:
+#    src: 'sysconfig_alloy.j2'
+#    dest: '/etc/sysconfig/alloy'
+#    owner: 'root'
+#    group: 'root'
+#    mode: '0640'
+
 - name: Start service alloy, if not started
   ansible.builtin.service:
     name: alloy
