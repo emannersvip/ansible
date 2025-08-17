@@ -1,0 +1,9 @@
+
+---
+services:
+  alloy:
+    image: grafana/alloy:v1.9.1
+    container_name: alloy
+    hostname: alloy1
+    command:
+      - run

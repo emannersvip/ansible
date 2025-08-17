@@ -1,6 +1,8 @@
 // Sample config for Alloy.
 //
 // For a full configuration reference, see https://grafana.com/docs/alloy
+// [root@rocky10 alloy]# alloy convert --source-format=promtail --output=/tmp/foo /etc/promtail/config.yml
+
 logging {
   level = "warn"
 }
@@ -24,4 +26,41 @@ prometheus.scrape "default" {
   // TODO: components to forward metrics to (like prometheus.remote_write or
   // prometheus.relabel).
   ]
+}
+
+local.file_match "local" {
+  path_targets = [
+    {
+      __address__ = "localhost",
+      __path__    = "/var/log/*log",
+      job         = "alloyvar",
+    }
+    {
+      __path__    = "/var/log/messages",
+      job         = "alloyvar",
+    }
+  ]
+}
+
+loki.source.file "local" {
+  targets               = local.file_match.local.targets
+  #forward_to            = [loki.write.default.receiver]
+  forward_to            = [loki.relabel.system.receiver]
+  legacy_positions_file = "/tmp/positions.yaml"
+}
+
+loki.relabel "system" {
+  forward_to = [loki.write.default.receiver]
+
+  rule {
+    target_label = "os"
+    replacement = constants.os
+  }
+}
+
+loki.write "default" {
+  endpoint {
+    url = "http://pc5.edsonmanners.com:3100/loki/api/v1/push"
+  }
+  external_labels = {}
 }
