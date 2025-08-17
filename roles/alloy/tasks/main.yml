@@ -1,6 +1,6 @@
 ---
 # Tasks file for alloy
-# TODO: Have alloy check for promtail
+# TODO: Have alloy check for promtailpromtail/
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
