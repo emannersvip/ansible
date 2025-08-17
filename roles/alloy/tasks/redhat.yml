@@ -1,0 +1,34 @@
+---
+# Tasks for Redhat Promtail install
+- name: Install the promtail RPM from a remote repo
+  ansible.builtin.dnf:
+    name: 'https://github.com/grafana/loki/releases/download/v3.5.3/promtail-3.5.3.x86_64.rpm'
+    state: present
+    disable_gpg_check: true
+
+- name: 'Adding the "promtail" user to the "{{ grafana_stack_admin_group }}" group to read syslog file'
+  ansible.builtin.user:
+    name: 'promtail'
+    groups: "{{ grafana_stack_admin_group }}"
+    append: yes
+
+- name: Ensure /var/log/message can be read by group "{{ grafana_stack_admin_group }}"
+  ansible.builtin.file:
+    path: /var/log/messages
+    owner: root
+    group: "{{ grafana_stack_admin_group }}"
+    mode: '0640'
+    #mode: u=rw,g=r,o=none
+
+- name: 'Promtail config file'
+  ansible.builtin.template:
+    src: 'promtail-config.yml.j2'
+    dest: "/etc/promtail/config.yml"
+    owner: 'promtail'
+    group: "{{ grafana_stack_admin_group }}"
+
+- name: Start service promtail, if not started
+  ansible.builtin.service:
+    name: promtail
+    state: started
+    enabled: yes

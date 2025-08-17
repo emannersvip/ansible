@@ -1,0 +1,27 @@
+---
+# 
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+- name: 'Install the lastest Promtail Package Server'
+  ansible.builtin.apt:
+    deb: https://github.com/grafana/loki/releases/download/v3.5.3/promtail_3.5.3_{{ promtail_architecture }}.deb
+    state: present
+    update_cache: false
+
+- name: 'Adding the "promtail" user to the "{{ grafana_stack_admin_group }}" group to read syslog file'
+  ansible.builtin.user:
+    name: 'promtail'
+    groups: "{{ grafana_stack_admin_group }}"
+    append: yes
+
+- name: 'Promtail config file'
+  ansible.builtin.template:
+    src: promtail-config.yml.j2
+    dest: /etc/promtail/config.yml
+    owner: 'promtail'
+    group: "{{ grafana_stack_admin_group }}"
+
+- name: Start service promtail, if not started
+  ansible.builtin.service:
+    name: promtail
+    state: started
+    enabled: yes
