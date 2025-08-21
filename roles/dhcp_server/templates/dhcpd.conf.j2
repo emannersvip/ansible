@@ -5,7 +5,8 @@
 #
 
 option domain-name "edsonmanners.com";
-option domain-name-servers 192.168.68.5;
+#option domain-name-servers 192.168.68.5;
+option domain-name-servers 192.168.69.1;
 #option domain-name-servers 192.168.70.90, 192.168.69.5;
 
 #default-lease-time 600;		# 5 minutes
@@ -63,7 +64,8 @@ failover peer "failover-partner" {
 #log-facility local7;
 
 subnet 192.168.68.0 netmask 255.255.252.0 {
-  option domain-name-servers 192.168.68.5;
+  #option domain-name-servers 192.168.68.5;
+  option domain-name-servers 192.168.69.1;
   #option domain-name-servers 192.168.69.5, 192.168.70.90;
   option routers 192.168.68.1;
   pool {
