@@ -40,8 +40,3 @@ scrape_configs:
         "pi-zero-2w.edsonmanners.com:9100",
         "pi-zero-w.edsonmanners.com:9100"
       ]
-  - job_name: "node_exporter_windows"
-    scrape_interval: 5s
-    scrape_timeout: 5s
-    static_configs:
-      - targets: ["192.168.68.107:9182"]
