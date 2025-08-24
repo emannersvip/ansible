@@ -119,9 +119,20 @@ host pi-zero-w { hardware ethernet b8:27:eb:ee:a6:3b; fixed-address 192.168.69.1
 # --
 host rocky10 { hardware ethernet 08:00:27:b2:cc:7c; fixed-address 192.168.70.50; }
 
-# Home Automation/IOT/Network 192.168.71
+# Home Automation/IOT/Network 192.168.71.0/24
+# GSound [60-75]
 host gsound_living_room { hardware ethernet f8:17:2d:e8:b5:d4; fixed-address 192.168.71.60; }
 host gsound_aquarium    { hardware ethernet f8:17:2d:e2:06:7e; fixed-address 192.168.71.61; }
+# Afero/Hubspace [76-100]
+
+host afero_pool_patio_l { hardware ethernet 08:a6:f7:7b:61:68; fixed-address 192.168.71.76; }
+host afero_pool_patio_r { hardware ethernet 34:5f:45:d5:1a:d8; fixed-address 192.168.71.77; }
+host afero_pool_house_a { hardware ethernet 34:5f:45:d0:68:ac; fixed-address 192.168.71.78; }
+host afero_pool_house_b { hardware ethernet 34:5f:45:d0:68:f8; fixed-address 192.168.71.79; }
+host afero_pool_house_c { hardware ethernet 34:5f:45:d0:65:e0; fixed-address 192.168.71.80; }
+host afero_pool_patio_a { hardware ethernet 34:5f:45:d2:b1:b0; fixed-address 192.168.71.81; }
+host afero_pool_patio_b { hardware ethernet 1c:69:20:65:59:80; fixed-address 192.168.71.82; }
+host afero_pool_patio_c { hardware ethernet 34:5f:45:d4:56:94; fixed-address 192.168.71.83; }
 
 # -- Main Access Point
 host ap-tpl7-Den      	{ hardware ethernet b0:19:21:20:f5:e0; fixed-address 192.168.71.220; }
