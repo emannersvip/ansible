@@ -2,7 +2,7 @@
 # tasks file for dhcp_server
 - name: 'Install the lastest ISC DHCP Server'
   ansible.builtin.package:
-    name: "{{ package_name }}"
+    name: "{{ dhcp_package_name }}"
     state: latest
 
 # Using user 'adm' for Debian based distros RPi and Ubuntu.
@@ -11,7 +11,7 @@
     src: 'dhcpd.conf.j2'
     dest: "/etc/dhcp/dhcpd.conf"
     owner: 'root'
-    group: "{{ admin_group }}"
+    group: "{{ dhcp_admin_group }}"
   register: dhcpd_conf
 
 - name: 'DHCP runtime variable file'
@@ -22,9 +22,9 @@
     group: 'root'
   #register: dhcpd_var_conf
 
-- name: Start service {{ service_name }}, if not started
+- name: Start service {{ dhcp_service_name }}, if not started
   ansible.builtin.service:
-    name: "{{ service_name }}"
+    name: "{{ dhcp_service_name }}"
     state: started
     enabled: yes
   when: dhcpd_conf.changed
