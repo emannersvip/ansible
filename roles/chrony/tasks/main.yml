@@ -1,0 +1,12 @@
+---
+# tasks file for chrony
+
+- include_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+  tags:
+    - unbound
+
+- include_tasks: redhat.yml
+  when: ansible_os_family == "RedHat"
+  tags:
+    - unbound
