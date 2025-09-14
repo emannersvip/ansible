@@ -1,0 +1,20 @@
+---
+# tasks file for tailscale
+# https://pkgs.tailscale.com/stable/#raspbian-bookworm
+
+- name: Download Tailscale Repo GPG key file
+  ansible.builtin.get_url:
+    url: 'https://pkgs.tailscale.com/stable/raspbian/bookworm.noarmor.gpg'
+    dest: '/usr/share/keyrings/tailscale-archive-keyring.gpg'
+    mode: '0440'
+
+- name: Download Tailscale Repo file
+  ansible.builtin.get_url:
+    url: 'https://pkgs.tailscale.com/stable/raspbian/bookworm.tailscale-keyring.list'
+    dest: '/etc/apt/sources.list.d/tailscale.list'
+    mode: '0440'
+
+- name: 'Install the TailScale package'
+  ansible.builtin.package:
+    name: 'tailscale'
+    state: latest
