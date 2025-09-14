@@ -1,6 +1,7 @@
 ---
 # tasks file for tailscale
 # https://pkgs.tailscale.com/stable/#raspbian-bookworm
+# https://pimylifeup.com/raspberry-pi-tailscale/
 
 - name: Download Tailscale Repo GPG key file
   ansible.builtin.get_url:
