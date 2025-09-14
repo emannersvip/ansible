@@ -1,0 +1,14 @@
+---
+#
+# https://wiki.archlinux.org/title/Systemd-timesyncd
+- name: 'Alloy config file'
+  ansible.builtin.file:
+    path: '/etc/systemd/timesyncd.conf'
+    owner: 'root'
+    group: 'root'
+
+- name: Start service systemd-timesyncd, if not started
+  ansible.builtin.service:
+    name: systemd-timesyncd
+    state: started
+    enabled: yes
