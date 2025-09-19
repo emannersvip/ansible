@@ -72,9 +72,12 @@
 - name: 'Configure Grafana to use Prometheus DataSource'
   community.grafana.grafana_datasource:
     name: 'prometheus_base'
+    is_default: true
+    state: 'present'
     grafana_url: 'http://pi-compute-5.edsonmanners.com'
     grafana_user: 'admin'
     grafana_password: 'admin'
     org_id: '1'
     ds_type: 'prometheus'
     ds_url: 'http://pi-compute-5.edsonmanners.com:9090'
+    time_interval: '>10s'
