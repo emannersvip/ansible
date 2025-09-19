@@ -66,3 +66,15 @@
     env:
       TZ: 'America/Chicago'
     platform: 'linux/arm64/v8'
+
+# ansible-galaxy collection install community.grafana
+# TODO: Add APIUSER once IDM is up.
+- name: 'Configure Grafana to use Prometheus DataSource'
+  community.grafana.grafana_datasource:
+    name: 'prometheus_base'
+    grafana_url: 'http://pi-compute-5.edsonmanners.com'
+    grafana_user: 'admin'
+    grafana_password: 'admin'
+    org_id: '1'
+    ds_type: 'prometheus'
+    ds_url: 'http://pi-compute-5.edsonmanners.com:9090'
