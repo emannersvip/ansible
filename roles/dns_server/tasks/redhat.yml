@@ -38,6 +38,14 @@
     group: "{{ dns_admin_group }}"
   register: named_conf
 
+- name: 'REVERSE ZONE file 69'
+  ansible.builtin.template:
+    src: '69.168.192.in-addr.arpa.j2'
+    dest: "/var/named/69.168.192.in-addr.arpa"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+  register: named_conf
+
 - name: 'REVERSE ZONE file 70'
   ansible.builtin.template:
     src: '70.168.192.in-addr.arpa.j2'
