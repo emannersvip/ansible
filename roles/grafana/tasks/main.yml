@@ -74,7 +74,7 @@
     name: 'prometheus_base'
     is_default: true
     state: 'present'
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com'
+    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
     grafana_user: 'admin'
     grafana_password: 'admin'
     org_id: '1'
