@@ -81,3 +81,15 @@
     ds_type: 'prometheus'
     ds_url: 'http://pi-compute5-a.edsonmanners.com:9090'
     time_interval: '>10s'
+
+- name: 'Configure Grafana to use Loki DataSource'
+  community.grafana.grafana_datasource:
+    name: 'loki_base'
+    is_default: false
+    state: 'present'
+    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
+    grafana_user: 'admin'
+    grafana_password: 'admin'
+    org_id: '1'
+    ds_type: 'loki'
+    ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
