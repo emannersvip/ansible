@@ -27,6 +27,10 @@
     mode: 0664
 
 # Need a task for `docker volume create prometheus-data`
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_volume_module.html
+- name: 'Docker create a volume'
+  community.docker.docker_volume:
+    name: prometheus-data
 
 - name: 'Docker_Create the Prometheus Container'
   community.docker.docker_container:
@@ -38,6 +42,7 @@
       - "9090:9090/tcp"
     volumes:
       - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+      - 'prometheus-data:/prometheus'
     #user: '1001'
     restart_policy: 'unless-stopped'
     env:
