@@ -93,3 +93,14 @@
     org_id: '1'
     ds_type: 'loki'
     ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
+
+# https://docs.ansible.com/ansible/latest/collections/community/grafana/grafana_dashboard_module.html
+# https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+- name: Import Grafana dashboard for Node Exporter
+  community.grafana.grafana_dashboard:
+    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
+    grafana_user: 'admin'
+    #grafana_api_key: "{{ grafana_api_key }}"
+    state: 'present'
+    dashboard_id: 1860
+    dashboard_revision: 40
