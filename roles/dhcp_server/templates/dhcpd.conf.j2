@@ -35,7 +35,9 @@ key omapi_key {
 
 # https://stackoverflow.com/questions/40086613/ansible-jinja2-string-comparison
 # You **CANNOT** use squiggly braces inside of a Jinja2 expression!!!!!!!!!
-{% if 'infra01' == foreman['foreman_hostname'] %}
+# {% if 'infra01' == foreman['foreman_hostname'] %}
+# {% if 'infra01' == ansible_facts['hostname'] %}
+{% if 'infra01' == hostvars[host]['ansible_facts']['hostname'] %}
 failover peer "failover-partner" {
   primary;
   address infra01.edsonmanners.com;
@@ -46,7 +48,9 @@ failover peer "failover-partner" {
   split 128;
   load balance max seconds 3;
 }
-{% elif 'pi-compute' == foreman['foreman_hostname'] %}
+# {% elif 'pi-compute' == foreman['foreman_hostname'] %}
+# {% elif 'pi-compute' == ansible_facts['hostname'] %}
+{% elif 'pi-compute' == hostvars[host]['ansible_facts']['hostname'] %}
 failover peer "failover-partner" {
   secondary;
   address pi-compute.edsonmanners.com;
