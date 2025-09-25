@@ -11,6 +11,14 @@
     owner: 'root'
     group: 'root'
 
+- name: 'Add sysconfig file to disable IPV6 lookups'
+  ansible.builtin.file:
+    src: 'default_named'
+    dst: '/etc/default/named'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
 - name: Start service dnsmasq, if not started
   ansible.builtin.service:
     name: dnsmasq
