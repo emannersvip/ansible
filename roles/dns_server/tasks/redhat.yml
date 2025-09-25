@@ -14,6 +14,14 @@
     group: "{{ dns_admin_group }}"
   register: named_conf
 
+- name: 'Add sysconfig file to disable IPV6 lookups'
+  ansible.builtin.file:
+    src: 'sysconfig_named'
+    dst: '/etc/sysconfig/named'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
 - name: Start service {{ dns_service_name }}, if not started
   ansible.builtin.service:
     name: "{{ dns_service_name }}"
