@@ -12,6 +12,7 @@
     dest: "/etc/named.conf"
     owner: 'root'
     group: "{{ dns_admin_group }}"
+    mode: '0664'
   register: named_conf
 
 - name: 'Add sysconfig file to disable IPV6 lookups'
@@ -36,6 +37,7 @@
     dest: "/var/named/edsonmanners.com"
     owner: 'root'
     group: "{{ dns_admin_group }}"
+    mode: '0664'
   register: named_conf
 
 - name: 'REVERSE ZONE file 68'
@@ -44,6 +46,7 @@
     dest: "/var/named/68.168.192.in-addr.arpa"
     owner: 'root'
     group: "{{ dns_admin_group }}"
+    mode: '0664'
   register: named_conf
 
 - name: 'REVERSE ZONE file 69'
@@ -52,6 +55,7 @@
     dest: "/var/named/69.168.192.in-addr.arpa"
     owner: 'root'
     group: "{{ dns_admin_group }}"
+    mode: '0664'
   register: named_conf
 
 - name: 'REVERSE ZONE file 70'
@@ -60,5 +64,6 @@
     dest: "/var/named/70.168.192.in-addr.arpa"
     owner: 'root'
     group: "{{ dns_admin_group }}"
+    mode: '0664'
   register: named_conf
 
