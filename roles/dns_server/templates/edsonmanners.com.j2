@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2025092100  ;serial 
+2025092800  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -89,7 +89,10 @@ tp-compute-2    A       192.168.69.32
 tp-compute-3    A       192.168.69.33
 tp-compute-4    A       192.168.69.34
 ;
-tpc1		CNAME   tp-compute-1
+tpc1	    	CNAME   tp-compute-1
+tpc2            CNAME   tp-compute-2
+tpc3            CNAME   tp-compute-3
+tpc4            CNAME   tp-compute-4
 ;
 ubuntu-purple.fl    A   192.168.1.175
 ;
