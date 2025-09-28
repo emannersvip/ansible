@@ -1,0 +1,9 @@
+---
+- hosts: pi-compute.edsonmanners.com
+  become: true
+  roles:
+    - role: dhcp_server
+      vars:
+        dhcp_package_name: 'isc-dhcp-server'
+        dhcp_service_name: 'isc-dhcp-server'
+        dhcp_admin_group: 'adm'
