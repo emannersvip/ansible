@@ -43,7 +43,7 @@
     volumes:
       - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
       #- 'prometheus-data:/prometheus'
-      - '/opt/prometheus:/prometheus'
+      - '/opt/prometheus/data:/prometheus'
     #user: '1001'
     restart_policy: 'unless-stopped'
     env:
