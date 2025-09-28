@@ -4,17 +4,17 @@
   ansible.builtin.file:
     path: /etc/prometheus
     state: directory
-    owner: emanners
-    group: emanners
+    owner: 'node_exporter'
+    group: 'node_exporter'
     mode: 0775
     recurse: no
 
 - name: Create Prometheus data directory
   ansible.builtin.file:
-    path: /opt/prometheus
+    path: /opt/prometheus/data
     state: directory
-    owner: emanners
-    group: emanners
+    owner: 'node_exporter'
+    group: 'node_exporter'
     mode: 0775
     recurse: no
 
@@ -22,8 +22,8 @@
   ansible.builtin.template:
     src: 'prometheus.yml.j2'
     dest: '/etc/prometheus/prometheus.yml'
-    owner: 'root'
-    group: 'emanners'
+    owner: 'node_exporter'
+    group: 'node_exporter'
     mode: 0664
 
 # Need a task for `docker volume create prometheus-data`
@@ -44,7 +44,8 @@
       - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
       #- 'prometheus-data:/prometheus'
       - '/opt/prometheus/data:/prometheus'
-    #user: '1001'
+    #user: 'node_exporter'
+    user: '1001'
     restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
