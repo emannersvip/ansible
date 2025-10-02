@@ -33,7 +33,8 @@
   community.docker.docker_container:
     name: 'loki'
     image: 'grafana/loki'
-    state: started
+    # Change to healthy in the future
+    state: 'present'
     command: -config.file=/etc/loki/loki-config.yml
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
@@ -41,7 +42,7 @@
     volumes:
       - '/opt/loki/etc:/etc/loki'
     user: '1001'
-    restart_policy: 'unless-stopped'
+    #restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
     platform: 'linux/arm64/v8'
