@@ -53,7 +53,8 @@
 - name: 'Docker_Create the Grafana Container'
   community.docker.docker_container:
     name: 'grafana'
-    image: 'grafana/grafana-oss:8.4.6'
+    #image: 'grafana/grafana-oss:8.4.6'
+    image: 'grafana/grafana-enterprise'
     state: started
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:

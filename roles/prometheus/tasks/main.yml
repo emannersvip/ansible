@@ -45,7 +45,7 @@
       - 'prometheus-data:/prometheus'
       #- '/opt/prometheus/data:/prometheus'
     #user: 'node_exporter'
-    user: '1001'
+    #user: '1001'
     restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
