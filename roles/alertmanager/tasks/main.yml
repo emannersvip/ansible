@@ -1,0 +1,16 @@
+---
+# Tasks file for alertmanager
+
+- name: 'Create Docker /opt/alertmanager subdirectories for Grafana'
+  ansible.builtin.file:
+    path: /opt/alertmanager
+    state: directory
+    mode: '0755'
+
+#- name: 'Create Docker /opt/alertmanager'
+
+- name: 'Docker_Create the Grafana Container'
+  community.docker.docker_container:
+    name: 'alertmanager'
+    image: 'prom/alertmanager'
+    state: started
