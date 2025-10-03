@@ -17,7 +17,7 @@
 
 - name: 'Add sysconfig file to disable IPV6 lookups'
   ansible.builtin.template:
-    src: 'sysconfig_named'
+    src: 'sysconfig_named.j2'
     dest: '/etc/sysconfig/named'
     owner: 'root'
     group: 'root'
