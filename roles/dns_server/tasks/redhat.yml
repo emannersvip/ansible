@@ -16,12 +16,13 @@
   register: named_conf
 
 - name: 'Add sysconfig file to disable IPV6 lookups'
-  ansible.builtin.file:
+  ansible.builtin.template:
     src: 'sysconfig_named'
-    dst: '/etc/sysconfig/named'
+    dest: '/etc/sysconfig/named'
     owner: 'root'
     group: 'root'
     mode: '0644'
+  register: named_conf
 
 - name: Start service {{ dns_service_name }}, if not started
   ansible.builtin.service:
