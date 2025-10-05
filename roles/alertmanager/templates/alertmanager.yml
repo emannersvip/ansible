@@ -1,0 +1,26 @@
+# https://www.robustperception.io/sending-email-with-the-alertmanager-via-gmail/
+global:
+  smtp_smarthost: 'your-smtp-server:587'
+  smtp_from: 'alertmanager@edsonmanners.com'
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  receiver: 'web.hook'
+receivers:
+  - name: 'web.hook'
+    webhook_configs:
+      - url: 'http://127.0.0.1:5001/'
+  - name: 'gmail'
+    email_configs:
+      - to: 'edson.manners@gmail.com'
+        auth_username: 'edson.manners@gmail.com'
+        auth_identity: 'edson.manners@gmail.com'
+        auth_password: 'edson.manners@gmail.com'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']

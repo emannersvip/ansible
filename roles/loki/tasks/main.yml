@@ -7,19 +7,20 @@
   ansible.builtin.file:
     path: /opt/loki
     state: directory
-    mode: '0755'
+    group: "{{ grafana_stack_admin_group }}"
+    mode: '0775'
 
 - name: 'Create Docker /opt/loki/etc subdirectories for Loki'
   ansible.builtin.file:
     path: /opt/loki/etc
     state: directory
-    mode: '0755'
+    mode: '0775'
 
 - name: 'Create Docker /opt/loki/etc/rules subdirectories for Loki'
   ansible.builtin.file:
     path: /opt/loki/etc/rules
     state: directory
-    mode: '0755'
+    mode: '0775'
 
 - name: 'Loki config file'
   ansible.builtin.template:
@@ -27,6 +28,7 @@
     dest: "/opt/loki/etc/loki-config.yml"
     owner: 'root'
     group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
 
 - name: 'Loki Docker Compose file'
   ansible.builtin.template:

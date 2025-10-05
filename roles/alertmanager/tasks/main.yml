@@ -7,6 +7,14 @@
     state: directory
     mode: '0755'
 
+- name: 'Alertmanager config file'
+  ansible.builtin.template:
+    src: 'alertmanager.yml.j2'
+    dest: "/opt/alertmanager/alertmanager.yml"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
+
 #- name: 'Create Docker /opt/alertmanager'
 
 - name: 'Docker_Create the Grafana Container'
@@ -16,3 +24,7 @@
     state: started
     ports:
       - "9093:9093/tcp"
+    volumes:
+      - '/opt/alertmanager/etc:/etc/alertmanager'
+    
+
