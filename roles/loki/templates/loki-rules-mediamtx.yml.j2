@@ -1,0 +1,12 @@
+groups:
+  - name: log-alerts
+    rules:
+      - alert: MediaMTXLogLineDetected
+        expr: count_over_time({job="systemd-journal"} |="permission denied" [1m]) > 0  # Adjust selector, filter, and time window
+        for: 0m  # Fire immediately (or add duration like 1m for persistence)
+        labels:
+          severity: critical
+          category: logs
+        annotations:
+          summary: "Specific log line detected"
+          description: "Log line '{{ $labels.job }}' contains the matching message. Check logs for details."

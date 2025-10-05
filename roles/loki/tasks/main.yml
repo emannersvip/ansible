@@ -16,9 +16,12 @@
     state: directory
     mode: '0775'
 
+# Not sure why we need the 'fake' directory
+# We need the '/fake' directory when not using multi-tenancy.
+# https://stackoverflow.com/questions/74329564/how-configure-recording-and-alerting-rules-with-loki
 - name: 'Create Docker /opt/loki/etc/rules subdirectories for Loki'
   ansible.builtin.file:
-    path: /opt/loki/etc/rules
+    path: /opt/loki/etc/rules/fake
     state: directory
     mode: '0775'
 
@@ -26,6 +29,14 @@
   ansible.builtin.template:
     src: 'loki-config.yml.j2'
     dest: "/opt/loki/etc/loki-config.yml"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
+
+- name: 'Loki alertmanager rule (test) file'
+  ansible.builtin.template:
+    src: 'loki-rules-mediamtx.yml.j2'
+    dest: "/opt/loki/etc/rules/fake/journald-mediamtx.yml"
     owner: 'root'
     group: "{{ grafana_stack_admin_group }}"
     mode: '0664'

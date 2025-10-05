@@ -1,16 +1,26 @@
 ---
 # Tasks file for alertmanager
+# https://www.redhat.com/en/blog/ansible-playbooks-secrets
+# https://betterstack.com/community/guides/linux/ansible-secrets/
 
-- name: 'Create Docker /opt/alertmanager subdirectories for Grafana'
+- name: 'Create Docker /opt/alertmanager subdirectories for Alertmanager'
   ansible.builtin.file:
     path: /opt/alertmanager
     state: directory
-    mode: '0755'
+    mode: '0775'
+    group: "{{ grafana_stack_admin_group }}"
+
+- name: 'Create Docker /opt/alertmanager/etc subdirectories for Alertmanager'
+  ansible.builtin.file:
+    path: /opt/alertmanager/etc
+    state: directory
+    mode: '0775'
+    group: "{{ grafana_stack_admin_group }}"
 
 - name: 'Alertmanager config file'
   ansible.builtin.template:
     src: 'alertmanager.yml.j2'
-    dest: "/opt/alertmanager/alertmanager.yml"
+    dest: "/opt/alertmanager/etc/alertmanager.yml"
     owner: 'root'
     group: "{{ grafana_stack_admin_group }}"
     mode: '0664'
@@ -26,5 +36,7 @@
       - "9093:9093/tcp"
     volumes:
       - '/opt/alertmanager/etc:/etc/alertmanager'
+    #env:
+    #  GMAIL_AUTH_TOKEN: "sssssh"
     
 
