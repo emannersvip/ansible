@@ -44,3 +44,15 @@ common:
 
         #compactor:
         #working_directory: /tmp/compactor
+
+ruler:
+  storage:
+    type: local
+    local:
+      directory: /etc/loki/rules
+  rule_path: /tmp/loki/rules-temp
+  alertmanager_url: http://pc5.edsonmanners.com:9093
+  ring:
+    kvstore:
+      store: inmemory
+    enable_api: true

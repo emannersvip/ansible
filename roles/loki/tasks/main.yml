@@ -15,6 +15,12 @@
     state: directory
     mode: '0755'
 
+- name: 'Create Docker /opt/loki/etc/rules subdirectories for Loki'
+  ansible.builtin.file:
+    path: /opt/loki/etc/rules
+    state: directory
+    mode: '0755'
+
 - name: 'Loki config file'
   ansible.builtin.template:
     src: 'loki-config.yml.j2'
