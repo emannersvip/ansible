@@ -1,0 +1,47 @@
+options {
+    directory "/var/cache/bind";
+    // listen-on { 192.168.1.11; }; // Slave server IP
+    allow-transfer { none; }; // No transfers from slave
+    recursion no; // Authoritative server, disable recursion
+    dnssec-enable yes;
+    dnssec-validation yes;
+};
+
+logging {
+    channel default_log {
+        file "/var/log/named/named.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-category yes;
+    };
+    category default { default_log; };
+};
+
+zone "edsonmanners.com" IN {
+    type slave;
+    file "/var/cache/bind/edsonmanners.com.zone";
+    masters { 192.168.68.5; };
+    allow-update { none; };
+};
+
+zone "68.168.192.in-addr-arpa" IN {
+    type slave;
+    file "/var/cache/bind/68.168.192.in-addr-arpa.zone";
+    masters { 192.168.68.5; };
+    allow-update { none; };
+};
+
+zone "69.168.192.in-addr-arpa" IN {
+    type slave;
+    file "/var/cache/bind/69.168.192.in-addr-arpa.zone";
+    masters { 192.168.68.5; };
+    allow-update { none; };
+};
+
+zone "70.168.192.in-addr-arpa" IN {
+    type slave;
+    file "/var/cache/bind/70.168.192.in-addr-arpa.zone";
+    masters { 192.168.68.5; };
+    allow-update { none; };
+};
+

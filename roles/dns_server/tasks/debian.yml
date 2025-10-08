@@ -1,26 +1,29 @@
 ---
+# A debian/Raspberry Pi build will be a DNS Slave.
+# --
 - name: 'Install the lastest Bind Server'
   apt:
-    name: dnsmasq
-    state: latest
+    name: 'bind9'
+    state: 'latest'
 
-- name: 'DNSMasq config file'
+- name: 'Bind config file'
   ansible.builtin.template:
-    src: 'dnsmasq.conf.j2'
-    dest: "/etc/dnsmasq"
+    src: 'named.conf.options.j2'
+    dest: "/etc/bind/named.conf.options"
     owner: 'root'
-    group: 'root'
+    group: 'bind'
+    mode: '0664'
 
 - name: 'Add sysconfig file to disable IPV6 lookups'
   ansible.builtin.file:
     src: 'default_named'
     dst: '/etc/default/named'
     owner: 'root'
-    group: 'root'
-    mode: '0644'
+    group: 'bind'
+    mode: '0664'
 
-- name: Start service dnsmasq, if not started
+- name: 'Start service named, if not started'
   ansible.builtin.service:
-    name: dnsmasq
-    state: started
-    enabled: yes
+    name: 'named'
+    state: 'started'
+    enabled: 'yes'

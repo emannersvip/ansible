@@ -11,10 +11,11 @@ gamingrig.edsonmanners.com
 katello.edsonmanners.com
 infra01.edsonmanners.com
 pi-compute.edsonmanners.com
-pc.edsonmanners.com
-pi-keyboard.edsonmanners.com
-pi-robot-0.edsonmanners.com
-pi-robot-1.edsonmanners.com
+pi-compute5-a.edsonmanners.com
+#pi-keyboard.edsonmanners.com
+pi-keyboard-500.edsonmanners.com
+#pi-robot-0.edsonmanners.com
+#pi-robot-1.edsonmanners.com
 pi-robot-2.edsonmanners.com
 pi-robot-3.edsonmanners.com
 pi-robot-4.edsonmanners.com
@@ -22,17 +23,25 @@ pi-robot-5.edsonmanners.com
 
 [pis]
 pi-compute
-pi-keyboard
-pi-robot-0
-pi-robot-1
+pc5
+#pi-keyboard
+#pk500
+#pi-robot-0
+#pi-robot-1
 pi-robot-2
 pi-robot-3
 pi-robot-4
 pi-robot-5
 
 [cams]
-pi-robot-1
+#pi-robot-1
+#pi-robot-2
+#pi-robot-3
+#pi-robot-4
+#pi-robot-5
 
 [vm_compute]
-compute1
-compute2
+tp-compute-1
+tp-compute-2
+tp-compute-3
+tp-compute-4
