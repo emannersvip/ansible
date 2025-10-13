@@ -1,2 +1,15 @@
 ---
 # tasks file for influxdb
+
+- name: 'Create Docker /opt/influxdb subdirectories for InfluxDB'
+  ansible.builtin.file:
+    path: /opt/influxdb
+    state: directory
+    mode: '0775'
+
+- name: 'Create Docker /opt/influxdb/etc subdirectories for InfluxDB'
+  ansible.builtin.file:
+    path: /opt/influxdb/etc
+    state: directory
+    mode: '0775'
+
