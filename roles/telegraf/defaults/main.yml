@@ -3,3 +3,5 @@
 influxdb_token: 'default_token'
 influxdb_organization: 'edsonmanners.com'
 influxdb_hostname: 'pi-compute5-a.edsonmanners.com'
+#
+telegraf_config: 'http://pc5.edsonmanners.com:8086/api/v2/telegrafs/0fa370a1dcf78000'

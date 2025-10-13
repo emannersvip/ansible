@@ -32,6 +32,7 @@
     name: 'telegraf'
     image: 'telegraf:latest'
     state: started
+    command: 'telegraf --config {{ telegraf_config }}'
     restart_policy: unless-stopped
     volumes:
       - /opt/telegraf/etc/config.toml:/etc/telegraf/telegraf.conf:ro
