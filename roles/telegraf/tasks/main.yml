@@ -1,0 +1,10 @@
+---
+# Tasks file for telegraf
+
+- name: 'Create Docker /opt/telegraf subdirectories for Telegraf'
+  ansible.builtin.file:
+    path: /opt/telegraf
+    state: directory
+    owner: telegraf
+    group: telegraf
+    mode: '0755'
