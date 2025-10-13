@@ -57,6 +57,7 @@ zone "edsonmanners.com" IN {
 	file "edsonmanners.com";
 	allow-update { none; };
 	allow-transfer { 192.168.69.1;192.168.69.31; };
+	notify yes;
 };
 
 zone "68.168.192.in-addr.arpa" IN {
@@ -64,6 +65,7 @@ zone "68.168.192.in-addr.arpa" IN {
 	file "68.168.192.in-addr.arpa";
 	allow-update { none; };
 	allow-transfer { 192.168.69.1;192.168.69.31; };
+	notify yes;
 };
 
 zone "69.168.192.in-addr.arpa" IN {
@@ -71,6 +73,7 @@ zone "69.168.192.in-addr.arpa" IN {
 	file "69.168.192.in-addr.arpa";
 	allow-update { none; };
 	allow-transfer { 192.168.69.1;192.168.69.31; };
+	notify yes;
 };
 
 zone "70.168.192.in-addr.arpa" IN {
@@ -78,6 +81,7 @@ zone "70.168.192.in-addr.arpa" IN {
 	file "70.168.192.in-addr.arpa";
 	allow-update { none; };
 	allow-transfer { 192.168.69.1;192.168.69.31; };
+	notify yes;
 };
 
 include "/etc/named.rfc1912.zones";
