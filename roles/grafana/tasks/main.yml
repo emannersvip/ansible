@@ -6,19 +6,19 @@
   ansible.builtin.file:
     path: /opt/grafana
     state: directory
-    mode: '0755'
+    mode: '0775'
 
 - name: 'Create Docker /opt/grafana/etc subdirectories for Grafana'
   ansible.builtin.file:
     path: /opt/grafana/etc
     state: directory
-    mode: '0755'
+    mode: '0775'
 
 - name: 'Create Docker /opt/grafana/data subdirectories for Grafana'
   ansible.builtin.file:
     path: /opt/grafana/data
     state: directory
-    mode: '0755'
+    mode: '0775'
 
 - name: 'Grafana config file'
   ansible.builtin.template:
@@ -26,6 +26,7 @@
     dest: "/opt/grafana/etc/grafana.ini"
     owner: 'root'
     group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
 
 - name: 'Grafana LDAP config file'
   ansible.builtin.template:
@@ -33,6 +34,7 @@
     dest: "/opt/grafana/etc/ldap.toml"
     owner: 'root'
     group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
 
 - name: 'Grafana Docker Compose file'
   ansible.builtin.template:
@@ -40,6 +42,7 @@
     dest: "/opt/grafana/docker-compose.yml"
     owner: 'emanners'
     group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
 
 # Grafana 8.4.6 is the last version compiled for docker image
 # https://github.com/grafana/grafana/issues/47676

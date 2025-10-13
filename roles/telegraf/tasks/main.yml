@@ -5,6 +5,24 @@
   ansible.builtin.file:
     path: /opt/telegraf
     state: directory
-    owner: telegraf
-    group: telegraf
-    mode: '0755'
+    #owner: telegraf
+    #group: telegraf
+    owner: 'root''
+    group: 'adm'
+    mode: '0775'
+
+- name: 'Create Docker /opt/telegraf/etc subdirectories for Telegraf'
+  ansible.builtin.file:
+    path: /opt/telegraf/etc
+    state: directory
+    owner: 'root'
+    group: 'adm'
+    mode: '0775'
+
+- name: 'Telegraf config file'
+  ansible.builtin.template:
+    src: 'config.toml.j2'
+    dest: '/opt/telegraf/etc/congig.toml'
+    owner: 'root'
+    group: 'adm'
+    mode: '0664'
