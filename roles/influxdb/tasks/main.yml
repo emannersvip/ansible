@@ -8,7 +8,7 @@
     path: '/boot/firmware/config.txt'
     #line: "\n# Force 4KB memory pages to fix InfluxDB 3 Core startup issue\nkernel=kernel8.img"
     line: "\nkernel=kernel8.img"
-    search_string: 'kernel=kernel8.img'
+    search_string: "\nkernel=kernel8.img"
     create: false
     state: 'present'
 
