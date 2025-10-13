@@ -1,2 +1,5 @@
 ---
 # defaults file for telegraf
+influxdb_token: 'default_token'
+influxdb_organization: 'edsonmanners.com'
+influxdb_hostname: 'pi-compute5-a.edsonmanners.com'
