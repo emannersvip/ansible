@@ -5,7 +5,7 @@
 - name: 'Add a line to the Raspberrry Pi 5 boot configuration to force 4KB page size'
   ansible.builtin.lineinfile:
     path: '/boot/firmware/config.txt'
-    line: "# Force 4KB memory pages to fix InfluxDB 3 Core startup issue\nkernel=kernel8.img"
+    line: "\n# Force 4KB memory pages to fix InfluxDB 3 Core startup issue\nkernel=kernel8.img"
     create: false
     state: present
 
