@@ -36,7 +36,8 @@
   community.docker.docker_container:
     name: 'prometheus'
     image: 'prom/prometheus'
-    state: started
+    #state: started
+    state: present
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "9090:9090/tcp"
