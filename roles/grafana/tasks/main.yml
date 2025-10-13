@@ -53,7 +53,7 @@
 #    pull:
 #      platform: 'linux/arm64'
 
-- name: 'Docker_Create the Grafana Container'
+- name: 'Docker create the Grafana Container'
   community.docker.docker_container:
     name: 'grafana'
     #image: 'grafana/grafana-oss:8.4.6'

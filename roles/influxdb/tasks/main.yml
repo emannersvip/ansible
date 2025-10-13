@@ -13,3 +13,26 @@
     state: directory
     mode: '0775'
 
+- name: 'Create Docker /opt/influxdb/data subdirectories for InfluxDB'
+  ansible.builtin.file:
+    path: /opt/influxdb/data
+    state: directory
+    mode: '0775'
+
+- name: 'Docker create the Influxdb Container'
+  community.docker.docker_container:
+    name: 'influxdb'
+    image: 'influxdb:3-core'
+    state: started
+    #restart_policy: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - /opt/influxdb/etc:/etc/influxdb
+      - /opt/influxdb/data:/var/lib/influxdb
+    #env:
+    #  INFLUXDB_DB: "{{ influxdb_database_name }}"
+    #  INFLUXDB_ADMIN_USER: "{{ influxdb_admin_user }}"
+    #  INFLUXDB_ADMIN_PASSWORD: "{{ influxdb_admin_password }}"
+    #  INFLUXDB_USER: "{{ influxdb_user }}"
+    #  INFLUXDB_USER_PASSWORD: "{{ influxdb_user_password }}"
