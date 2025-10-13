@@ -6,8 +6,9 @@
   ansible.builtin.lineinfile:
     path: '/boot/firmware/config.txt'
     line: "\n# Force 4KB memory pages to fix InfluxDB 3 Core startup issue\nkernel=kernel8.img"
+    search_string: 'kernel=kernel8.img'
     create: false
-    state: present
+    state: 'present'
 
 - name: 'Create Docker /opt/influxdb subdirectories for InfluxDB'
   ansible.builtin.file:
