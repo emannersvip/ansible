@@ -2,10 +2,12 @@
 # Tasks file for Influxdb 3
 
 # Raspberry Pi 5s have a 16KB page size by default
+# 'search_string' ensures we don't keep adding the line if the playbook is run multiple times
 - name: 'Add a line to the Raspberrry Pi 5 boot configuration to force 4KB page size'
   ansible.builtin.lineinfile:
     path: '/boot/firmware/config.txt'
-    line: "\n# Force 4KB memory pages to fix InfluxDB 3 Core startup issue\nkernel=kernel8.img"
+    #line: "\n# Force 4KB memory pages to fix InfluxDB 3 Core startup issue\nkernel=kernel8.img"
+    line: "\nkernel=kernel8.img"
     search_string: 'kernel=kernel8.img'
     create: false
     state: 'present'
