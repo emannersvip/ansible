@@ -73,7 +73,12 @@ else
   sudo ${INSTALL_PKG} -y upgrade
 
   # Install the SSH service if not already installed
-  sudo ${INSTALL_PKG} -y ssh
+  if `dpkg --list | grep openssh-server`
+    then
+      echo 'OpenSSH Server is already installed'
+    else
+      sudo ${INSTALL_PKG} -y openssh-server
+  fi
 fi
 
 BIN='/usr/bin'
