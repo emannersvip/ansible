@@ -77,6 +77,7 @@ else
     then
       echo 'OpenSSH Server is already installed'
     else
+      echo "sudo ${INSTALL_PKG} -y install openssh-server"
       sudo ${INSTALL_PKG} -y install openssh-server
   fi
 fi
