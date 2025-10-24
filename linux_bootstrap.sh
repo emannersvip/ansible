@@ -71,6 +71,9 @@ else
   echo -e "\n-- Updating apt cache and running apt upgrade\n"
   sudo ${INSTALL_PKG} update
   sudo ${INSTALL_PKG} -y upgrade
+
+  # Install the SSH service if not already installed
+  sudo ${INSTALL_PKG} -y ssh
 fi
 
 BIN='/usr/bin'
