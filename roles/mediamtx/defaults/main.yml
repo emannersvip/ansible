@@ -1,6 +1,7 @@
 ---
 # defaults file for mediamtx
 # https://github.com/bluenviron/mediamtx/releases/
+# armv6 || armv7 || arm64 || amd64
 mtxvers: '1.9.2'
 #mtxarch: '64v8'
 #mtxarch: '64' # 1.14.0

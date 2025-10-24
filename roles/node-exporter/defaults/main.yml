@@ -2,8 +2,13 @@
 # defaults file for node-exporter
 # https://github.com/prometheus/node_exporter/releases/tag/v1.8.2
 # https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz
+# armv5 || armv6 || armv7 || arm64 || amd64
 package: 'Node Exporter'
-node_exporter_version: 1.8.2
+# EOM: Upgrade to 1.10.0 10/24/2025
+#
+
+#node_exporter_version: 1.8.2
+node_exporter_version: 1.10.0
 node_exporter_architecture: arm64
 operating_system: linux
 install_tmp_path: '/tmp'
