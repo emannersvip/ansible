@@ -24,9 +24,10 @@
 
 - name: 'DNS log directory'
   ansible.builtin.file:
-    path: '/var/log/named/named.log'
+    path: '/var/log/named'
     owner: 'root'
     group: 'named'
+    mode: '0775'
 
 - name: 'Start service named, if not started'
   ansible.builtin.service:
