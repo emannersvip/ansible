@@ -5,3 +5,4 @@ dns_package_name: 'bind'
 dns_service_name: 'named'
 # Default Redhat service admin group name. ('??' for Debian)
 dns_admin_group: 'named'
+dns_slave_transfers: '192.168.69.1;192.168.69.31;192.168.69.32;'
