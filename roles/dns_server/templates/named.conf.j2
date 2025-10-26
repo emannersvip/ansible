@@ -56,7 +56,6 @@ zone "edsonmanners.com" IN {
 	type master;
 	file "edsonmanners.com";
 	allow-update { none; };
-	//allow-transfer { 192.168.69.1;192.168.69.31; };
 	allow-transfer { {{ dns_slave_transfers }} };
 	notify yes;
 };
@@ -65,7 +64,7 @@ zone "68.168.192.in-addr.arpa" IN {
 	type master;
 	file "68.168.192.in-addr.arpa";
 	allow-update { none; };
-	allow-transfer { 192.168.69.1;192.168.69.31; };
+	allow-transfer { {{ dns_slave_transfers }} };
 	notify yes;
 };
 
@@ -73,7 +72,7 @@ zone "69.168.192.in-addr.arpa" IN {
 	type master;
 	file "69.168.192.in-addr.arpa";
 	allow-update { none; };
-	allow-transfer { 192.168.69.1;192.168.69.31; };
+	allow-transfer { {{ dns_slave_transfers }} };
 	notify yes;
 };
 
@@ -81,7 +80,7 @@ zone "70.168.192.in-addr.arpa" IN {
 	type master;
 	file "70.168.192.in-addr.arpa";
 	allow-update { none; };
-	allow-transfer { 192.168.69.1;192.168.69.31; };
+	allow-transfer { {{ dns_slave_transfers }} };
 	notify yes;
 };
 
