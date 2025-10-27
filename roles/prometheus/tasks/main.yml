@@ -36,11 +36,12 @@
   community.docker.docker_container:
     name: 'prometheus'
     image: 'prom/prometheus'
-    #state: started
-    state: present
+    state: started
+    #state: present
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
-      - "9090:9090/tcp"
+      #- "9090:9090/tcp"
+      - "9090:9090"
     volumes:
       - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
       - 'prometheus-data:/prometheus'
