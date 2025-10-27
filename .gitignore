@@ -1,2 +1,3 @@
 /collections
 /galaxy_cache
+.ansible_secrets.enc

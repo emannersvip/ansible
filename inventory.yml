@@ -1,0 +1,47 @@
+#threeleaf-right
+#[monitorserver]
+#db_server   ansible_host=<YOUR-DB-SERVER-IP>   ansible_user=ec2-user  ansible_ssh_private_key_file=~/<YOUR-PEM-FILE>
+#[nodeservers]
+#server1  ansible_host=<YOUR-WEB-SERVER-IP>  ansible_user=ec2-user  ansible_ssh_private_key_file=~/<YOUR-PEM-FILE>
+#server2  ansible_host=<YOUR-WEB-SERVER-IP>  ansible_user=ec2-user  ansible_ssh_private_key_file=~/<YOUR-PEM-FILE>
+katello.edsonmanners.com
+
+[all]
+gamingrig.edsonmanners.com
+katello.edsonmanners.com
+infra01.edsonmanners.com
+pi-compute.edsonmanners.com
+pi-compute5-a.edsonmanners.com
+#pi-keyboard.edsonmanners.com
+pi-keyboard-500.edsonmanners.com
+#pi-robot-0.edsonmanners.com
+#pi-robot-1.edsonmanners.com
+pi-robot-2.edsonmanners.com
+pi-robot-3.edsonmanners.com
+pi-robot-4.edsonmanners.com
+pi-robot-5.edsonmanners.com
+
+[pis]
+pi-compute
+pc5
+#pi-keyboard
+#pk500
+#pi-robot-0
+#pi-robot-1
+pi-robot-2
+pi-robot-3
+pi-robot-4
+pi-robot-5
+
+[cams]
+#pi-robot-1
+#pi-robot-2
+#pi-robot-3
+#pi-robot-4
+#pi-robot-5
+
+[vm_compute]
+tp-compute-1
+tp-compute-2
+tp-compute-3
+tp-compute-4

@@ -1,4 +1,4 @@
-- hosts: pc5.edsonmanners.com
+- hosts: pi-compute5-a.edsonmanners.com
   become: true
   roles:
     - role: prometheus
