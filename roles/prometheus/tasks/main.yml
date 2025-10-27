@@ -34,21 +34,24 @@
 
 - name: 'Docker_Create the Prometheus Container'
   community.docker.docker_container:
+    debug: yes
     name: 'prometheus'
     image: 'prom/prometheus'
-    state: started
-    #state: present
+    #state: started
+    state: healthy
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
-      #- "9090:9090/tcp"
-      - "9090:9090"
+      - "9090:9090/tcp"
     volumes:
       - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
       - 'prometheus-data:/prometheus'
-      #- '/opt/prometheus/data:/prometheus'
+    #  #- '/opt/prometheus/data:/prometheus'
     #user: 'node_exporter'
     #user: '1001'
     #restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
-    platform: 'linux/arm64/v8'
+    platform: 'linux/arm64'
+    # The added 'v8' was causing the container to restart on Ansible run.
+    # This was caught with the use of --diff on ansible run.
+    #platform: 'linux/arm64/v8'

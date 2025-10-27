@@ -1,3 +1,4 @@
+.vscode
 /collections
 /galaxy_cache
-.ansible_secrets.enc
+galaxy_token
