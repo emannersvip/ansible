@@ -69,7 +69,8 @@
     restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
-    platform: 'linux/arm64/v8'
+    #platform: 'linux/arm64/v8'
+    platform: 'linux/arm64'
 
 # ansible-galaxy collection install community.grafana
 # TODO: Add APIUSER once IDM is up.
@@ -79,8 +80,7 @@
     is_default: true
     state: 'present'
     grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_user: 'admin'
-    grafana_password: 'admin'
+    grafana_api_key: 'glsa_HTtL5eHzfzA7N6gU9P1Lyu8YRlc3kxUt_3695af5b'
     org_id: '1'
     ds_type: 'prometheus'
     ds_url: 'http://pi-compute5-a.edsonmanners.com:9090'
@@ -92,9 +92,10 @@
     is_default: false
     state: 'present'
     grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_user: 'admin'
-    grafana_password: 'admin'
-    org_id: '1'
+    #grafana_user: 'admin'
+    #grafana_password: 'admin'
+    grafana_api_key: 'glsa_HTtL5eHzfzA7N6gU9P1Lyu8YRlc3kxUt_3695af5b'
+    #org_id: '1'
     ds_type: 'loki'
     ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
 
