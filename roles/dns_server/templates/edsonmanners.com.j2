@@ -42,7 +42,10 @@ www             CNAME   www.debuntu.org.
 ;
 gw              A       192.168.68.1
                 TXT     "Network gateway"
-gamingrig       A       192.168.68.68
+;gamingrig       A       192.168.68.68
+gamingrig       CNAME    gamingrigB
+gamingrigA       A       192.168.68.20
+gamingrigB       A       192.168.68.21
 ;
 jukebox         CNAME   pi-robot-0
 ;
