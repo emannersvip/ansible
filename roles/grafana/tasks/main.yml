@@ -114,6 +114,7 @@
     grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
     grafana_user: 'admin'
     state: 'present'
+    # Path is mutually exclusive with 'dashboard_id'
+    #path: '/opt/grafana/data/dashboards/node_exporter.json'
     dashboard_id: 1860
     dashboard_revision: 42
-    path: '/opt/grafana/data/dashboards/node_exporter.json'
