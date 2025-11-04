@@ -35,13 +35,22 @@
     group: 'node_exporter'
     mode: 0664
 
-- name: 'Prometheus alerts file'
+- name: 'Prometheus CPU alerts file'
   ansible.builtin.template:
-    src: 'alert.rules.yml.j2'
-    dest: '/etc/prometheus/alert.rules.yml'
+    src: 'alert.cpu.yml.j2'
+    dest: '/etc/prometheus/alert.cpu.yml'
     owner: 'node_exporter'
     group: 'node_exporter'
     mode: 0664
+
+- name: 'Prometheus Disk alerts file'
+  ansible.builtin.template:
+    src: 'alert.disk.yml.j2'
+    dest: '/etc/prometheus/alert.disk.yml'
+    owner: 'node_exporter'
+    group: 'node_exporter'
+    mode: 0664
+
 
 # Need a task for `docker volume create prometheus-data`
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_volume_module.html
@@ -60,7 +69,8 @@
     ports:
       - "9090:9090/tcp"
     volumes:
-      - '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+      #- '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+      - '/etc/prometheus/:/etc/prometheus'
       - 'prometheus-data:/prometheus'
     #  #- '/opt/prometheus/data:/prometheus'
     #user: 'node_exporter'

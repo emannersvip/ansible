@@ -8,7 +8,8 @@ global:
 
 # Set alertmanager rules
 rule_files:
-  - alert.rules.yaml
+  - alert.cpu.yml
+  - alert.disk.yml
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
