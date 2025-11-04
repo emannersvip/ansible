@@ -1,7 +1,6 @@
 ---
 # handlers file for dns_server
-handlers:
-  - name: Restart DNS Service
-    ansible.builtin.service:
-      name: "{{ dns_service_name }}"
-      state: restarted
+- name: Restart DNS Service
+  ansible.builtin.service:
+    name: "{{ dns_service_name }}"
+    state: restarted

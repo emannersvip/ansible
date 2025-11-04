@@ -18,10 +18,27 @@
     mode: 0775
     recurse: no
 
+- name: Create Prometheus rules directory
+  ansible.builtin.file:
+    path: /opt/prometheus/data/rules
+    state: directory
+    owner: 'node_exporter'
+    group: 'node_exporter'
+    mode: 0775
+    recurse: no
+
 - name: 'Prometheus config file'
   ansible.builtin.template:
     src: 'prometheus.yml.j2'
     dest: '/etc/prometheus/prometheus.yml'
+    owner: 'node_exporter'
+    group: 'node_exporter'
+    mode: 0664
+
+- name: 'Prometheus alerts file'
+  ansible.builtin.template:
+    src: 'alert.rules.yml.j2'
+    dest: '/etc/prometheus/alert.rules.yml'
     owner: 'node_exporter'
     group: 'node_exporter'
     mode: 0664
