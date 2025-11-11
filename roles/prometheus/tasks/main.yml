@@ -75,7 +75,7 @@
     #  #- '/opt/prometheus/data:/prometheus'
     #user: 'node_exporter'
     #user: '1001'
-    #restart_policy: 'unless-stopped'
+    restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
     platform: 'linux/arm64'
