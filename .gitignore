@@ -1,4 +1,7 @@
+.ansible_secrets.enc
+.gitignore
 .vscode
+.vault_pass
 /collections
 /galaxy_cache
 galaxy_token
