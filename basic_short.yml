@@ -1,0 +1,16 @@
+- name: Receive and print ThousandEyes webhook events
+  hosts: all
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 8080
+  rules:
+    - name: Print event
+      #condition: 1 == 1
+      condition: event.payload.message == "Ansible is super cool"
+      action:
+        #run_playbook:
+        #  name: say-what.yml
+        debug:
+          msg:
+            - "{{ event }}"
