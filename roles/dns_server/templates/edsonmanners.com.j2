@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2025110306  ;serial 
+2026010300  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -20,6 +20,20 @@ $TTL 60
                 MX      20 mail2                ; Secondary Mail Exchanger
 
 carrington          A   149.154.42.54
+;
+_kerberos-master._tcp.edsonmanners.com.  3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+_kerberos-master._udp.edsonmanners.com.  3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+_kerberos._tcp.edsonmanners.com.         3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+_kerberos._udp.edsonmanners.com.         3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+_kerberos.edsonmanners.com.              3600 IN TXT "EDSONMANNERS.COM"
+_kerberos.edsonmanners.com.              3600 IN URI 0 100 "krb5srv:m:tcp:ipa.edsonmanners.com."
+_kerberos.edsonmanners.com.              3600 IN URI 0 100 "krb5srv:m:udp:ipa.edsonmanners.com."
+_kpasswd._tcp.edsonmanners.com.          3600 IN SRV 0 100 464 ipa.edsonmanners.com.
+_kpasswd._udp.edsonmanners.com.          3600 IN SRV 0 100 464 ipa.edsonmanners.com.
+_kpasswd.edsonmanners.com.               3600 IN URI 0 100 "krb5srv:m:tcp:ipa.edsonmanners.com."
+_kpasswd.edsonmanners.com.               3600 IN URI 0 100 "krb5srv:m:udp:ipa.edsonmanners.com."
+_ldap._tcp.edsonmanners.com.             3600 IN SRV 0 100 389 ipa.edsonmanners.com.
+ipa-ca.edsonmanners.com.                 3600 IN A 192.168.68.21
 ;
 deco-cave           A   192.168.68.248
 deco-living-room    A   192.168.68.247
@@ -47,6 +61,7 @@ gamingrig       CNAME    gamingrigB
 gamingrigA       A       192.168.68.20
 gamingrigB       A       192.168.68.21
 ;
+ipa             CNAME   gamingrig
 jukebox         CNAME   pi-robot-0
 ;
 mail            A       192.168.68.2
