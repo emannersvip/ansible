@@ -2,3 +2,5 @@
 # defaults file for grafana
 # Default promtail container/service admin group name.
 grafana_stack_admin_group: 'prometheus'
+# Default Grafana install type. Options are 'tarball','docker' or 'kubernetes'.
+grafana_install_type: 'docker'

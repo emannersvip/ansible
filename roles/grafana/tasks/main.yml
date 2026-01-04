@@ -1,120 +1,18 @@
 ---
 # Tasks file for grafana
-# This config is based on a Docker install
+# This config allows for a Docker, Kubernetes or Tarball install
 
-- name: 'Create Docker /opt/grafana subdirectories for Grafana'
-  ansible.builtin.file:
-    path: /opt/grafana
-    state: directory
-    mode: '0775'
+- include_tasks: docker.yml
+  when: grafana_install_type == "docker"
+  tags:
+    - unbound
 
-- name: 'Create Docker /opt/grafana/etc subdirectories for Grafana'
-  ansible.builtin.file:
-    path: /opt/grafana/etc
-    state: directory
-    mode: '0775'
+- include_tasks: kubernetes.yml
+  when: grafana_install_type == "kubernetes"
+  tags:
+    - unbound
 
-- name: 'Create Docker /opt/grafana/data subdirectories for Grafana'
-  ansible.builtin.file:
-    path: /opt/grafana/data
-    state: directory
-    mode: '0775'
-
-- name: 'Grafana config file'
-  ansible.builtin.template:
-    src: 'grafana.ini.j2'
-    dest: "/opt/grafana/etc/grafana.ini"
-    owner: 'root'
-    group: "{{ grafana_stack_admin_group }}"
-    mode: '0664'
-
-- name: 'Grafana LDAP config file'
-  ansible.builtin.template:
-    src: 'ldap.toml.j2'
-    dest: "/opt/grafana/etc/ldap.toml"
-    owner: 'root'
-    group: "{{ grafana_stack_admin_group }}"
-    mode: '0664'
-
-- name: 'Grafana Docker Compose file'
-  ansible.builtin.template:
-    src: 'docker-compose.yml.j2'
-    dest: "/opt/grafana/docker-compose.yml"
-    owner: 'emanners'
-    group: "{{ grafana_stack_admin_group }}"
-    mode: '0664'
-
-# Grafana 8.4.6 is the last version compiled for docker image
-# https://github.com/grafana/grafana/issues/47676
-#- name: 'Docker_Pull Grafana Image'
-#  community.docker.docker_image:
-#    name: 'grafana/grafana-oss:8.4.6'
-#    source: pull
-#    pull:
-#      platform: 'linux/arm64'
-
-- name: 'Docker create the Grafana Container'
-  community.docker.docker_container:
-    name: 'grafana'
-    #image: 'grafana/grafana-oss:8.4.6'
-    image: 'grafana/grafana-enterprise'
-    state: started
-    #TODO: Setup container healtcheck and switch to 'healthy'
-    ports:
-      - "3000:3000/tcp"
-    volumes:
-      - '/opt/grafana/etc:/etc/grafana'
-      #- '/opt/grafana/etc:/var/lib/grafana'
-    user: '1001'
-    restart_policy: 'unless-stopped'
-    env:
-      TZ: 'America/Chicago'
-    platform: 'linux/arm64'
-
-# ansible-galaxy collection install community.grafana
-# TODO: Add APIUSER once IDM is up.
-- name: 'Configure Grafana to use Prometheus DataSource'
-  community.grafana.grafana_datasource:
-    name: 'prometheus_base'
-    is_default: true
-    state: 'present'
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
-    ds_type: 'prometheus'
-    ds_url: 'http://pi-compute5-a.edsonmanners.com:9090'
-    alertmanager_handle_grafana_alerts: true
-    org_id: '1'
-
-- name: 'Configure Grafana to use Loki DataSource'
-  community.grafana.grafana_datasource:
-    name: 'loki_base'
-    is_default: false
-    state: 'present'
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
-    ds_type: 'loki'
-    ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
-    org_id: '1'
-
-- name: 'Configure Grafana to use InfluxDB DataSource'
-  community.grafana.grafana_datasource:
-    name: 'influxdb_base'
-    is_default: false
-    state: 'present'
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
-    ds_type: 'influxdb'
-    ds_url: 'http://pi-compute5-a.edsonmanners.com:8086'
-    org_id: '1'
-
-# https://docs.ansible.com/ansible/latest/collections/community/grafana/grafana_dashboard_module.html
-# https://grafana.com/grafana/dashboards/1860-node-exporter-full/
-- name: 'Import Grafana dashboard for Node Exporter'
-  community.grafana.grafana_dashboard:
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_user: 'admin'
-    state: 'present'
-    # Path is mutually exclusive with 'dashboard_id'
-    #path: '/opt/grafana/data/dashboards/node_exporter.json'
-    dashboard_id: 1860
-    dashboard_revision: 42
+- include_tasks: tarball.yml
+  when: grafana_install_type == "tarball"
+  tags:
+    - unbound
