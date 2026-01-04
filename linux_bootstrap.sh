@@ -83,6 +83,9 @@ else
 fi
 
 BIN='/usr/bin'
+
+#TODO: swap sceen for tmux if distro is rocky 9
+
 USEFUL_APPS='vim git screen curl'
 for i in ${USEFUL_APPS};
   do if [ ! -f "{BIN}/${i}" ]; then
