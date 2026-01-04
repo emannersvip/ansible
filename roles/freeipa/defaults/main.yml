@@ -1,0 +1,8 @@
+---
+# defaults file for freeipa
+freeipa_client_packages: 
+  - ipa-client
+  - sssd-ipa
+  - oddjob-mkhomedir
+freeipa_domain: 'edsonmanners.com'
+freeipa_server: 'ipa.edsonmanners.com'

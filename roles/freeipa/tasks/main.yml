@@ -1,0 +1,18 @@
+---
+# tasks file for freeipa
+- name: 'Install FreeIPA client packages'
+  ansible.builtin.package:
+    name: "{{ freeipa_client_packages }}"
+    state: latest
+
+- name: 'Configure FreeIPA client'
+  ansible.builtin.command:
+    cmd: >
+      ipa-client-install
+      --domain={{ freeipa_domain }}
+      --server={{ freeipa_server }}
+      --mkhomedir
+      #--unattended
+      --no-ntp
+  args:
+    creates: /etc/ipa/default.conf  
