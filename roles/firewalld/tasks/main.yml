@@ -1,0 +1,4 @@
+---
+# tasks file for firewalld
+# TODO: Create firewalld role mostly to allow for auto setup on hosts like infra01
+# eg. DNS, DHCP & Foreman proxy ports.

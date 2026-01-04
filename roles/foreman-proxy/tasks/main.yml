@@ -1,0 +1,6 @@
+---
+# tasks file for foreman-proxy
+# TODO: Add task for proxy repo
+# TODO: Add task for foreman-proxy installation
+# TODO: Add task for proxy misc items like /etc/rndc.key being in the foreman-proxy group
+# TODO: Add task for proxy misc items like /etc/dhcp dir grop being foreman-proxy
