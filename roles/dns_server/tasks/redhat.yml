@@ -65,6 +65,16 @@
   #register: named_conf
   notify: Restart DNS Service
 
+- name: 'REVERSE ZONE file 71'
+  ansible.builtin.template:
+    src: '71.168.192.in-addr.arpa.j2'
+    dest: "/var/named/71.168.192.in-addr.arpa"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+    mode: '0664'
+  #register: named_conf
+  notify: Restart DNS Service
+
 - name: Start service {{ dns_service_name }}, if not started
   ansible.builtin.service:
     name: "{{ dns_service_name }}"
