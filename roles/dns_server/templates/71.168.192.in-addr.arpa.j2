@@ -1,0 +1,55 @@
+;
+; Zone file for edsonmanners.com
+;
+; The full zone file
+; https://bind9.readthedocs.io/en/latest/chapter3.html
+;
+$TTL 60
+;
+@   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com.     (
+2026010601  ;serial
+14400       ;refresh
+3600        ;retry
+604800      ;expire
+10800       ;minimum
+)
+
+71.168.192.in-addr.arpa.                   IN      NS      infra01.edsonmanners.com.
+71.168.192.in-addr.arpa.                   IN      NS      pi-compute.edsonmanners.com.
+
+
+60			IN	PTR	gsound-sofalamp-loveseat-livingroom.edsonmanners.com.
+61			IN	PTR	gsound-turlelamp-aquarium-frontentrance.edsonmanners.com.
+62			IN	PTR	gsound-patiolights-poolpatio.edsonmanners.com.
+;
+76			IN	PTR	afero-bulb-pool-patio-l.edsonmanners.com.
+77			IN	PTR	afero-bulb-pool-patio-r.edsonmanners.com.
+78			IN	PTR	afero-bulb-pool-house-a.edsonmanners.com.
+79			IN	PTR	afero-bulb-pool-house-b.edsonmanners.com.
+80			IN	PTR	afero-bulb-pool-house-c.edsonmanners.com.
+81			IN	PTR	afero-bulb-pool-patio-a.edsonmanners.com.
+82			IN	PTR	afero-bulb-pool-patio-b.edsonmanners.com.
+83			IN	PTR	afero-bulb-pool-patio-c.edsonmanners.com.
+;
+97			IN	PTR	hubspace-bathfan-master.edsonmanners.com.
+98			IN	PTR	hubspace-bathswitch-master.edsonmanners.com.
+99			IN	PTR	hubspace-transformer-front.edsonmanners.com.
+;
+; 150-170 Misc WiFi Devices
+150			IN	PTR	chamberlain-garagedoor-double.edsonmanners.com.
+;150			IN	PTR	chamberlain-garagedoor-single.edsonmanners.com.
+;
+152			IN	PTR	resideo-accontrol-masterbed.edsonmanners.com.
+;
+156			IN	PTR	nest-camera-front-primary.edsonmanners.com.
+;
+220			IN	PTR	ap-tpl7-den.edsonmanners.com.
+221			IN	PTR	ap-tpl7-mooffice.edsonmanners.com.
+222			IN	PTR	ap-tpl7-livingroom.edsonmanners.com.
+;
+223			IN	PTR	ap-tpl5-dining.edsonmanners.com.
+224			IN	PTR	ap-tpl5-guestbed.edsonmanners.com.
+225			IN	PTR	ap-tpl5-kitchen.edsonmanners.com.
+226			IN	PTR	ap-tpl5-masterbed.edsonmanners.com.
+227			IN	PTR	ap-tpl5-office.edsonmanners.com.
+;
