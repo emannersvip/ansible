@@ -1,0 +1,38 @@
+;
+; Zone file for tailscale
+;
+$TTL 60
+;
+@   IN  SOA ns1.tailscale. hostmaster.tailscale. (
+2026020500  ;serial 
+14400       ;refresh
+3600        ;retry
+604800      ;expire
+10800       ; minimum
+)
+
+                NS      ns1                     ; Inet Address of name server
+                NS      pi-keyboard-500-wired   ; Inet Address of name server
+;
+;_kerberos-master._tcp.edsonmanners.com.  3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+;_kerberos-master._udp.edsonmanners.com.  3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+;_kerberos._tcp.edsonmanners.com.         3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+;_kerberos._udp.edsonmanners.com.         3600 IN SRV 0 100 88 ipa.edsonmanners.com.
+;_kerberos.edsonmanners.com.              3600 IN TXT "EDSONMANNERS.COM"
+;_kerberos.edsonmanners.com.              3600 IN URI 0 100 "krb5srv:m:tcp:ipa.edsonmanners.com."
+;_kerberos.edsonmanners.com.              3600 IN URI 0 100 "krb5srv:m:udp:ipa.edsonmanners.com."
+;_kpasswd._tcp.edsonmanners.com.          3600 IN SRV 0 100 464 ipa.edsonmanners.com.
+;_kpasswd._udp.edsonmanners.com.          3600 IN SRV 0 100 464 ipa.edsonmanners.com.
+;_kpasswd.edsonmanners.com.               3600 IN URI 0 100 "krb5srv:m:tcp:ipa.edsonmanners.com."
+;_kpasswd.edsonmanners.com.               3600 IN URI 0 100 "krb5srv:m:udp:ipa.edsonmanners.com."
+;_ldap._tcp.edsonmanners.com.             3600 IN SRV 0 100 389 ipa.edsonmanners.com.
+;ipa-ca.edsonmanners.com.                 3600 IN A 192.168.68.21
+;
+gamingrig           A   100.121.173.29
+tp-compute-1        A   100.95.166.18
+ubuntu-purple       A   100.103.241.50
+xps                 A   100.117.25.78
+;
+;gw              A       192.168.68.1
+;                TXT     "Network gateway"
+;

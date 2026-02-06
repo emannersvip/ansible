@@ -60,6 +60,14 @@ zone "edsonmanners.com" IN {
 	notify yes;
 };
 
+zone "tailscale" IN {
+	type master;
+	file "tailscale";
+	allow-update { none; };
+	allow-transfer { {{ dns_slave_transfers }} };
+	notify yes;
+};
+
 zone "68.168.192.in-addr.arpa" IN {
 	type master;
 	file "68.168.192.in-addr.arpa";

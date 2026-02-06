@@ -35,6 +35,16 @@
   #register: named_conf
   notify: Restart DNS Service
 
+- name: 'FORWARD ZONE file'
+  ansible.builtin.template:
+    src: 'tailscale.j2'
+    dest: "/var/named/tailscale"
+    owner: 'root'
+    group: "{{ dns_admin_group }}"
+    mode: '0664'
+  #register: named_conf
+  notify: Restart DNS Service
+
 - name: 'REVERSE ZONE file 68'
   ansible.builtin.template:
     src: '68.168.192.in-addr.arpa.j2'
