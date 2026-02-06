@@ -4,7 +4,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.tailscale. hostmaster.tailscale. (
-2026020500  ;serial 
+2026020501  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -12,7 +12,7 @@ $TTL 60
 )
 
                 NS      ns1                     ; Inet Address of name server
-                NS      pi-keyboard-500-wired   ; Inet Address of name server
+                NS      ns2                     ; Inet Address of name server
 ;
 ;_kerberos-master._tcp.edsonmanners.com.  3600 IN SRV 0 100 88 ipa.edsonmanners.com.
 ;_kerberos-master._udp.edsonmanners.com.  3600 IN SRV 0 100 88 ipa.edsonmanners.com.
@@ -33,6 +33,7 @@ tp-compute-1        A   100.95.166.18
 ubuntu-purple       A   100.103.241.50
 xps                 A   100.117.25.78
 ;
-;gw              A       192.168.68.1
-;                TXT     "Network gateway"
-;
+ns1                 A   192.168.68.5
+                    TXT     "DNS server for Tailscale network"
+ns2                 A   192.168.69.1
+                    TXT     "DNS server for Tailscale network"
