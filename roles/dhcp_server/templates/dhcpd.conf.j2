@@ -88,9 +88,13 @@ host gamingrigA  { hardware ethernet 14:dd:a9:25:84:95; fixed-address 192.168.68
 host gamingrigB  { hardware ethernet 14:dd:a9:25:84:96; fixed-address 192.168.68.21; }
 #
 # Laptops
-host laptop-xps  { hardware ethernet 3c:e9:f7:b7:46:25; fixed-address 192.168.68.30; }
+host laptop-xps { hardware ethernet 3c:e9:f7:b7:46:25; fixed-address 192.168.68.30; }
 # PCs
 host pc-alexus  { hardware ethernet 34:13:e8:b6:2a:5b; fixed-address 192.168.68.40; }
+# Docks
+host dock-dell-office { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.40; }
+#host dock-dell-den-pc { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.41; }
+#host dock-dell-den-pi { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.42; }
 
 # -- Pi Compute Space [32-48]
 host pi-compute4-a { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.69.1; }
@@ -157,6 +161,9 @@ host resideo_accontrol_masterbed { hardware ethernet 00:d0:2d:d2:d7:c6; fixed-ad
 host nest_camera_front_primary { hardware ethernet 44:bb:3b:21:bf:58; fixed-address 192.168.71.156; }
 #
 host moes_bluetooth_gateway_office { hardware ethernet c4:82:e1:5b:9d:d4; fixed-address 192.168.71.160; }
+#
+host receiver_pioneer_vsx935_den { hardware ethernet 00:09:b0:f5:fa:77; fixed-address 192.168.71.166; }
+
 
 # -- Main Access Point
 host ap-tpl7-Den      	{ hardware ethernet b0:19:21:20:f5:e0; fixed-address 192.168.71.220; }
