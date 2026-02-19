@@ -12,9 +12,13 @@
     name: btop
     state: present
 
-# https://galaxy.ansible.com/ui/repo/published/community/general/?version=11.4.4
 - name: 'Install `rpi-imager` snap'
   community.general.snap:
     name: rpi-imager
+    state: present
+
+- name: 'Install `tmux` snap'
+  community.general.snap:
+    name: tmux
     state: present
 
