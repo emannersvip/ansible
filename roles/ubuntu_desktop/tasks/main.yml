@@ -1,0 +1,8 @@
+---
+# tasks file for ubuntu_desktop
+
+- name: 'Install alactritty terminal'
+  ansible.builtin.package:
+    name: alacritty
+    state: present
+

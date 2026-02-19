@@ -25,9 +25,10 @@ authoritative;
 omapi-port 7911;
 omapi-key omapi_key;
 
-key omapi_key {
-  algorithm hmac-md5;
-  secret dc21efc48b2dc087dc3ebfa48ec720cc;
+key "omapi_key" {
+  #algorithm hmac-md5;
+  algorithm HMAC-MD5;
+  secret "dc21efc48b2dc087dc3ebfa48ec720cc";
 }
 
 # DHCP Failover Config

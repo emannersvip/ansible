@@ -3,4 +3,6 @@
 # TODO: Add task for proxy repo
 # TODO: Add task for foreman-proxy installation
 # TODO: Add task for proxy misc items like /etc/rndc.key being in the foreman-proxy group
-# TODO: Add task for proxy misc items like /etc/dhcp dir grop being foreman-proxy
+# #--**
+# TODO: Add task for proxy misc items like /etc/dhcp dir group being foreman-proxy
+# TODO: Add task for proxy misc items like /var/lib/dhcp/dhcpd.leases being writable by group being foreman-proxy
