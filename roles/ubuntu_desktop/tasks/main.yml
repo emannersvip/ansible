@@ -20,5 +20,6 @@
 - name: 'Install `tmux` snap'
   community.general.snap:
     name: tmux
+    classic: true
     state: present
 
