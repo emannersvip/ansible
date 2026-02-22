@@ -4,7 +4,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.tailscale. hostmaster.tailscale. (
-2026020600  ;serial 
+2026022201  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -28,13 +28,21 @@ $TTL 60
 ;_ldap._tcp.edsonmanners.com.             3600 IN SRV 0 100 389 ipa.edsonmanners.com.
 ;ipa-ca.edsonmanners.com.                 3600 IN A 192.168.68.21
 ;
-gamingrig           A   100.121.173.29
-katello             A   100.74.135.72
-tp-compute-1        A   100.95.166.18
-ubuntu-purple       A   100.103.241.50
-xps                 A   100.117.25.78
+compute1	A	100.84.60.86
+compute2	A	100.105.172.111
+;compute3	A	100.95.166.18
+compute4	A	100.67.139.22
 ;
-ns1                 A   192.168.68.5
-                    TXT     "DNS server for Tailscale network"
-ns2                 A   192.168.69.1
-                    TXT     "DNS server for Tailscale network"
+gamingrig	A	100.121.173.29
+homeserverpi	A	100.85.15.115
+katello		A	100.74.135.72
+proxmox		A	100.73.124.6
+threeleaf-right	A	100.124.65.63
+tp-compute-1	A	100.95.166.18
+ubuntu-purple	A	100.103.241.50
+xps		A	100.117.25.78
+;
+ns1		A	192.168.68.5
+		TXT	"DNS server for Tailscale network"
+ns2		A	192.168.69.1
+		TXT	"DNS server for Tailscale network"
