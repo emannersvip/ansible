@@ -33,13 +33,13 @@
     group: "{{ grafana_stack_admin_group }}"
     mode: '0664'
 
-- name: 'Loki alertmanager rule (test) file'
-  ansible.builtin.template:
-    src: 'loki-rules-mediamtx.yml.j2'
-    dest: "/opt/loki/etc/rules/fake/journald-mediamtx.yml"
-    owner: 'root'
-    group: "{{ grafana_stack_admin_group }}"
-    mode: '0664'
+      #- name: 'Loki alertmanager rule (test) file'
+      #  ansible.builtin.template:
+      #    src: 'loki-rules-mediamtx.yml.j2'
+      #    dest: "/opt/loki/etc/rules/fake/journald-mediamtx.yml"
+      #    owner: 'root'
+      #    group: "{{ grafana_stack_admin_group }}"
+      #    mode: '0664'
 
 - name: 'Loki Docker Compose file'
   ansible.builtin.template:
@@ -55,7 +55,7 @@
     # Change to healthy in the future
     state: 'present'
     command: -config.file=/etc/loki/loki-config.yml
-    #TODO: Setup container healtcheck and switch to 'healthy'
+    #TODO: Setup container healthcheck and switch to 'healthy'
     ports:
       - "3100:3100/tcp"
     volumes:
