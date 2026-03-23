@@ -1,0 +1,5 @@
+---
+- hosts: xps.edsonmanners.com
+  become: true
+  roles:
+    - ubuntu_desktop
