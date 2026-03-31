@@ -4,8 +4,8 @@
   ansible.builtin.file:
     path: /opt/prometheus/etc
     state: directory
-    owner: 'node_exporter'
-    group: 'node_exporter'
+    owner: 'nobody'
+    group: 'nogroup'
     mode: 0775
     recurse: no
 
@@ -13,42 +13,42 @@
   ansible.builtin.file:
     path: /opt/prometheus/data
     state: directory
-    owner: 'node_exporter'
-    group: 'node_exporter'
+    owner: 'nobody'
+    group: 'nogroup'
     mode: 0775
     recurse: no
 
-- name: Create Prometheus rules directory
-  ansible.builtin.file:
-    path: /opt/prometheus/data/rules
-    state: directory
-    owner: 'node_exporter'
-    group: 'node_exporter'
-    mode: 0775
-    recurse: no
+      #- name: Create Prometheus rules directory
+      #  ansible.builtin.file:
+      #    path: /opt/prometheus/data/rules
+      #    state: directory
+      #    owner: 'nobody'
+      #    group: 'nogroup'
+      #    mode: 0775
+      #    recurse: no
 
 - name: 'Prometheus config file'
   ansible.builtin.template:
     src: 'prometheus.yml.j2'
     dest: '/opt/prometheus/etc/prometheus.yml'
-    owner: 'node_exporter'
-    group: 'node_exporter'
+    owner: 'nobody'
+    group: 'nogroup'
     mode: 0664
 
 - name: 'Prometheus CPU alerts file'
   ansible.builtin.template:
     src: 'alert.cpu.yml.j2'
     dest: '/opt/prometheus/etc/alert.cpu.yml'
-    owner: 'node_exporter'
-    group: 'node_exporter'
+    owner: 'nobody'
+    group: 'nogroup'
     mode: 0664
 
 - name: 'Prometheus Disk alerts file'
   ansible.builtin.template:
     src: 'alert.disk.yml.j2'
     dest: '/opt/prometheus/etc/alert.disk.yml'
-    owner: 'node_exporter'
-    group: 'node_exporter'
+    owner: 'nobody'
+    group: 'nogroup'
     mode: 0664
 
 
@@ -61,22 +61,15 @@
 - name: 'Docker_Create the Prometheus Container'
   community.docker.docker_container:
     debug: yes
-    #name: 'prometheus'
-    name: 'prom2'
+    name: 'prometheus'
     image: 'prom/prometheus'
     state: started
-      #state: healthy
-    #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "9090:9090/tcp"
-    #volumes:
-    #  #- '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
-    #  - '/etc/prometheus/:/opt/prometheus/etc'
-    #  - 'prometheus-data:/opt/prometheus/data'
-    #  #- '/opt/prometheus/data:/prometheus'
-    #user: 'node_exporter'
-    #user: '1001'
-    #user: '296606'
+    volumes:
+      - '/opt/prometheus/etc/prometheus.yml:/etc/prometheus/prometheus.yml'
+        #- '/opt/prometheus/data:/prometheus'
+    #user: 'nobody'
     restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'

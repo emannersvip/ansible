@@ -79,42 +79,44 @@
     is_default: true
     state: 'present'
     grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+    #grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+    grafana_user: 'admin'
+    grafana_password: 'admin'
     ds_type: 'prometheus'
     ds_url: 'http://pi-compute5-a.edsonmanners.com:9090'
     alertmanager_handle_grafana_alerts: true
     org_id: '1'
 
-- name: 'Configure Grafana to use Loki DataSource'
-  community.grafana.grafana_datasource:
-    name: 'loki_base'
-    is_default: false
-    state: 'present'
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
-    ds_type: 'loki'
-    ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
-    org_id: '1'
+# - name: 'Configure Grafana to use Loki DataSource'
+#  community.grafana.grafana_datasource:
+#    name: 'loki_base'
+#    is_default: false
+#    state: 'present'
+#    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
+#    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+#    ds_type: 'loki'
+#    ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
+#    org_id: '1'
 
-- name: 'Configure Grafana to use InfluxDB DataSource'
-  community.grafana.grafana_datasource:
-    name: 'influxdb_base'
-    is_default: false
-    state: 'present'
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
-    ds_type: 'influxdb'
-    ds_url: 'http://pi-compute5-a.edsonmanners.com:8086'
-    org_id: '1'
+# - name: 'Configure Grafana to use InfluxDB DataSource'
+#  community.grafana.grafana_datasource:
+#    name: 'influxdb_base'
+#    is_default: false
+#    state: 'present'
+#    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
+#    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+#    ds_type: 'influxdb'
+#    ds_url: 'http://pi-compute5-a.edsonmanners.com:8086'
+#    org_id: '1'
 
-# https://docs.ansible.com/ansible/latest/collections/community/grafana/grafana_dashboard_module.html
-# https://grafana.com/grafana/dashboards/1860-node-exporter-full/
-- name: 'Import Grafana dashboard for Node Exporter'
-  community.grafana.grafana_dashboard:
-    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    grafana_user: 'admin'
-    state: 'present'
-    # Path is mutually exclusive with 'dashboard_id'
-    #path: '/opt/grafana/data/dashboards/node_exporter.json'
-    dashboard_id: 1860
-    dashboard_revision: 42
+# # https://docs.ansible.com/ansible/latest/collections/community/grafana/grafana_dashboard_module.html
+## https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+#- name: 'Import Grafana dashboard for Node Exporter'
+#  community.grafana.grafana_dashboard:
+#    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
+#    grafana_user: 'admin'
+#    state: 'present'
+#    # Path is mutually exclusive with 'dashboard_id'
+#    #path: '/opt/grafana/data/dashboards/node_exporter.json'
+#    dashboard_id: 1860
+#    dashboard_revision: 42
