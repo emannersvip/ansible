@@ -2,7 +2,7 @@
 # tasks file for prometheus
 - name: Create Prometheus config directory
   ansible.builtin.file:
-    path: /etc/prometheus
+    path: /opt/prometheus/etc
     state: directory
     owner: 'node_exporter'
     group: 'node_exporter'
@@ -30,7 +30,7 @@
 - name: 'Prometheus config file'
   ansible.builtin.template:
     src: 'prometheus.yml.j2'
-    dest: '/etc/prometheus/prometheus.yml'
+    dest: '/opt/prometheus/etc/prometheus.yml'
     owner: 'node_exporter'
     group: 'node_exporter'
     mode: 0664
@@ -38,7 +38,7 @@
 - name: 'Prometheus CPU alerts file'
   ansible.builtin.template:
     src: 'alert.cpu.yml.j2'
-    dest: '/etc/prometheus/alert.cpu.yml'
+    dest: '/opt/prometheus/etc/alert.cpu.yml'
     owner: 'node_exporter'
     group: 'node_exporter'
     mode: 0664
@@ -46,7 +46,7 @@
 - name: 'Prometheus Disk alerts file'
   ansible.builtin.template:
     src: 'alert.disk.yml.j2'
-    dest: '/etc/prometheus/alert.disk.yml'
+    dest: '/opt/prometheus/etc/alert.disk.yml'
     owner: 'node_exporter'
     group: 'node_exporter'
     mode: 0664
@@ -61,20 +61,22 @@
 - name: 'Docker_Create the Prometheus Container'
   community.docker.docker_container:
     debug: yes
-    name: 'prometheus'
+    #name: 'prometheus'
+    name: 'prom2'
     image: 'prom/prometheus'
-    #state: started
-    state: healthy
+    state: started
+      #state: healthy
     #TODO: Setup container healtcheck and switch to 'healthy'
     ports:
       - "9090:9090/tcp"
-    volumes:
-      #- '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
-      - '/etc/prometheus/:/etc/prometheus'
-      - 'prometheus-data:/prometheus'
+    #volumes:
+    #  #- '/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+    #  - '/etc/prometheus/:/opt/prometheus/etc'
+    #  - 'prometheus-data:/opt/prometheus/data'
     #  #- '/opt/prometheus/data:/prometheus'
     #user: 'node_exporter'
     #user: '1001'
+    #user: '296606'
     restart_policy: 'unless-stopped'
     env:
       TZ: 'America/Chicago'
