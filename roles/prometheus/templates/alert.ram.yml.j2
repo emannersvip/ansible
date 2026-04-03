@@ -1,0 +1,12 @@
+groups:
+- name: HighRAMUsage
+  rules:
+  - alert: HighRAMUsage
+    expr: (node_memory_MemTotal_bytes -_node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 80
+    for: 5m
+    labels:
+      severity: warning
+        #severity: critical
+    annotations:
+      summary: "High Memory usage detected on {{ $labels.instance }}"
+      description: "Memory usage {{ $value }}% on {{ $labels.instance }}"

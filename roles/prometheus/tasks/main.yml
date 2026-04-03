@@ -51,6 +51,14 @@
     group: 'nogroup'
     mode: 0664
 
+- name: 'Prometheus RAM alerts file'
+  ansible.builtin.template:
+    src: 'alert.ram.yml.j2'
+    dest: '/opt/prometheus/etc/alert.ram.yml'
+    owner: 'nobody'
+    group: 'nogroup'
+    mode: 0664
+
 
 # Need a task for `docker volume create prometheus-data`
 # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_volume_module.html
