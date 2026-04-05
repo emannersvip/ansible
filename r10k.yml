@@ -1,0 +1,8 @@
+- hosts: katello.edsonmanners.com
+  become: true
+  roles:
+    - role: r10k
+      #vars:
+      #  mtxvers: '1.11.3'
+      #  rpiCameraHFlip: False
+      #  rpiCameraVFlip: False

@@ -1,0 +1,22 @@
+---
+# tasks file for r10k
+
+# Install RPM dependencies for r10k
+- name: Install the Ruby devel RPM
+  ansible.builtin.dnf:
+    name: ruby-devel
+    state: present
+
+- name: Install the FFI devel RPM
+  ansible.builtin.dnf:
+    name: libffi-devel
+    state: present
+
+- name: Install r10k gem
+  community.general.gem:
+    name: r10k
+    install_dir: /usr/local/share/gems/gems/
+    user_install: false
+    version: 4.1.0
+    state: present
+    #state: latest
