@@ -1,6 +1,8 @@
 ---
 # tasks file for docker_server
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html#ansible-collections-ansible-builtin-shell-module
+# Interactive scripts are not ideal for Ansible, but this is the recommended way to install docker on Linux.
+# Need swork to make run properly 100%
 - name: 'Download and install docker with the SHELL'
   ansible.builtin.shell:
     cmd: curl -sSL https://get.docker.com | sh
