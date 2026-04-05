@@ -8,12 +8,29 @@ options {
 
 logging {
     channel default_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
-        severity info;
+        file "/var/log/named/named_default.log" versions 3 size 5m;
         print-time yes;
         print-category yes;
+        print-severity yes;
+        severity debug;
+    };
+    channel queries_log {
+        file "/var/log/named/named_queries.log" versions 3 size 5m;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+        severity debug;
+    };
+    channel xfer_in_log {
+        file "/var/log/named/named_xfer_in.log" versions 3 size 5m;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+        severity debug;
     };
     category default { default_log; };
+    category queries { queries_log; };
+    category xfer-in { xfer_in_log; };
 };
 
 zone "edsonmanners.com" IN {
