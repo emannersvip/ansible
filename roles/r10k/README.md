@@ -2,6 +2,9 @@ Role Name
 =========
 
 A brief description of the role goes here.
+TODO: Still need to figure out how best to replace the current ansibel git repo with r10k
+Will most likely need to migrate all Git usage to local Visual studio code.
+Will start on my laptop and finalize on Katello
 
 Requirements
 ------------
