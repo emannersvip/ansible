@@ -6,6 +6,11 @@
     name: 'bind9'
     state: 'latest'
 
+- name: 'Install the lastest dig/host utilities'
+  apt:
+    name: 'dnsutils'
+    state: 'latest'
+
 - name: 'Bind config file'
   ansible.builtin.template:
     src: 'named.conf.options.j2'
