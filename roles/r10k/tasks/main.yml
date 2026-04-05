@@ -19,4 +19,23 @@
     user_install: false
     version: 4.1.0
     state: present
-    #state: latest
+
+- name: 'Create r10k config directory for r10k'
+  ansible.builtin.file:
+    path: /etc/puppetlabs/r10k
+    state: directory
+    mode: '0755'
+
+- name: 'Create r10k config file for r10k'
+  ansible.builtin.template:
+    src: 'r10k.yaml.j2'
+    dest: '/etc/puppetlabs/r10k/r10k.yaml'
+    mode: '0755'
+
+#- name: 'Create r10k config file for r10k'
+#  ansible.builtin.template:
+#    src: 'r10k.sh.j2'
+#    dest: '/opt/puppetlabs/puppet/bin/r10k.sh'
+#    owner: 'root'
+#    group: 'root'
+#    mode: '0751'
