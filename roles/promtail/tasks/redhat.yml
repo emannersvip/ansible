@@ -26,6 +26,7 @@
     dest: "/etc/promtail/config.yml"
     owner: 'promtail'
     group: "{{ grafana_stack_admin_group }}"
+    mode: '0660'
 
 - name: Start service promtail, if not started
   ansible.builtin.service:

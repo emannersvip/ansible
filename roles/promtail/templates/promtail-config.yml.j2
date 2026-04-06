@@ -9,13 +9,14 @@ clients:
   - url: http://pi-compute5-b.edsonmanners.com:3100/loki/api/v1/push
 
 scrape_configs:
-#- job_name: local
-#  static_configs:
-#  - targets:
-#      - localhost
-#    labels:
-#      job: varlogs
-#      __path__: /var/log/*log
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: syslog
+      host: __HOSTNAME__
+      __path__: /var/log/messages
 
 {% if ansible_facts.os_family == 'Debian' -%}
 - job_name: journald
