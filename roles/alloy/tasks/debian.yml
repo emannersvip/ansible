@@ -3,8 +3,7 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: 'Install the lastest Alloy Package Server'
   ansible.builtin.apt:
-    #deb: https://github.com/grafana/loki/releases/download/v3.5.3/promtail_3.5.3_{{ promtail_architecture }}.deb
-    deb: 'https://github.com/grafana/alloy/releases/download/v1.10.1/alloy-1.10.1-1.{{ promtail_architecture }}.deb'
+    deb: 'https://github.com/grafana/alloy/releases/download/v1.10.1/alloy-1.15.0-1.{{ alloy_architecture }}.deb'
     state: present
     update_cache: false
 
