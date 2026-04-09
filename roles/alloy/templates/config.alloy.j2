@@ -17,6 +17,14 @@ prometheus.scrape "default" {
     prometheus.exporter.unix.default.targets,
     [{
       // Self-collect metrics
+#- job_name: local
+#  static_configs:
+#  - targets:
+#      - localhost
+#    labels:
+#      job: varlogs
+#      __path__: /var/log/*log
+
       job         = "alloy",
       __address__ = "127.0.0.1:12345",
     }],
@@ -60,7 +68,7 @@ loki.relabel "system" {
 
 loki.write "default" {
   endpoint {
-    url = "http://pc5.edsonmanners.com:3100/loki/api/v1/push"
+    url = "http://pi-compute5-b.edsonmanners.com:3100/loki/api/v1/push"
   }
   external_labels = {}
 }
