@@ -25,7 +25,16 @@
       #    owner: 'nobody'
       #    group: 'nogroup'
       #    mode: 0775
-      #    recurse: no
+      #    recurse: no\
+      
+- name: Create Prometheus targets directory
+  ansible.builtin.file:
+    path: /opt/prometheus/targets
+    state: directory
+    owner: 'nobody'
+    group: 'nogroup'
+    mode: 0775
+    recurse: no
 
 - name: 'Prometheus config file'
   ansible.builtin.template:
