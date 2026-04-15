@@ -29,7 +29,7 @@
       
 - name: Create Prometheus targets directory
   ansible.builtin.file:
-    path: /opt/prometheus/targets
+    path: /opt/prometheus/etc/targets
     state: directory
     owner: 'nobody'
     group: 'nogroup'
