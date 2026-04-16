@@ -80,6 +80,7 @@
     debug: yes
     name: 'prometheus'
     image: 'prom/prometheus'
+    command: '/bin/prometheus --web.enable-remote-write-receiver'
     state: started
     ports:
       - "9090:9090/tcp"
