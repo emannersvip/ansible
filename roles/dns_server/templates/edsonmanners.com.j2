@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2026040500  ;serial 
+2026041600  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -80,6 +80,8 @@ pc5             CNAME   pi-compute5-a
 pc5a            CNAME   pi-compute5-a
 pc5b            CNAME   pi-compute5-b
 pk5             CNAME   pi-keyboard-500-wired
+prometheus	CNAME   pi-compute5-a
+loki		CNAME   pi-compute5-b
 ; 
 pr0             CNAME   pi-robot-0
 pr1             CNAME   pi-robot-1
