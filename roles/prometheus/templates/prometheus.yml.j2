@@ -4,7 +4,7 @@ global:
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
-    monitor: 'codelab-monitor'
+    monitor: 'eom-monitor'
 
 # Set alertmanager rules
 rule_files:
@@ -16,29 +16,27 @@ rule_files:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  # Override the global default and scrape targets from this job every 5 seconds.
   - job_name: 'prometheus'
-
-    # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
-
     static_configs:
       - targets: ['localhost:9090']
+
   - job_name: "node_exporter_file_sd"
     file_sd_configs:
       - files:
         - '/etc/prometheus/targets/*.json'
         - '/etc/prometheus/targets/*.yaml'
-        refresh_interval: 1m
+        refresh_interval: 5s
         
   - job_name: "node_exporter_linux"
-    scrape_interval: 10s
-    scrape_timeout: 10s
+    scrape_interval: 30s
+    scrape_timeout: 30s
     static_configs:
       - targets: [
         "infra01.edsonmanners.com:9100",
         "katello.edsonmanners.com:9100",
         "gamingrig.edsonmanners.com:9100",
-        "pi-compute.edsonmanners.com:9100",
         "pi-compute5-a.edsonmanners.com:9100",
         "pi-compute5-b.edsonmanners.com:9100",
         "pi-robot-0.edsonmanners.com:9100",
@@ -49,9 +47,6 @@ scrape_configs:
         "pi-robot-5.edsonmanners.com:9100",
         "pi-keyboard.edsonmanners.com:9100",
         "pi-keyboard-500.edsonmanners.com:9100",
-        "pi-zero-2.edsonmanners.com:9100",
-        "pi-zero-2w.edsonmanners.com:9100",
-        "pi-zero-w.edsonmanners.com:9100",
         "tp-compute-1.edsonmanners.com:9100",
         "tp-compute-2.edsonmanners.com:9100",
         "tp-compute-3.edsonmanners.com:9100",

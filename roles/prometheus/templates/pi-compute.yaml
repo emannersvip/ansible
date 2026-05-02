@@ -1,0 +1,4 @@
+- targets:
+  - pi-compute.edsonmanners.com:9100
+  labels:
+    hostgroup: RPi
