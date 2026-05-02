@@ -1,13 +1,48 @@
 ---
 # tasks file for eom_foreman
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/user_module.html
+- name: "Create Ansible service account"
+  theforeman.foreman.user:
+    name: ansible
+    firstname: Ansible
+    lastname: ServiceAccount
+    mail: edson.manners@gmail.com
+    description: "TODO: Description"
+    admin: false
+    user_password: letmeinAS!
+    auth_source: Internal
+    roles:
+      - 'Organization admin'
+    server_url: "https://foremanctl.edsonmanners.com"
+    username: "admin"
+    password: "blewiVcxnUmeCDnPTrJo"
+    state: present
+    validate_certs: false
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/operatingsystem_module.html
+- name: "Create an OperatingSystem"
+  theforeman.foreman.operatingsystem:
+    username: "ansible"
+    password: "letmeinAS!"
+    server_url: "https://foremanctl.edsonmanners.com"
+    name: "Rocky_Linux"
+    family: Redhat
+    major: 9
+    state: present
+    validate_certs: false
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/installation_medium_module.html
+# Rocky Linux media entry exists out of the box in 3.19
 - name: "Create Rocky Hostgroup"
   theforeman.foreman.hostgroup:
     name: "Rocky Linux"
     architecture: "x86_64"
-    operatingsystem: "Rocky Linux 9"
-    medium: "Rocky Linux 9"
+    operatingsystem: "Rocky_Linux 9"
+    medium: "Rocky Linux"
     ptable: "Kickstart default"
     server_url: "https://foremanctl.edsonmanners.com"
     username: "ansible"
     password: "letmeinAS!"
     state: present
+    validate_certs: false

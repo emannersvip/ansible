@@ -1,0 +1,4 @@
+- hosts: foremanctl.edsonmanners.com
+  become: true
+  roles:
+    - role: eom_foreman
