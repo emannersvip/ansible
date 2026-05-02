@@ -1,0 +1,13 @@
+---
+# tasks file for eom_foreman
+- name: "Create Rocky Hostgroup"
+  theforeman.foreman.hostgroup:
+    name: "Rocky Linux"
+    architecture: "x86_64"
+    operatingsystem: "Rocky Linux 9"
+    medium: "Rocky Linux 9"
+    ptable: "Kickstart default"
+    server_url: "https://foremanctl.edsonmanners.com"
+    username: "ansible"
+    password: "letmeinAS!"
+    state: present
