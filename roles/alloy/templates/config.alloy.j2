@@ -7,47 +7,18 @@ logging {
   level = "warn"
 }
 
-prometheus.exporter.unix "default" {
-  include_exporter_metrics = true
-  disable_collectors       = ["mdadm"]
-}
+prometheus.exporter.unix "default" { }
 
 prometheus.scrape "default" {
-  targets = array.concat(
-    prometheus.exporter.unix.default.targets,
-    [{
-      // Self-collect metrics
-#- job_name: local
-#  static_configs:
-#  - targets:
-#      - localhost
-#    labels:
-#      job: varlogs
-#      __path__: /var/log/*log
-
-      job         = "alloy",
-      __address__ = "127.0.0.1:12345",
-    }],
-  )
-
-  forward_to = [
-  // TODO: components to forward metrics to (like prometheus.remote_write or
-  // prometheus.relabel).
-  ]
+  targets = prometheus.exporter.unix.default.targets
+  forward_to = [prometheus.remote_write.default.receiver]
+  scrape_interval = 10s
 }
 
-local.file_match "local" {
-  path_targets = [
-    {
-    __address__ = "localhost",
-    __path__    = "/var/log/*log",
-    job         = "alloyvar",
-    },
-    {
-    __path__    = "/var/log/messages",
-    job         = "alloyvar",
-    },
-  ]
+prometheus.remote_write "default" {
+  endpoint {
+    url = "http://pi-compute5-a.edsonmanners.com:9090/api/v1/write"
+  }
 }
 
 loki.source.file "local" {
