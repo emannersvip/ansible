@@ -17,3 +17,22 @@
 #  when: ansible_os_family == "RedHat"
 #  tags:
 #    - unbound
+
+- name: Add user emanners to the alloy group
+  ansible.builtin.user:
+    name: emanners
+    groups: alloy
+    append: yes
+
+# TODO: Add alloy to the docker group if it exists
+#- name: Add user alloy to the docker group
+#  ansible.builtin.user:
+#    name: allloy
+#    groups: docker
+#    append: yes
+
+- name: Stop & disable the promtail service, if it exists.
+  ansible.builtin.service:
+    name: promtail
+      state: stopped
+      enabled: false
