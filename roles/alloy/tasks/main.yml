@@ -24,15 +24,22 @@
     groups: alloy
     append: yes
 
-# TODO: Add alloy to the docker group if it exists
+# TODO: Add alloy to the docker group if docker exists
 #- name: Add user alloy to the docker group
 #  ansible.builtin.user:
-#    name: allloy
+#    name: alloy
 #    groups: docker
+#    append: yes
+
+# TODO: Add alloy to the adm & systemd-journal groups if in Debian
+#- name: Add user alloy to the Debian groups
+#  ansible.builtin.user:
+#    name: alloy
+#    groups: adm,systemd-journal
 #    append: yes
 
 - name: Stop & disable the promtail service, if it exists.
   ansible.builtin.service:
     name: promtail
-      state: stopped
-      enabled: false
+    state: stopped
+    enabled: false
