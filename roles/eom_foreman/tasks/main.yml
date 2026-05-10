@@ -48,14 +48,18 @@
     domain: "edsonmanners.com"
     subnet: "Houston Main Subnet"
     architecture: "x86_64"
-    #operatingsystem: "Rocky_Linux 9"
     operatingsystem: "Rocky 9"
     medium: "Rocky Linux"
     ptable: "Kickstart default"
+    state: present
+    organizations:
+      - "Default Organization"
+    locations:
+      - "Default Location"
+    #
     server_url: "https://foremanctl.edsonmanners.com"
     username: "ansible"
     password: "letmeinAS!"
-    state: present
     validate_certs: false
 
 - include_tasks: domains.yml
