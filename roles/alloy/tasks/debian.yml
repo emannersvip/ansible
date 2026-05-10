@@ -29,8 +29,8 @@
     group: 'root'
     mode: '0640'
 
-- name: Start service alloy, if not started
+- name: 'Start service alloy, if not started'
   ansible.builtin.service:
-    name: alloy
+    name: 'alloy'
     state: started
     enabled: yes

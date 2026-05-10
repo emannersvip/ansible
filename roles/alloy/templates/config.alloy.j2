@@ -63,18 +63,21 @@ loki.relabel "system" {
 // https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.journal/
 {% if ansible_facts['os_family'] == 'Debian' %}
 loki.relabel "journal" {
-  forward_to = [loki.write.default.receiver]
+  forward_to = []
 
   rule {
     source_labels	= ["__journal__systemd_unit"]
     target_label	= "unit"
+  }
+  rule {
+    source_labels	= ["__journal__hostname"]
+    target_label	= "hostname"
   }
 }
 
 loki.source.journal "local_journal" {
   forward_to	= [loki.write.default.receiver]
   relabel_rules	= loki.relabel.journal.rules
-  labels	= {component = "loki.source.journal"}
 }
 {% endif %}
 
