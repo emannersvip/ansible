@@ -40,28 +40,7 @@
     password: "letmeinAS!"
     validate_certs: false
 
-# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/installation_medium_module.html
-# Rocky Linux media entry exists out of the box in 3.19
-- name: "Create Rocky Hostgroup"
-  theforeman.foreman.hostgroup:
-    name: "Rocky Linux"
-    domain: "edsonmanners.com"
-    subnet: "Houston Main Subnet"
-    architecture: "x86_64"
-    operatingsystem: "Rocky 9"
-    medium: "Rocky Linux"
-    ptable: "Kickstart default"
-    state: present
-    organizations:
-      - "Default Organization"
-    locations:
-      - "Default Location"
-    #
-    server_url: "https://foremanctl.edsonmanners.com"
-    username: "ansible"
-    password: "letmeinAS!"
-    validate_certs: false
-
 - include_tasks: domains.yml
 - include_tasks: subnets.yml
+- include_tasks: hostgroups.yml
 - include_tasks: hosts.yml
