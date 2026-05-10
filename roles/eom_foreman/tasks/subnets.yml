@@ -1,0 +1,30 @@
+---
+# tasks file for eom_foreman:subnets
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/sub
+- name: "Create Foreman Subnet"
+  theforeman.foreman.subnet:
+    name: 'Houston Main Subnet'
+    description: "TODO: Description"  
+    network: '192.168.68.0'
+    mask: '255.255.252.0'
+    domains:
+      - 'edsonmanners.com'
+    gateway: '192.168.68.1'
+    dns_primary: '192.168.69.1'
+    dns_secondary: '192.168.68.5'
+    vlanid: 10
+    from_ip: '192.168.70.100'
+    to_ip: '192.168.70.160'
+    ipam: 'DHCP'
+    boot_mode: 'DHCP'
+    mtu: 1500
+    locations:
+      - 'Default Location'
+    organizations:
+      - 'Default Organization'
+    state: present
+    server_url: "https://foremanctl.edsonmanners.com"
+    username: "ansible"
+    password: "letmeinAS!"
+    validate_certs: false
