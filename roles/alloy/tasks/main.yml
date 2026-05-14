@@ -37,9 +37,12 @@
 #    name: alloy
 #    groups: adm,systemd-journal
 #    append: yes
+- name: Gather service facts
+  ansible.builtin.service_facts:
 
 - name: Stop & disable the promtail service, if it exists.
   ansible.builtin.service:
     name: promtail
     state: stopped
     enabled: false
+  when: "'promtail.service' in ansible_facts.servces"
