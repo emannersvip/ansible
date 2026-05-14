@@ -1,0 +1,46 @@
+---
+# tasks file for eom_foreman
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/user_module.html
+- name: "Create Ansible service account"
+  theforeman.foreman.user:
+    name: ansible
+    firstname: Ansible
+    lastname: ServiceAccount
+    mail: edson.manners@gmail.com
+    description: "TODO: Description"
+    admin: false
+    user_password: letmeinAS!
+    auth_source: Internal
+    roles:
+      - 'Organization admin'
+    server_url: "https://foremanctl.edsonmanners.com"
+    username: "admin"
+    password: "blewiVcxnUmeCDnPTrJo"
+    state: present
+    validate_certs: false
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/operatingsystem_module.html
+- name: "Create an OperatingSystem"
+  theforeman.foreman.operatingsystem:
+    name: "Rocky_Linux"
+    major: 9
+    description: "Rocky 9"
+    family: Redhat
+    architectures:
+      - "x86_64"
+    ptables:
+      - "Kickstart default"
+    media:
+      - "Rocky Linux"
+    state: present
+    #
+    server_url: "https://foremanctl.edsonmanners.com"
+    username: "ansible"
+    password: "letmeinAS!"
+    validate_certs: false
+
+- include_tasks: domains.yml
+- include_tasks: subnets.yml
+- include_tasks: hostgroups.yml
+- include_tasks: hosts.yml

@@ -1,0 +1,18 @@
+---
+- hosts:
+    gamingrig.edsonmanners.com,
+    infra01.edsonmanners.com,
+    katello.edsonmanners.com,
+    pi-compute.edsonmanners.com,
+    pi-compute5-a.edsonmanners.com,
+    pi-compute5-b.edsonmanners.com,
+    pi-keyboard-500.edsonmanners.com,
+    pi-prusalink-5.edsonmanners.com,
+    pi-robot-4.edsonmanners.com,
+    tp-compute-1.edsonmanners.com,
+    tp-compute-2.edsonmanners.com,
+    tp-compute-3.edsonmanners.com,
+    tp-compute-4.edsonmanners.com
+  become: true
+  roles:
+    - role: alloy

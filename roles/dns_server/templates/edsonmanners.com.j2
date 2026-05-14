@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2026041600  ;serial 
+2026050900  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -49,10 +49,11 @@ dhcp-secondary      CNAME   pi-compute
 docker1             CNAME   pc5
 ;
 dns1            A       192.168.68.5
+foremanctl	A	192.168.70.105
 homeassistant   A       192.168.69.60
 infra01         A       192.168.68.5
 katello         A       192.168.68.6
-www             CNAME   www.debuntu.org.
+www             CNAME   katello.edsonmanners.com.
 ;
 gw              A       192.168.68.1
                 TXT     "Network gateway"

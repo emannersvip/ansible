@@ -10,20 +10,39 @@ logging {
 prometheus.exporter.unix "default" { }
 
 prometheus.scrape "default" {
-  targets = prometheus.exporter.unix.default.targets
-  forward_to = [prometheus.remote_write.default.receiver]
-  scrape_interval = 10s
+  targets = array.concat(
+    prometheus.exporter.unix.default.targets,
+    [{
+      // Self-collect metrics
+      job         = "alloy",
+      __address__ = "127.0.0.1:12345",
+    }],
+  )
+
+  forward_to = [
+  // TODO: components to forward metrics to (like prometheus.remote_write or
+  // prometheus.relabel).
+  ]
 }
 
-prometheus.remote_write "default" {
-  endpoint {
-    url = "http://pi-compute5-a.edsonmanners.com:9090/api/v1/write"
-  }
+{% if ansible_facts['os_family'] == 'RedHat' %}
+local.file_match "local" {
+  path_targets = [
+  //  {
+  //  __address__ = "localhost",
+  //  __path__    = "/var/log/*log",
+  //  job         = "alloyvar",
+  //  },
+    {
+    __address__ = "localhost",
+    __path__    = "/var/log/messages",
+    job         = "alloyvar",
+    },
+  ]
 }
 
-loki.source.file "local" {
+loki.source.file "local_files" {
   targets               = local.file_match.local.targets
-  //forward_to            = [loki.write.default.receiver]
   forward_to            = [loki.relabel.system.receiver]
   legacy_positions_file = "/tmp/positions.yaml"
 }
@@ -36,6 +55,28 @@ loki.relabel "system" {
     replacement = constants.os
   }
 }
+{% endif %}
+
+// https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.journal/
+{% if ansible_facts['os_family'] == 'Debian' %}
+loki.relabel "journal" {
+  forward_to = []
+
+  rule {
+    source_labels	= ["__journal__systemd_unit"]
+    target_label	= "unit"
+  }
+  rule {
+    source_labels	= ["__journal__hostname"]
+    target_label	= "hostname"
+  }
+}
+
+loki.source.journal "local_journal" {
+  forward_to	= [loki.write.default.receiver]
+  relabel_rules	= loki.relabel.journal.rules
+}
+{% endif %}
 
 loki.write "default" {
   endpoint {
