@@ -31,11 +31,11 @@ prometheus.scrape "default" {
 {% if ansible_facts['os_family'] == 'RedHat' %}
 local.file_match "local" {
   path_targets = [
-    {
-    __address__ = "localhost",
-    __path__    = "/var/log/*log",
-    job         = "alloyvar",
-    },
+  //  {
+  //  __address__ = "localhost",
+  //  __path__    = "/var/log/*log",
+  //  job         = "alloyvar",
+  //  },
     {
     __address__ = "localhost",
     __path__    = "/var/log/messages",

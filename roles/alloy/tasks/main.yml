@@ -45,4 +45,4 @@
     name: promtail
     state: stopped
     enabled: false
-  when: "'promtail.service' in ansible_facts.servces"
+  when: "'promtail.service' in ansible_facts.services"

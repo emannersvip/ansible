@@ -9,10 +9,10 @@
 #xps.edsonmanners.com
 
 [all]
-gamingrig.edsonmanners.com
+gamingrig.edsonmanners.com alloy_architecture=amd64
 foremanctl.edsonmanners.com
 katello.edsonmanners.com
-infra01.edsonmanners.com
+infra01.edsonmanners.com alloy_architecture=amd64
 pi-compute.edsonmanners.com
 pi-compute5-a.edsonmanners.com
 pi-compute5-b.edsonmanners.com
