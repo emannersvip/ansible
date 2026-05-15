@@ -7,10 +7,7 @@ logging {
   level = "warn"
 }
 
-prometheus.exporter.unix "default" {
-  include_exporter_metrics = true
-  disable_collectors       = ["mdadm"]
-}
+prometheus.exporter.unix "default" { }
 
 prometheus.scrape "default" {
   targets = array.concat(
