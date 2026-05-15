@@ -1,0 +1,19 @@
+---
+  - name: 'Create a rulebook activation'
+    ansible.eda.rulebook_activation:
+      name: 'Example activation'
+      description: 'Example activation description'
+      project: 'Example project'
+      rulebook_name: 'basic_short.yml'
+      decision_environment_name: 'Example Decision Environment'
+      enabled: False
+      awx_token_name: 'Example AWX Token'
+
+  - name: 'Get information about the rulebook activation'
+    ansible.eda.rulebook_activation_info:
+      name: 'Example Activation'
+
+  - name: 'Delete rulebook activation'
+    ansible.eda.rulebook_activation:
+      name: 'Example activation'
+      state: absent
