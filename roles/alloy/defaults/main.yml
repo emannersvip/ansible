@@ -3,5 +3,5 @@
 
 # arm64 || amd64
 alloy_architecture: arm64
-grafana_stack_admin_group: 'adm'
 alloy_distro_logfile: 'syslog'
+grafana_stack_admin_group: 'adm'
