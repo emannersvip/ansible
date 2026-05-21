@@ -1,4 +1,4 @@
 ---
 # defaults file for eom_foreman
 
-foreman_server: 'foremanctl.edsonmanners.com'
+foreman_server: 'katello.edsonmanners.com'
