@@ -10,7 +10,7 @@ sudo /bin/bash -c "$(curl -fsSL https://github.com/emannersvip/ansible/raw/refs/
 
 * Run Ansible role-based playbook
 ```bash
-ansible-playbook -vvv -k -i inventory.yml prometheus.yml
+ansible-playbook -vvv -k --diff --ask-become -i inventory.yml prometheus.yml
 ```
 
 * Create new Ansible role
