@@ -16,4 +16,4 @@
   loop:
     - http
     - https
-    - smart-proxy
+#    - smart-proxy
