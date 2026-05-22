@@ -5,7 +5,7 @@
 - name: "Create Foreman Domain"
   theforeman.foreman.domain:
     name: 'edsonmanners.com'
-    description: "TODO: Description"
+    description: "edsonmanners.com"
     locations:
       - "{{ location }}"
     organizations:

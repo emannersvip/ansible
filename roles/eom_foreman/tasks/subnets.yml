@@ -20,9 +20,9 @@
     boot_mode: 'DHCP'
     mtu: 1500
     locations:
-      - 'Default Location'
+      - "{{ location }}"
     organizations:
-      - 'Default Organization'
+      - "{{ organization }}"
     state: present
     server_url: "https://{{ foreman_server }}"
     username: "ansible"

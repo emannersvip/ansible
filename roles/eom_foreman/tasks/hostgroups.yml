@@ -13,9 +13,9 @@
     ptable: "Kickstart default"
     state: present
     organizations:
-      - "Default Organization"
+      - "{{ organization }}"
     locations:
-      - "Default Location"
+      - "{{ location }}"
     #
     server_url: "https://{{ foreman_server }}"
     username: "ansible"
@@ -34,9 +34,9 @@
     ptable: "Kickstart default"
     state: present
     organizations:
-      - "Default Organization"
+      - "{{ organization }}"
     locations:
-      - "Default Location"
+      - "{{ location }}"
     #
     server_url: "https://{{ foreman_server }}"
     username: "ansible"
