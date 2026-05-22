@@ -3,6 +3,11 @@
 - include_tasks: firewalld.yml
 
 # https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/user_module.html
+# Install python dependency for 'theforeman' collection
+- name: "Install python3-requests on Foreman server"
+  ansible.builtin.dnf:
+    name: python3-requests
+    state: present
 - name: "Create Ansible service account"
   theforeman.foreman.user:
     name: ansible
@@ -15,6 +20,10 @@
     auth_source: Internal
     roles:
       - 'Organization admin'
+    locations:
+      - "{{ location }}"
+    organizations:
+      - "{{ organization }}"
     server_url: "https://{{ foreman_server }}"
     username: "admin"
     password: "blewiVcxnUmeCDnPTrJo"

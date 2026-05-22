@@ -7,9 +7,9 @@
     name: 'edsonmanners.com'
     description: "TODO: Description"
     locations:
-      - 'Default Location'
+      - "{{ location }}"
     organizations:
-      - 'Default Organization'
+      - "{{ organization }}"
     state: present
     server_url: "https://{{ foreman_server }}"
     username: "ansible"

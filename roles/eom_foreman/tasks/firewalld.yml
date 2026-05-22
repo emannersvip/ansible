@@ -1,5 +1,6 @@
 ---
 # tasks for managing firewalld on Foreman server
+# https://docs.ansible.com/projects/ansible/latest/collections/ansible/posix/firewalld_module.html
 - name: "Ensure firewalld is running and enabled"
   ansible.builtin.service:
     name: firewalld

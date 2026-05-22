@@ -2,3 +2,5 @@
 # defaults file for eom_foreman
 
 foreman_server: 'katello.edsonmanners.com'
+location: 'Houston'
+organization: 'EdsonManners.com'
