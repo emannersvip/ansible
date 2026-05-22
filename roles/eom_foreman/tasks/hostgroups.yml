@@ -28,10 +28,10 @@
     name: "PiOS"
     domain: "edsonmanners.com"
     subnet: "Houston Main Subnet"
-    architecture: "x86_64"
-    operatingsystem: "Rocky 9"
-    medium: "Rocky Linux"
-    ptable: "Kickstart default"
+    architecture: "aarch64"
+    operatingsystem: "Debian 12 Bookworm"
+    medium: "Debian mirror"
+    ptable: "Preseed default"
     state: present
     organizations:
       - "{{ organization }}"
