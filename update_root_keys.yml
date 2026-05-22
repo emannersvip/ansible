@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: "Update root keys"
+      ansible.builtin.lineinfile:
+        path: /root/.ssh/authorized_keys
+        regexp: 'foreman-proxy'
+        line: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClaj//1uMz3ZLsqbwlO4WI8icZuHmvBNcN+1jmNG5EdJ4DbSPBlD2RYKvfxYVYBOH+i2vwT7x2p6AL8RcuimgP8ft4QdY6blvAG8E/OGK7OSapGmDxox7utMN2ldCiEALmOmTbkiJ8AVCikNX2CH0FP/3ijqpU8E4y/KGA/FgGIIIogt5WQm29wbDkYo5kIrxibuPuuoKjuweT35jlo6TLIo+nM+IQ/QUmvTs34ZyyOOOI6Aj8FbaEF3fKP+JTA/bSD3GeVi8CN6bSaqlQwvSVZ1DNPh3RLrKHM2zguJTysi0ROtEpj5wgCmj2Vs9erImKS/bd8KetyLbRHb5ae5J4lR5omNeep/EQFaWqEy6w4Jp3OOK3feI0+l5n4n5ZTk0l4oy4vAw0gvw37cjv0o+ejwskapsBlL4+J4eXXnFXH2oKds9wrerr/zjuYuqP6p+MC5F2lI8EtYpjC8sY0RBSRoCLhZMy+MElq4uSEllSeZzzCI1T/ebMUyxEprKCBTs= foreman-proxy@katello.edsonmanners.com'
+        state: present
