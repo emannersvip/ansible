@@ -1,5 +1,6 @@
 ---
 # tasks file for eom_foreman
+- include_tasks: firewalld.yml
 
 # https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/user_module.html
 - name: "Create Ansible service account"

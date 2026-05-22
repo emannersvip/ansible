@@ -1,0 +1,17 @@
+---
+# tasks for managing firewalld on Foreman server
+- name: "Ensure firewalld is running and enabled"
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: "Open HTTP and HTTPS ports in firewalld"
+  ansible.builtin.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: yes
+  loop:
+    - http
+    - https
