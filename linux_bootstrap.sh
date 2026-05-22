@@ -54,7 +54,7 @@ else
 		echo -e "---- Setting up Root SSH keys..."
 		touch /root/.ssh/authorized_keys
  		cat << EOF > /root/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCcGnCtPnIkI/dTA6lJHKaFskgoofFdGFbUPwMAOqp4R35BqCGtc2gcOjbCwyQjfirHzIK7r/HyKOyVp5Oz2p6bJybhaO+G2uSWvtWeXuOCs9qX4BpHt3t96eRKsqD6tN6s/fMx4knc3DbygNp14pShfevZkAhYHhoDDATvaHZuatRgJY8Oq+NumOwQcNSlbIA5jBes2lnVPAXyhai1OMShIuWpugs3Pht70G6zw43NVAqFWdSvOJRJ9QffUPuzFdvAfrai0RQuul4W9LIl0TwiUC9/tMSngCBuA8cJIBUe3WeTBaPbNAocBvTzoiFYVXpjHPJAfsCyIk9aUv2143lpv7a8euHgkdvrp5YQ8nkXzS7si7jhVs7Ycp6HW/O0npUW5s3KeE0943pclinmEwp+U+BqmX+MHl3TZCTsdhgWQFZbPNfG9aFhEIgYXjBE9kdlQQgN/dN3FDAhCswKzvFzuJg7PL00gkzqeo9CAUr/WZfM4obbTRg0pVjt9NT/9n8= foreman-proxy@katello.edsonmanners.com
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClaj//1uMz3ZLsqbwlO4WI8icZuHmvBNcN+1jmNG5EdJ4DbSPBlD2RYKvfxYVYBOH+i2vwT7x2p6AL8RcuimgP8ft4QdY6blvAG8E/OGK7OSapGmDxox7utMN2ldCiEALmOmTbkiJ8AVCikNX2CH0FP/3ijqpU8E4y/KGA/FgGIIIogt5WQm29wbDkYo5kIrxibuPuuoKjuweT35jlo6TLIo+nM+IQ/QUmvTs34ZyyOOOI6Aj8FbaEF3fKP+JTA/bSD3GeVi8CN6bSaqlQwvSVZ1DNPh3RLrKHM2zguJTysi0ROtEpj5wgCmj2Vs9erImKS/bd8KetyLbRHb5ae5J4lR5omNeep/EQFaWqEy6w4Jp3OOK3feI0+l5n4n5ZTk0l4oy4vAw0gvw37cjv0o+ejwskapsBlL4+J4eXXnFXH2oKds9wrerr/zjuYuqP6p+MC5F2lI8EtYpjC8sY0RBSRoCLhZMy+MElq4uSEllSeZzzCI1T/ebMUyxEprKCBTs= foreman-proxy@katello.edsonmanners.com
 EOF
 		chmod 0600 /root/.ssh/authorized_keys
   		echo -e "---- Keys added to /root/.ssh"
