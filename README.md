@@ -2,7 +2,7 @@
 ---
 [MarkDown Examples](https://github.com/colbymchenry/codegraph/blob/main/README.md?plain=1)
 
-* Right click the **'Raw'** button to get the URL for the non-HTML link.
+* Be sure to run the command below as `emanners` and **not** the `root` user.
 
 ```bash
 sudo /bin/bash -c "$(curl -fsSL https://github.com/emannersvip/ansible/raw/refs/heads/main/linux_bootstrap.sh)"
