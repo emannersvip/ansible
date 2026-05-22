@@ -14,9 +14,9 @@
     firstname: Ansible
     lastname: ServiceAccount
     mail: edson.manners@gmail.com
-    description: "TODO: Description"
+    description: "Ansible Service Account"
     admin: false
-    user_password: letmeinAS!
+    user_password: "{{ ansible_user_pass }}"
     auth_source: Internal
     roles:
       - 'Organization admin'
@@ -26,7 +26,7 @@
       - "{{ organization }}"
     server_url: "https://{{ foreman_server }}"
     username: "admin"
-    password: "blewiVcxnUmeCDnPTrJo"
+    password: "{{ foreman_admin_pass }}"
     state: present
     validate_certs: false
 

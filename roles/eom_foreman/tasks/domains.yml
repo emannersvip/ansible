@@ -13,5 +13,5 @@
     state: present
     server_url: "https://{{ foreman_server }}"
     username: "ansible"
-    password: "letmeinAS!"
+    password: "{{ ansible_user_pass }}"
     validate_certs: false
