@@ -10,18 +10,18 @@
 
 [all]
 gamingrig.edsonmanners.com alloy_architecture=amd64
-foremanctl.edsonmanners.com
+#foremanctl.edsonmanners.com
 katello.edsonmanners.com
 infra01.edsonmanners.com alloy_architecture=amd64
 pi-compute.edsonmanners.com
 pi-compute5-a.edsonmanners.com
 pi-compute5-b.edsonmanners.com
-#pi-keyboard.edsonmanners.com
+pi-keyboard.edsonmanners.com
 pi-keyboard-500.edsonmanners.com
 pi-robot-1.edsonmanners.com
 pi-robot-2.edsonmanners.com
 pi-robot-3.edsonmanners.com
-#pi-robot-4.edsonmanners.com
+pi-robot-4.edsonmanners.com
 pi-robot-5.edsonmanners.com
 pi-prusalink-5.edsonmanners.com
 
@@ -38,11 +38,11 @@ pi-robot-4
 pi-robot-5
 
 [cams]
-#pi-robot-1
-#pi-robot-2
-#pi-robot-3
-#pi-robot-4
-#pi-robot-5
+pi-zero-2w architecture=arm7
+pr1 architecture=arm64
+pr2 architecture=arm64
+pr3 architecture=arm64
+pr5 architecture=arm64
 
 [vm_compute]
 pi-robot-4.edsonmanners.com
