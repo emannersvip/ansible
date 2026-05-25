@@ -1,0 +1,6 @@
+---
+- hosts:
+    tailscale
+  become: true
+  roles:
+    - role: node-exporter

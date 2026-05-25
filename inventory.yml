@@ -50,3 +50,13 @@ tp-compute-1.edsonmanners.com
 tp-compute-2.edsonmanners.com
 tp-compute-3.edsonmanners.com
 tp-compute-4.edsonmanners.com
+
+[tailscale]
+#compute1.tail757ff9.ts.net
+#compute2.tail757ff9.ts.net
+#compute3.tail757ff9.ts.net
+#compute4.tail757ff9.ts.net
+homeserverpi.tail757ff9.ts.net
+plex.tail757ff9.ts.net
+proxmox.tail757ff9.ts.net
+ubuntu-purple.tail757ff9.ts.net

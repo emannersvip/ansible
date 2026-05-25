@@ -42,3 +42,23 @@
     username: "ansible"
     password: "{{ ansible_user_pass }}"
     validate_certs: false
+
+- name: "Create Ubuntu Hostgroup"
+  theforeman.foreman.hostgroup:
+    name: "Ubuntu"
+    domain: "edsonmanners.com"
+    subnet: "Houston Main Subnet"
+    architecture: "x86_64"
+    operatingsystem: "Ubuntu 26.04 LTS"
+    medium: "Ubuntu mirror"
+    ptable: "Preseed default"
+    state: present
+    organizations:
+      - "{{ organization }}"
+    locations:
+      - "{{ location }}"
+    #
+    server_url: "https://{{ foreman_server }}"
+    username: "ansible"
+    password: "{{ ansible_user_pass }}"
+    validate_certs: false
