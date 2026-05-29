@@ -1,0 +1,27 @@
+# https://github.com/timmoth/rackpeek
+---
+# tasks file for rackpeek
+- name: 'Create RackPeek /opt/rackpeek subdirectories for RackPeek'
+  ansible.builtin.file:
+    path: "/opt/rackpeek/{{ item }}"
+    state: directory
+  loop:
+    - "config"
+    - "logs"
+    - "data"
+
+- name: 'RackPeek Docker Volume'
+  ansible.builtin.docker_volume:
+    name: rackpeek-config
+    state: present
+
+- name: 'RackPeek Docker Container'
+  ansible.builtin.docker_container:
+    name: rackpeek
+    image: aptacode/rackpeek:latest
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - rackpeek-config:/config
