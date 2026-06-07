@@ -1,0 +1,5 @@
+---
+- hosts: gamingrig.edsonmanners.com
+  tasks:
+    - name: Gather facts
+      setup:

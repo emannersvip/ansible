@@ -1,0 +1,6 @@
+plugin: theforeman.foreman.foreman
+url: https://katello.edsonmanners.com
+user: ansible
+password: letmeinAS!
+host_filters: 'organization="EdsonManners.com"'
+validate_certs: false
