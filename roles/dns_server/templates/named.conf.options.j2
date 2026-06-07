@@ -4,6 +4,7 @@ options {
     allow-transfer { none; }; // No transfers from slave
     recursion yes; // Authoritative server, disable recursion
     dnssec-validation yes;
+    forwarders { 192.168.68.1; 1.1.1.1; 8.8.8.8; };
 };
 
 logging {
