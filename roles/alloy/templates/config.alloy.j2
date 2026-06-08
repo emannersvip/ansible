@@ -1,88 +1,16 @@
-// Managed by Ansible alloy role.
-// Alloy config for {{ inventory_hostname }}
+// Managed by Alloy role -- restored known-good config for pi-robot-5
 
 logging {
   level = "info"
 }
 
-// Collect system+noder metrics via the node_exporter bundle.
-prometheus.exporter.unix "default" {
-  include_exporter_metrics = true
-  disable_collectors       = ["mdadm", "rapl", "gpu"]
-}
-
-prometheus.scrape "default" {
-  targets = array.concat(
-    prometheus.exporter.unix.default.targets,
-    [{
-      job         = "alloy",
-      __address__ = "127.0.0.1:12345",
-    }],
-  )
-
-  forward_to = [
-    prometheus.remote_write.loki_remote.receiver,
-  ]
-}
-
-// https://grafana.com/docs/alloy/latest/reference/components/prometheus/prometheus.remote_write
-prometheus.remote_write "loki_remote" {
-  endpoint {
-    url = var.prometheus_remote_write_url
-  }
-}
-
 loki.source.journal "journal" {
   forward_to = [loki.relabel.default.receiver]
   labels = {
-    host = "{{ inventory_hostname }}",
+    host = "pi-robot-5",
     job  = "journal",
   }
 }
-
-{% if ansible_facts['os_family'] == 'RedHat' %}
-local.file_match "local_files" {
-  path_targets = [
-    {
-      __address__ = "localhost",
-      __path__    = "/var/log/*.log",
-      job         = "varlogs",
-    },
-    {
-      __address__ = "localhost",
-      __path__    = "/var/log/messages",
-      job         = "varlogs",
-    },
-  ]
-}
-
-loki.source.file "local" {
-  targets        = local.file_match.local_files.targets
-  forward_to     = [loki.relabel.default.receiver]
-}
-{% endif %}
-
-{% if ansible_facts['os_family'] == 'Debian' %}
-local.file_match "local_files" {
-  path_targets = [
-    {
-      __address__ = "localhost",
-      __path__    = "/var/log/*.log",
-      job         = "varlogs",
-    },
-    {
-      __address__ = "localhost",
-      __path__    = "/var/log/syslog",
-      job         = "varlogs",
-    },
-  ]
-}
-
-loki.source.file "local" {
-  targets        = local.file_match.local_files.targets
-  forward_to     = [loki.relabel.default.receiver]
-}
-{% endif %}
 
 loki.relabel "default" {
   forward_to = [loki.write.default.receiver]
@@ -93,7 +21,32 @@ loki.relabel "default" {
   }
   rule {
     target_label = "os"
-    replacement  = constants.os
+    replacement  = "Linux"
+  }
+  // Detect log level from log line text and emit detected_level label.
+  rule {
+    source_labels = ["__log_line__"]
+    regex         = "(?i)\\b(emerg|alert|crit|error|err)\\b"
+    target_label  = "detected_level"
+    replacement   = "error"
+  }
+  rule {
+    source_labels = ["__log_line__"]
+    regex         = "(?i)\\b(warn|warning)\\b"
+    target_label  = "detected_level"
+    replacement   = "warning"
+  }
+  rule {
+    source_labels = ["__log_line__"]
+    regex         = "(?i)\\b(info|information)\\b"
+    target_label  = "detected_level"
+    replacement   = "info"
+  }
+  rule {
+    source_labels = ["__log_line__"]
+    regex         = "(?i)\\b(debug|trace|verbose)\\b"
+    target_label  = "detected_level"
+    replacement   = "debug"
   }
 }
 
