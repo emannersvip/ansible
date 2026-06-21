@@ -1,0 +1,16 @@
+- hosts: pi-robot-2
+  become: true
+  roles:
+    - role: eom_sudo
+    - role: mediamtx
+      vars:
+        mtxvers: '1.18.2'
+        architecture: 'armv7'   # arm64 | armv6 | armv7
+        mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v{{ mtxvers}}/mediamtx_v{{ mtxvers }}_linux_{{ architecture }}.tar.gz"
+        install_tmp_path: '/tmp'
+        install_bin_path: '/usr/local/bin'
+        install_cfg_path: '/usr/local/etc'
+        rpiCameraHFlip: True
+        rpiCameraVFlip: True
+    - role: node_exporter
+    - role: promtail

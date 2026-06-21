@@ -1,6 +1,6 @@
 ---
 # tasks file for eom_sudo
-- name: 'Add whele sudo access to sudoers.d'
+- name: 'Add wheel sudo access to sudoers.d'
   ansible.builtin.template:
     src: 'wheel_root.j2'
     dest: '/etc/sudoers.d/wheel_root'
