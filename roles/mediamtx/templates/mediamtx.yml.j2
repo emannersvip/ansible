@@ -141,7 +141,7 @@ apiServerKey: server.key
 # Path to the server certificate.
 apiServerCert: server.crt
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-apiAllowOrigin: '*'
+apiAllowOrigins: '*'
 # List of IPs or CIDRs of proxies placed before the HTTP server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
@@ -164,7 +164,7 @@ metricsServerKey: server.key
 # Path to the server certificate.
 metricsServerCert: server.crt
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-metricsAllowOrigin: '*'
+metricsAllowOrigins: '*'
 # List of IPs or CIDRs of proxies placed before the HTTP server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
@@ -187,7 +187,7 @@ pprofServerKey: server.key
 # Path to the server certificate.
 pprofServerCert: server.crt
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-pprofAllowOrigin: '*'
+pprofAllowOrigins: '*'
 # List of IPs or CIDRs of proxies placed before the HTTP server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
@@ -210,7 +210,7 @@ playbackServerKey: server.key
 # Path to the server certificate.
 playbackServerCert: server.crt
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-playbackAllowOrigin: '*'
+playbackAllowOrigins: '*'
 # List of IPs or CIDRs of proxies placed before the HTTP server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
@@ -227,10 +227,12 @@ rtsp: yes
 # UDP-multicast allows to save bandwidth when clients are all in the same LAN.
 # TCP is the most versatile, and does support encryption.
 # The handshake is always performed with TCP.
-protocols: [udp, multicast, tcp]
+# protocols: [udp, multicast, tcp]		# Deprecated
+rtspTransports: [udp, multicast, tcp]
 # Encrypt handshakes and TCP streams with TLS (RTSPS).
 # Available values are "no", "strict", "optional".
-encryption: "no"
+# encryption: "no"
+rtspEncryption: "no"
 # Address of the TCP/RTSP listener. This is needed only when encryption is "no" or "optional".
 rtspAddress: :8554
 # Address of the TCP/TLS/RTSPS listener. This is needed only when encryption is "strict" or "optional".
