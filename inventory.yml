@@ -35,11 +35,11 @@ pi-robot-4
 pi-robot-5
 
 [cams]
-pi-zero-2w architecture=arm7
-pr1 architecture=arm64
-pr2 architecture=arm64
-pr3 architecture=arm64
-pr5 architecture=arm64
+pi-zero-2w
+pr1
+pr2
+pr3
+pr5
 
 [vm_compute]
 pi-robot-4.edsonmanners.com

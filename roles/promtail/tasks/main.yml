@@ -5,12 +5,12 @@
 # https://grafana.com/docs/loki/latest/send-data/promtail/scraping/#journal-scraping-linux-only
 
 - include_tasks: debian.yml
-  when: ansible_os_family == "Debian"
+  when: ansible_facts["os_family"] == "Debian"
   tags:
     - unbound
 
 - include_tasks: redhat.yml
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts["os_family"] == "RedHat"
   tags:
     - unbound
 
