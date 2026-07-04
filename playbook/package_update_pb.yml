@@ -1,0 +1,24 @@
+---
+- name: Update all packages on Linux servers
+  hosts: gamingrig.edsonmanners.com
+  become: true
+  gather_facts: yes
+
+  tasks:
+    # Debian/Ubuntu Famitly (apt)
+    - name: Update apt cache and upgrade all packages (Debian/Ubuntu)
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+      when: ansible_facts['os_family'] == 'Debian'
+    
+    # Redhat Family (yum/dnf)
+    - name: Update cache and upgrade all packages (Redhat/Rocky/CentOS/Fedora)
+      # The 'package' module auto-detects yum or dnf, or you can use 'yum' specifically
+      package:
+        name: '*'
+        state: latest
+        update_cache: yes
+      when: ansible_facts['os_family'] == 'RedHat'
