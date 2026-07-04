@@ -118,7 +118,10 @@ host tp-compute-4 { hardware ethernet 2c:cf:67:17:42:0b; fixed-address 192.168.6
 host pi-keyboard-400 { hardware ethernet dc:a6:32:ea:d8:45; fixed-address 192.168.69.60; }
 #host pi-keyboard-400-wifi { hardware ethernet dc:a6:32:ea:d8:46; fixed-address 192.168.69.61; }
 # --
+# WiFi
 host pi-prusalink-5 { hardware ethernet 88:a2:9e:7a:cb:c7; fixed-address 192.168.69.180; }
+# Wired
+#host pi-prusalink-5 { hardware ethernet 88:a2:9e:7a:cb:c6; fixed-address 192.168.69.180; }
 # --
 host pi-robot-0 { hardware ethernet b8:27:eb:b0:ba:d9; fixed-address 192.168.69.100; }
 host pi-robot-1 { hardware ethernet dc:a6:32:11:ae:84; fixed-address 192.168.69.101; }
@@ -156,6 +159,11 @@ host hubspace_bathswitch_master { hardware ethernet 94:54:c5:0d:b7:80; fixed-add
 host hubspace_transformer_f { hardware ethernet c8:2e:18:98:5f:90; fixed-address 192.168.71.99; }
 #host hubspace_transformer_b { hardware ethernet c8:2e:18:98:5f:91; fixed-address 192.168.71.100; }
 
+# Printers - Printing Devices (140-149)
+host printer_canon_mf416dw { hardware ethernet f4:81:39:e5:53:e3; fixed-address 192.168.71.140; }
+host printer_hp_envy_photo_7858 { hardware ethernet 80:e8:2c:8a:0c:8d; fixed-address 192.168.71.141; }
+host printer_hp_envy_photo_7975 { hardware ethernet 24:6a:0e:fe:42:e1; fixed-address 192.168.71.142; }
+#
 # Miscellaneous/Uncategorized Home WiFi Devices (150-170)
 host chamberlain_garagedoor_double { hardware ethernet 0c:95:05:de:a7:88; fixed-address 192.168.71.150; }
 #host chamberlain_garagedoor_single { hardware ethernet 0c:95:05:de:a7:88; fixed-address 192.168.71.151; }

@@ -1,6 +1,7 @@
 ---
 - name: Update all packages on Linux servers
-  hosts: gamingrig.edsonmanners.com
+  #hosts: gamingrig.edsonmanners.com
+  hosts: all
   become: true
   gather_facts: yes
 
