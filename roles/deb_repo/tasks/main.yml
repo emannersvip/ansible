@@ -1,0 +1,11 @@
+---
+# Tasks file for alloy
+
+- name: Add user alloy to the docker group
+  ansible.builtin.template:
+    src: 'katello.list.j2'
+    path: '/etc/apt/sources.list.d/katello.list'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+

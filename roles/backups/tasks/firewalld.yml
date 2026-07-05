@@ -9,7 +9,7 @@
 
 - name: "Open Ganesha NFS ports in firewalld"
   ansible.builtin.firewalld:
-    service: nfs-ganesha.service
+    service: "{{ item }}"
     permanent: true
     state: enabled
     immediate: yes
