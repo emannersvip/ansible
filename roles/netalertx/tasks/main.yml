@@ -39,20 +39,23 @@
 #  community.docker.docker_volume:
 #    name: netalertx_netalertx_data
 
+- name: Check if volume is already backed up
+  stat:
+    path: /mnt/extHD/backups/netalertx_backup_{{ ansible_facts["date_time"].date }}.tgz
+  register: volume_existence_check
+
 - name: 'Docker_Create the NetAlertx Container'
   community.docker.docker_container:
     auto_remove: true
     detach: true
     name: 'netalertx_backup'
     image: 'alpine'
-    #command: tar -zcvf /backup/netalertx_backup_$(date +"%Y-%m-%d").tgz /data
-    #command: tar -zcvf /backup/netalertx_backup_{{ now(utc=true).strftime('%Y-%m-%d') }}.tgz /data
-    command: tar -zcvf /backup/netalertx_backup_{{ ansible_date_time.date }}.tgz /data
-    #state: started
+    command: tar -zcvf /backup/netalertx_backup_{{ ansible_facts["date_time"].date }}.tgz /data
     volumes:
       - 'netalertx_netalertx_data:/data:ro'
       - '/mnt/extHD/backups:/backup'
     #user: 'nobody'
     env:
       TZ: 'America/Chicago'
+  when: not volume_existence_check.stat.exists
 
