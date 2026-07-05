@@ -1,0 +1,7 @@
+---
+- hosts:
+    pi-compute5-b.edsonmanners.com
+  become: true
+  roles:
+    - role: deb_repo
+    - role: slurm

@@ -1,0 +1,18 @@
+---
+# tasks for managing firewalld on Backup server
+# https://docs.ansible.com/projects/ansible/latest/collections/ansible/posix/firewalld_module.html
+#- name: "Ensure firewalld is running and enabled"
+#  ansible.builtin.service:
+#    name: firewalld
+#    state: started
+#    enabled: true
+
+#- name: "Open Ganesha NFS ports in firewalld"
+#  ansible.builtin.firewalld:
+#    service: "{{ item }}"
+#    permanent: true
+#    state: enabled
+#    immediate: yes
+#  loop:
+#    - nfs             # 2049
+##    - rquotad         # 875
