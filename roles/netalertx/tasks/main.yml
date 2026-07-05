@@ -1,0 +1,58 @@
+---
+# tasks file for NetAlertx
+- name: Create NetAlertx config directory
+  ansible.builtin.file:
+    path: /opt/netalertx/config
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: 0755
+    recurse: no
+
+- name: Create NetAlertx data directory
+  ansible.builtin.file:
+    path: /opt/netalertx/db
+    state: directory
+    owner: 'root'
+    group: 'root'
+    mode: 0755
+    recurse: no
+
+- name: 'NetAlertx Docker Compose file'
+  ansible.builtin.template:
+    src: 'docker-compose.yml.j2'
+    dest: '/opt/netalertx/docker-compose.yml'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+
+- name: 'Mount backup Volume'
+  ansible.posix.mount:
+    src: infra01.edsonmanners.com:/extHD
+    path: /mnt/extHD/
+    fstype: nfs4
+    opts: rw,relatime,vers=4.2,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,clientaddr=192.168.70.90,local_lock=none,addr=192.168.68.5
+    state: mounted
+
+# https://docs.ansible.com/ansible/latest/collections/community/docker/docker_volume_module.html
+#- name: 'Docker create a volume'
+#  community.docker.docker_volume:
+#    name: netalertx_netalertx_data
+
+- name: 'Docker_Create the NetAlertx Container'
+  community.docker.docker_container:
+    auto_remove: true
+    detach: true
+    name: 'netalertx_backup'
+    image: 'alpine'
+    #command: tar -zcvf /backup/netalertx_backup_$(date +"%Y-%m-%d").tgz /data
+    #command: tar -zcvf /backup/netalertx_backup_{{ now(utc=true).strftime('%Y-%m-%d') }}.tgz /data
+    command: tar -zcvf /backup/netalertx_backup_{{ ansible_date_time.date }}.tgz /data
+    #state: started
+    volumes:
+      - 'netalertx_netalertx_data:/data:ro'
+      - '/mnt/extHD/backups:/backup'
+    #user: 'nobody'
+    env:
+      TZ: 'America/Chicago'
+

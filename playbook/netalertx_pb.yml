@@ -1,0 +1,6 @@
+---
+- hosts:
+    pi-keyboard-500.edsonmanners.com
+  become: true
+  roles:
+    - role: netalertx

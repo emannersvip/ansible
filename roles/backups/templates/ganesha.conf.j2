@@ -82,6 +82,18 @@ EXPORT {
     }
 }
 
+NFSV4 {
+    # Accept numeric owner strings (e.g., "1000") in addition to "user@domain"
+    Allow_Numeric_Owners = true;
+
+    # Force the server to send owners as numeric strings instead of "user@domain"
+    # This effectively disables ID mapping, making NFSv4 behave like NFSv3 regarding ownership
+    Only_Numeric_Owners = true;
+
+    # Optional: Explicitly set the domain if not using the default
+    # DomainName = "localdomain";
+}
+
 ## Configure logging.  Default is to log to Syslog.  Basic logging can also be
 ## configured from the command line
 #LOG {

@@ -1,13 +1,16 @@
 #SPDX-License-Identifier: MIT-0
+# mount -t nfs4 <server_ip>:/nfs /mnt/nfs/share   
+# mount -t nfs4 infra01.edsonmanners.com:/extHD /mnt/extHD   
 ---
 # tasks file for roles/backups
-#
+- include_tasks: firewalld.yml
+
 - name: 'Creates backup directory in /mnt'
   ansible.builtin.file:
     path: /mnt/extHD
     state: directory
 
-- name: 'Mount backup volume'
+- name: 'Mount backup storage'
   ansible.posix.mount:
     src: /dev/sdb5
     path: /mnt/extHD
@@ -43,3 +46,5 @@
     state: started
     enabled: yes
   when: ganesha_conf.changed
+
+
