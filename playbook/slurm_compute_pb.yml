@@ -1,0 +1,9 @@
+---
+- hosts:
+    tp-compute-1.edsonmanners.com
+  become: true
+  roles:
+    - role: slurm
+      vars:
+        slurm_type: 'compute'
+

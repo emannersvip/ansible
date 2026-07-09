@@ -3,6 +3,10 @@
 # tasks file for roles/backups
 #- include_tasks: firewalld.yml
 - include_tasks: slurmdbd.yml
+  when: slurm_type == "dbd"
+
+- include_tasks: slurm_compute.yml
+  when: slurm_type == "compute"
 
 #- name: 'Creates backup directory in /mnt'
 #  ansible.builtin.file:
