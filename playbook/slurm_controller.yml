@@ -1,8 +1,9 @@
 ---
 - hosts:
-    pi-compute5-b.edsonmanners.com
+    pi-robot-4.edsonmanners.com
   become: true
   roles:
     - role: slurm
       vars:
-        slurm_type: 'db'
+        slurm_type: 'controller'
+

@@ -2,52 +2,11 @@
 ---
 # tasks file for roles/backups
 #- include_tasks: firewalld.yml
-- include_tasks: slurmdbd.yml
-  when: slurm_type == "dbd"
+- include_tasks: slurm_db.yml
+  when: slurm_type == "db"
 
 - include_tasks: slurm_compute.yml
   when: slurm_type == "compute"
 
-#- name: 'Creates backup directory in /mnt'
-#  ansible.builtin.file:
-#    path: /mnt/extHD
-#    state: directory
-#
-##- name: 'Mount backup storage'
-#  ansible.posix.mount:
-#    src: /dev/sdb5
-#    path: /mnt/extHD
-#    fstype: ext4
-##    opts: defaults,noatime
-#    state: mounted
-#
-## 'Configure host to be NFS server'
-##- name: 'Enable storage package repo'
-#  ansible.builtin.dnf:
-#    name: 'centos-release-nfs-ganesha4'
-#    state: present
-##    #disable_gpg_check: true
-#- name: 'Install NFS packages'
-#  ansible.builtin.dnf:
-#    name:
-#      - nfs-ganesha
-#      - nfs-ganesha-vfs
-#    state: present
-#
-#- name: 'Configure NFS Ganesha'
-#  ansible.builtin.template:
-#    src: 'ganesha.conf.j2'
-##    dest: '/etc/ganesha/ganesha.conf'
-#    owner: 'root'
-#    group: 'root'
-#    mode: '0644'
-#  register: ganesha_conf
-#
-#- name: 'Start & enable the Ganesha service'
-#  ansible.builtin.service:
-#    name: nfs-ganesha
-#    state: started
-#    enabled: yes
-#  when: ganesha_conf.changed
-
-
+- include_tasks: slurm_controller.yml
+  when: slurm_type == "controller"

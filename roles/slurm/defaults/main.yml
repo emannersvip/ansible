@@ -1,5 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # defaults file for roles/slurm
-# types=none,login,controller,compute,dbd
+# types=none,login,controller,compute,db
 slurm_type: none

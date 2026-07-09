@@ -1,7 +1,8 @@
 ---
 # Tasks file for alloy
 
-- name: Add DEB repo file to host
+#- name: Add Katello DEB package repository file to host
+- name: Add Katello DEB package repository file to {{ ansible_facts["hostname"] }}
   ansible.builtin.template:
     src: 'katello.list.j2'
     dest: '/etc/apt/sources.list.d/katello.list'

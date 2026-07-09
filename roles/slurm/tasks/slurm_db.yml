@@ -5,6 +5,8 @@
 
 - name: 'Install slurmdbd DEB file from Katello'
   ansible.builtin.apt:
-    name: slurm-smd-slurmdbd
+    name:
+      - slurm-smd
+      - slurm-smd-slurmdbd
     state: present
     update_cache: true
