@@ -1,6 +1,6 @@
 ---
 - hosts:
-    tp-compute-1.edsonmanners.com
+    tp_computes
   become: true
   roles:
     - role: slurm
