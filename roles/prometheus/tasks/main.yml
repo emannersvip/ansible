@@ -80,14 +80,13 @@
     debug: yes
     name: 'prometheus'
     image: 'prom/prometheus'
-    command: '/bin/prometheus --web.enable-remote-write-receiver'
+    command: '--web.enable-remote-write-receiver'
     state: started
     ports:
       - "9090:9090/tcp"
     volumes:
-      - '/opt/prometheus/etc/:/etc/prometheus/'
-      #- '/opt/prometheus/etc/prometheus.yml:/etc/prometheus/prometheus.yml'
-      #- '/opt/prometheus/data:/prometheus'
+      - '/opt/prometheus/etc/prometheus.yml:/prometheus/prometheus.yml'
+      - '/opt/prometheus/etc/targets:/prometheus/targets'
     #user: 'nobody'
     restart_policy: 'unless-stopped'
     env:

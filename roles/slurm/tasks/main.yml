@@ -2,6 +2,30 @@
 ---
 # tasks file for roles/backups
 #- include_tasks: firewalld.yml
+
+- name: SLURM group
+  ansible.builtin.group:
+    name: slurm
+    state: present
+    gid: 1010
+
+- name: SLURM user
+  ansible.builtin.user:
+    name: slurm
+    comment: 'Local SLURM Service Account'
+    #shell: /sbin/noloing
+    groups: slurm
+    uid: 1010
+    state: present
+
+- name: SLURM config file
+  ansible.builtin.template:
+    src: slurm.conf.j2
+    dest: /etc/slurm.slurm.conf
+    owner: slurm
+    group: slurm
+    mode: 0664
+
 - include_tasks: slurm_db.yml
   when: slurm_type == "db"
 
