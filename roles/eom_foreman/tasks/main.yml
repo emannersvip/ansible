@@ -15,28 +15,8 @@
       - rubygem-foreman_ansible
     state: present
     update_cache: yes
-- name: "Create Ansible service account"
-  theforeman.foreman.user:
-    name: ansible
-    firstname: Ansible
-    lastname: ServiceAccount
-    mail: edson.manners@gmail.com
-    description: "Ansible Service Account"
-    admin: false
-    user_password: "{{ ansible_user_pass }}"
-    auth_source: Internal
-    roles:
-      - 'Organization admin'
-    locations:
-      - "{{ location }}"
-    organizations:
-      - "{{ organization }}"
-    server_url: "https://{{ foreman_server }}"
-    username: "admin"
-    password: "{{ foreman_admin_pass }}"
-    state: present
-    validate_certs: false
 
+- include_tasks: users.yml
 - include_tasks: operatingsystems.yml
 - include_tasks: domains.yml
 - include_tasks: subnets.yml

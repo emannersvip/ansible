@@ -1,0 +1,66 @@
+---
+# Tasks file for Foreman Users
+- name: "Create Ansible service account"
+  theforeman.foreman.user:
+    name: ansible
+    firstname: Ansible
+    lastname: ServiceAccount
+    mail: "{{ primary_user_mail }}"
+    description: "Ansible Service Account"
+    admin: false
+    user_password: "{{ ansible_user_pass }}"
+    auth_source: Internal
+    roles:
+      - 'Organization admin'
+    locations:
+      - "{{ location }}"
+    organizations:
+      - "{{ organization }}"
+    server_url: "https://{{ foreman_server }}"
+    username: "admin"
+    password: "{{ foreman_admin_pass }}"
+    state: present
+    validate_certs: false
+
+- name: "Create my personal Foreman account"
+  theforeman.foreman.user:
+    name: "{{ primary_user_name }}"
+    firstname: "{{ primary_user_fname }}"
+    lastname: "{{ primary_user_lname }}"
+    mail: "{{ primary_user_mail }}"
+    description: "Primary Service Account"
+    admin: true
+    user_password: "{{ primary_user_pass }}"
+    auth_source: Internal
+    roles:
+      - 'Organization admin'
+    locations:
+      - "{{ location }}"
+    organizations:
+      - "{{ organization }}"
+    server_url: "https://{{ foreman_server }}"
+    username: "admin"
+    password: "{{ foreman_admin_pass }}"
+    state: present
+    validate_certs: false
+
+- name: "Create my Agent Foreman account"
+  theforeman.foreman.user:
+    name: "{{ agent_user_uname }}"
+    firstname: "{{ agent_user_fname }}"
+    lastname: "{{ agent_user_lname }}"
+    mail: "{{ agent_user_mail }}"
+    description: "Agent Service Account"
+    admin: true
+    user_password: "{{ agent_user_pass }}"
+    auth_source: Internal
+    roles:
+      - 'Organization admin'
+    locations:
+      - "{{ location }}"
+    organizations:
+      - "{{ organization }}"
+    server_url: "https://{{ foreman_server }}"
+    username: "admin"
+    password: "{{ foreman_admin_pass }}"
+    state: present
