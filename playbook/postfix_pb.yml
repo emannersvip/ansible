@@ -1,0 +1,4 @@
+- hosts: katello.edsonmanners.com
+  become: true
+  roles:
+    - role: postfix

@@ -18,6 +18,7 @@
     dest: /etc/postfix/sasl_passwd
     content: |
       [smtp.gmail.com]:587 {{ gmail_username }}:{{ gmail_password }}
+    no_log: true
     owner: root
     group: root
     mode: '0600'
