@@ -1,3 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # handlers file for roles/postfix
+- name: Restart Postfix Service
+  ansible.builtin.service:
+    name: postfix
+    state: restarted

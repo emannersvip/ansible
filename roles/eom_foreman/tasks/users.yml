@@ -21,6 +21,7 @@
     password: "{{ foreman_admin_pass }}"
     state: present
     validate_certs: false
+    no_log: true
 
 - name: "Create my personal Foreman account"
   theforeman.foreman.user:
@@ -43,6 +44,7 @@
     password: "{{ foreman_admin_pass }}"
     state: present
     validate_certs: false
+    no_log: true
 
 - name: "Create my Agent Foreman account"
   theforeman.foreman.user:
@@ -64,3 +66,5 @@
     username: "admin"
     password: "{{ foreman_admin_pass }}"
     state: present
+    validate_certs: false
+    no_log: true

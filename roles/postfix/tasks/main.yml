@@ -27,6 +27,7 @@
   ansible.builtin.command:
     cmd: postmap /etc/postfix/sasl_passwd
     creates: /etc/postfix/sasl_passwd.db
+  notify: Restart Postfix Service
 
 - name: 'Postfix configuration for GMail'
   ansible.builtin.template:
@@ -35,6 +36,7 @@
     owner: root
     group: root
     mode: '0644'
+  notify: Restart Postfix Service
 
 - name: 'Enable and start postfix service'
   ansible.builtin.systemd:
