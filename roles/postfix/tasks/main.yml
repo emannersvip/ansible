@@ -1,0 +1,42 @@
+#SPDX-License-Identifier: MIT-0
+---
+# Tasks file for roles/postfix
+
+- name: 'Install postfix'
+  ansible.builtin.dnf:
+    name:
+      - postfix
+      - cyrus-sasl
+      - cyrus-sasl-lib
+      - cyrus-sasl-plain
+      - s-nail
+    state: present
+    update_cache: true
+
+- name: 'Create credentials file for GMail credentials'
+  ansible.builtin.copy:
+    dest: /etc/postfix/sasl_passwd
+    content: |
+      [smtp.gmail.com]:587 {{ gmail_username }}:{{ gmail_password }}
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: 'Create PostFix hash db for GMail credentials'
+  ansible.builtin.command:
+    cmd: postmap /etc/postfix/sasl_passwd
+    creates: /etc/postfix/sasl_passwd.db
+
+- name: 'Postfix configuration for GMail'
+  ansible.builtin.template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: 'Enable and start postfix service'
+  ansible.builtin.systemd:
+    name: postfix
+    enabled: true
+    state: started

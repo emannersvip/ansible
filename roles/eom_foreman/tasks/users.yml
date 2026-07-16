@@ -24,7 +24,7 @@
 
 - name: "Create my personal Foreman account"
   theforeman.foreman.user:
-    name: "{{ primary_user_name }}"
+    name: "{{ primary_user_uname }}"
     firstname: "{{ primary_user_fname }}"
     lastname: "{{ primary_user_lname }}"
     mail: "{{ primary_user_mail }}"
