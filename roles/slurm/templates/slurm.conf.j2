@@ -6,9 +6,12 @@
 SlurmctldHost=pi-robot-4(192.168.69.104)  # Primary server
 #SlurmctldHost=dev1(12.34.56.79)  # Backup server
 #
-AuthType=auth/munge
-Epilog=/usr/local/slurm/epilog
-Prolog=/usr/local/slurm/prolog
+#AuthType=auth/munge
+AuthType=auth/slurm
+ClusterName=em3
+#CgroupPlugin=cgroup/v1
+#Epilog=/usr/local/slurm/epilog
+#Prolog=/usr/local/slurm/prolog
 FirstJobId=65536
 InactiveLimit=120
 JobCompType=jobcomp/filetxt
@@ -16,7 +19,7 @@ JobCompLoc=/var/log/slurm/jobcomp
 KillWait=30
 MaxJobCount=10000
 MinJobAge=300
-PluginDir=/usr/local/lib:/usr/local/slurm/lib
+#PluginDir=/usr/local/lib:/usr/local/slurm/lib
 ReturnToService=0
 SchedulerType=sched/backfill
 SlurmctldLogFile=/var/log/slurm/slurmctld.log

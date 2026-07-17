@@ -12,3 +12,12 @@
     state: present
     update_cache: true
     #allow_unauthenticated: true
+
+- name: 'SLURM compute cgroup.conf file'
+  ansible.builtin.template:
+    src: cgroup.conf.j2
+    #dest: /etc/slurm/cgroup.conf
+    dest: /usr/local/etc/cgroup.conf
+    owner: slurm
+    group: slurm
+    mode: 0644

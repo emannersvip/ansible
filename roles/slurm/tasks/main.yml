@@ -13,18 +13,35 @@
   ansible.builtin.user:
     name: slurm
     comment: 'Local SLURM Service Account'
-    #shell: /sbin/noloing
+    #shell: /sbin/nologin
     groups: slurm
     uid: 1010
     state: present
 
+- name: SLURM directories
+  ansible.builtin.file:
+    path: /etc/slurm
+    state: directory
+    owner: slurm
+    group: slurm
+    mode: 0775
+
 - name: SLURM config file
   ansible.builtin.template:
     src: slurm.conf.j2
-    dest: /etc/slurm.slurm.conf
+    dest: /etc/slurm/slurm.conf
     owner: slurm
     group: slurm
     mode: 0664
+
+# dd if=/dev/random of=/etc/slurm/slurm.key bs=1024 count=1
+- name: 'SLURM key for auth/slurm'
+  ansible.builtin.copy:
+    src: slurm.key
+    dest: /etc/slurm/slurm.key
+    owner: slurm
+    group: slurm
+    mode: 0600
 
 - include_tasks: slurm_db.yml
   when: slurm_type == "db"
