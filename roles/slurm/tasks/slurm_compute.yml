@@ -3,6 +3,7 @@
 # tasks file for roles/slurm
 # We expect the deb_repos role to have already been run at this point
 
+# TODO: Need to re-compile with cgroup_v2 support
 - name: 'Install slurm compute DEBs file from Katello'
   ansible.builtin.apt:
     name:

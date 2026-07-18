@@ -87,15 +87,24 @@ host infra01    { hardware ethernet a4:1f:72:93:ef:4c; fixed-address 192.168.68.
 host katello    { hardware ethernet 08:00:27:6d:ad:7e; fixed-address 192.168.68.6; }
 host gamingrigA  { hardware ethernet 14:dd:a9:25:84:95; fixed-address 192.168.68.20; }
 host gamingrigB  { hardware ethernet 14:dd:a9:25:84:96; fixed-address 192.168.68.21; }
+host pc-alexus  { hardware ethernet 34:13:e8:b6:2a:5b; fixed-address 192.168.68.22; }
 #
 # Laptops
 host laptop-xps { hardware ethernet 3c:e9:f7:b7:46:25; fixed-address 192.168.68.30; }
+host laptop-macbook-pro { hardware ethernet 2a:3c:c7:79:d0:bd; fixed-address 192.168.68.31; }
 # PCs
-host pc-alexus  { hardware ethernet 34:13:e8:b6:2a:5b; fixed-address 192.168.68.40; }
 # Docks
 host dock-dell-office { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.40; }
 #host dock-dell-den-pc { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.41; }
 #host dock-dell-den-pi { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.42; }
+
+# Phones & Watches
+host phone-apple-edson { hardware ethernet f2:43:69:d4:82:3c; fixed-address 192.168.68.51; }
+#host phone-apple-mo { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.52; }
+#host phone-apple-alexus { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.53; }
+#host phone-google-mo { hardware ethernet cc:96:e5:d2:54:1e; fixed-address 192.168.68.54; }
+#
+host watch-apple-mo { hardware ethernet 3a:82:07:e2:93:00; fixed-address 192.168.68.56; }
 
 # -- Pi Compute Space [32-48]
 host pi-compute4-a { hardware ethernet dc:a6:32:fe:e6:79; fixed-address 192.168.69.1; }
@@ -118,10 +127,10 @@ host tp-compute-4 { hardware ethernet 2c:cf:67:17:42:0b; fixed-address 192.168.6
 host pi-keyboard-400 { hardware ethernet dc:a6:32:ea:d8:45; fixed-address 192.168.69.60; }
 #host pi-keyboard-400-wifi { hardware ethernet dc:a6:32:ea:d8:46; fixed-address 192.168.69.61; }
 # --
-# WiFi
-host pi-prusalink-5 { hardware ethernet 88:a2:9e:7a:cb:c7; fixed-address 192.168.69.180; }
 # Wired
-#host pi-prusalink-5 { hardware ethernet 88:a2:9e:7a:cb:c6; fixed-address 192.168.69.180; }
+host pi-prusalink-5	 { hardware ethernet 88:a2:9e:7a:cb:c6; fixed-address 192.168.69.180; }
+# WiFi
+host pi-prusalink-5-wifi { hardware ethernet 88:a2:9e:7a:cb:c7; fixed-address 192.168.69.181; }
 # --
 host pi-robot-0 { hardware ethernet b8:27:eb:b0:ba:d9; fixed-address 192.168.69.100; }
 host pi-robot-1 { hardware ethernet dc:a6:32:11:ae:84; fixed-address 192.168.69.101; }
@@ -174,6 +183,7 @@ host nest_camera_front_primary { hardware ethernet 44:bb:3b:21:bf:58; fixed-addr
 host moes_bluetooth_gateway_office { hardware ethernet c4:82:e1:5b:9d:d4; fixed-address 192.168.71.160; }
 #
 host receiver_pioneer_vsx935_den { hardware ethernet 00:09:b0:f5:fa:77; fixed-address 192.168.71.166; }
+host tv_tcp_roku_gaming_room { hardware ethernet 38:c8:04:d0:1f:5f; fixed-address 192.168.71.167; }
 
 
 # -- Main Access Point
@@ -182,10 +192,10 @@ host ap-tpl7-Den      	{ hardware ethernet b0:19:21:20:f5:e0; fixed-address 192.
 host ap-tpl7-MoOffice  	{ hardware ethernet b0:19:21:20:f5:62; fixed-address 192.168.71.221; }
 host ap-tpl7-LivingRoom	{ hardware ethernet b0:19:21:20:f5:aa; fixed-address 192.168.71.222; }
 # -- Deco M5 APs
-host ap-tpl5-Dining	    { hardware ethernet 0c:80:63:cf:43:d0; fixed-address 192.168.71.223; }
-host ap-tpl5-GuestBed	  { hardware ethernet 0c:80:63:cf:52:ac; fixed-address 192.168.71.224; }
-host ap-tpl5-Kitchen	  { hardware ethernet 0c:80:63:cf:53:88; fixed-address 192.168.71.225; }
+host ap-tpl5-Dining	{ hardware ethernet 0c:80:63:cf:43:d0; fixed-address 192.168.71.223; }
+host ap-tpl5-GuestBed	{ hardware ethernet 0c:80:63:cf:52:ac; fixed-address 192.168.71.224; }
+host ap-tpl5-Kitchen	{ hardware ethernet 0c:80:63:cf:53:88; fixed-address 192.168.71.225; }
 host ap-tpl5-MasterBed	{ hardware ethernet 50:c7:bf:a6:25:68; fixed-address 192.168.71.226; }
-host ap-tpl5-Office	    { hardware ethernet 0c:80:63:cf:50:70; fixed-address 192.168.71.227; }
+host ap-tpl5-Office	{ hardware ethernet 0c:80:63:cf:50:70; fixed-address 192.168.71.227; }
 
 
