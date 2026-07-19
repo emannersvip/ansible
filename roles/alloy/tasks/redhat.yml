@@ -1,8 +1,10 @@
 ---
 # Tasks for Redhat Alloy install
+- include_tasks: firewalld.yml
+
 - name: Install the Alloy RPM from a remote repo
   ansible.builtin.dnf:
-    name: 'https://github.com/grafana/alloy/releases/download/v1.16.1/alloy-1.16.1-1.amd64.rpm'
+    name: 'https://github.com/grafana/alloy/releases/download/v1.16.3/alloy-1.16.3-1.amd64.rpm'
     state: present
     disable_gpg_check: true
 

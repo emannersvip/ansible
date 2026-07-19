@@ -3,7 +3,7 @@
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: 'Install the lastest Alloy Package Server'
   ansible.builtin.apt:
-    deb: 'https://github.com/grafana/alloy/releases/download/v1.16.1/alloy-1.16.1-1.{{ alloy_architecture }}.deb'
+    deb: 'https://github.com/grafana/alloy/releases/download/v1.16.3/alloy-1.16.3-1.{{ alloy_architecture }}.deb'
     state: present
     update_cache: false
 

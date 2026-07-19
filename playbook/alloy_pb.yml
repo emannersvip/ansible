@@ -1,7 +1,7 @@
 ---
 - hosts:
-    pi-robot-3.edsonmanners.com,
-    pi-robot-4.edsonmanners.com,
+    pi-compute.edsonmanners.com,
+    infra01.edsonmanners.com,
   become: true
   roles:
     - role: alloy

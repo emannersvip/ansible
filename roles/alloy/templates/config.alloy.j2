@@ -1,8 +1,7 @@
 // Managed by Alloy role -- restored known-good config for pi-robot-5
 
-logging {
-  level = "info"
-}
+logging { level = "info" }
+livedebugging { enabled = true }
 
 loki.source.journal "journal" {
   forward_to = [loki.relabel.default.receiver]
