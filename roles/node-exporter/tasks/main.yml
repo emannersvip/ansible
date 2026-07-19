@@ -1,13 +1,10 @@
 ---
 # tasks file for node-exporter
-- name: 'Install archive packages'
+- name: 'Install OS packages to handle archives'
   ansible.builtin.package:
-    name: unzip
-    state: present
-
-- name: 'Install archive packages'
-  ansible.builtin.package:
-    name: tar
+    name:
+      - unzip
+      - tar
     state: present
 
 # "{{ node_exporter_architecture }}" : arm64,armv7,amd64

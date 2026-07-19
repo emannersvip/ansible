@@ -9,10 +9,9 @@
 #xps.edsonmanners.com
 
 [all]
-#gamingrig.edsonmanners.com interpreter_python = /usr/bin/python3 alloy_architecture=amd64
-gamingrig.edsonmanners.com interpreter_python=/home/emanners/.pyenv/shims/python3 alloy_architecture=amd64 node_exporter_architecture=amd64
-katello.edsonmanners.com
-infra01.edsonmanners.com alloy_architecture=amd64
+gamingrig.edsonmanners.com alloy_architecture=amd64 node_exporter_architecture=amd64
+katello.edsonmanners.com alloy_architecture=amd64 node_exporter_architecture=amd64
+infra01.edsonmanners.com alloy_architecture=amd64 node_exporter_architecture=amd64
 pi-compute.edsonmanners.com
 pi-compute5-a.edsonmanners.com
 pi-compute5-b.edsonmanners.com
