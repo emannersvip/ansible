@@ -1,7 +1,5 @@
 ---
-- hosts:
-    pi-compute.edsonmanners.com,
-    infra01.edsonmanners.com,
+- hosts: all
   become: true
   roles:
     - role: alloy
