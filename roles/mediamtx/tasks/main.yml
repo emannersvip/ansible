@@ -1,13 +1,5 @@
 ---
 # tasks file for mediamtx
-#- name: 'Download MediaMTX tarball'
-#  ansible.builtin.get_url:
-#    url: "{{ myurl }}"
-#    dest: "{{ mydest }}"
-#    mode: "0644"
-#    owner: 'emanners'
-#    group: 'emanners'
-
 - name: "Download & Unarchive MediaMTX tarball {{ mediamtx_url }}"
   unarchive:
     src: "{{ mediamtx_url }}"

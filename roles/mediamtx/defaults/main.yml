@@ -2,14 +2,11 @@
 # defaults file for mediamtx
 # https://github.com/bluenviron/mediamtx/releases/
 # armv6 || armv7 || arm64 || amd64
-mtxvers: '1.9.2'
-#mtxarch: '64v8'
-#mtxarch: '64' # 1.14.0
-mediamtx_arch: 'v7'
-#mtxvers: '1.9.3'
+mediamtx_vers: '1.9.2'
+mediamtx_arch: 'armv7'
 #mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v1.9.2/mediamtx_v1.9.2_linux_arm64v8.tar.gz"
 #mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v1.9.2/mediamtx_v1.9.2_linux_armv7.tar.gz"
-mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v{{ mtxvers }}/mediamtx_v{{ mtxvers }}_linux_arm{{ mediamtx_arch }}.tar.gz"
+mediamtx_url: "https://github.com/bluenviron/mediamtx/releases/download/v{{ mediamtx_vers }}/mediamtx_v{{ mediamtx_vers }}_linux_{{ mediamtx_arch }}.tar.gz"
 install_tmp_path: '/tmp'
 install_bin_path: '/usr/local/bin'
 install_cfg_path: '/usr/local/etc'

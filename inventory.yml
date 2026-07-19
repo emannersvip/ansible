@@ -32,7 +32,7 @@ tp-compute-4.edsonmanners.com
 pi-compute
 pc5
 pi-robot-1
-pi-robot-2
+pi-robot-2 mediamtx_arch=arm64 mediamtx_vers=1.19.2
 pi-robot-3
 pi-robot-4
 pi-robot-5
@@ -40,13 +40,13 @@ pi-robot-5
 [cams]
 pi-zero-2w
 pr1
-pr2
+pr2 mediamtx_arch=arm64 mediamtx_vers=1.19.2
 pr3
 pr5
 
 [vm_compute]
 pi-robot-4.edsonmanners.com
-tp-compute-1.edsonmanners.com 
+tp-compute-1.edsonmanners.com
 tp-compute-2.edsonmanners.com
 tp-compute-3.edsonmanners.com
 tp-compute-4.edsonmanners.com
@@ -58,11 +58,11 @@ tp-compute-3.edsonmanners.com
 tp-compute-4.edsonmanners.com
 
 [tailscale]
-compute1.tail757ff9.ts.net
-compute2.tail757ff9.ts.net
-compute3.tail757ff9.ts.net
-compute4.tail757ff9.ts.net
+compute1.tail757ff9.ts.net alloy_architecture=amd64 node_exporter_architecture=amd64
+compute2.tail757ff9.ts.net alloy_architecture=amd64 node_exporter_architecture=amd64
+compute3.tail757ff9.ts.net alloy_architecture=amd64 node_exporter_architecture=amd64
+compute4.tail757ff9.ts.net alloy_architecture=amd64 node_exporter_architecture=amd64
 homeserverpi.tail757ff9.ts.net
-plex.tail757ff9.ts.net
+plex.tail757ff9.ts.net alloy_architecture=amd64 node_exporter_architecture=amd64
 proxmox.tail757ff9.ts.net
 ubuntu-purple.tail757ff9.ts.net
