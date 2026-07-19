@@ -1,0 +1,19 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/pdsh
+# Use `pdsh -L` to check for the list of available modules.
+# Not worth getting the dshgroups module working as it's not available in ubuntu 22.04 and the pdsh package is not being maintained anymore.
+# We use the genders module instead which is available
+
+- name: 'Install pdsh'
+  ansible.builtin.package:
+    name: pdsh
+    state: present
+
+- name: 'Create pdsh application group file for all nodes'
+  ansible.builtin.template:
+    src: pdsh_genders.j2
+    dest: /etc/genders
+    owner: root
+    group: root
+    mode: 0644

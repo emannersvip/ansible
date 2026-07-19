@@ -1,0 +1,6 @@
+---
+- hosts:
+    gamingrig.edsonmanners.com,
+  become: true
+  roles:
+    - role: pdsh

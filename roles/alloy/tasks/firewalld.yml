@@ -1,0 +1,15 @@
+---
+# tasks for managing firewalld on Alloy
+# https://docs.ansible.com/projects/ansible/latest/collections/ansible/posix/firewalld_module.html
+- name: "Ensure firewalld is running and enabled"
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: "Open 12345/tcp port in firewalld"
+  ansible.builtin.firewalld:
+    port: 12345/tcp
+    permanent: true
+    state: enabled
+    immediate: yes
