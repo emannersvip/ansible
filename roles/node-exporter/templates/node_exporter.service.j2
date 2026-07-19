@@ -7,6 +7,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=node_exporter
+EnvironmentFile=/etc/default/node_exporter
 ExecStart={{ install_bin_path }}/node_exporter ${NODE_EXPORTER_OPTS}
 
 [Install]
