@@ -43,11 +43,17 @@
     group: slurm
     mode: 0600
 
-- include_tasks: slurm_db.yml
+- name: Include SLURM database tasks if slurm_type is db
+  ansible.builtin.include_tasks:
+    file: 'tasks/slurm_db.yml'
   when: slurm_type == "db"
 
-- include_tasks: slurm_compute.yml
+- name: Include SLURM compute tasks if slurm_type is compute
+  ansible.builtin.include_tasks:
+    file: 'tasks/slurm_compute.yml'
   when: slurm_type == "compute"
 
-- include_tasks: slurm_controller.yml
+- name: Include SLURM controller tasks if slurm_type is controller
+  ansible.builtin.include_tasks:
+    file: 'tasks/slurm_controller.yml'
   when: slurm_type == "controller"
