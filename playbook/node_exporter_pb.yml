@@ -1,6 +1,6 @@
 ---
 - hosts:
-    all
+    pi-prusalink-5.edsonmanners.com
   become: true
   roles:
     - role: node-exporter
