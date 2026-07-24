@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: all,!ubuntu-purple.tail757ff9.ts.net,!compute1.tail757ff9.ts.net,!compute3.tail757ff9.ts.net,!homeserverpi.tail757ff9.ts.net
   become: true
   roles:
     - role: alloy

@@ -7,8 +7,12 @@ Type=simple
 Restart=always
 RestartSec=1
 User=node_exporter
+{% ansible_facts["os_family"] == "RedHat" %}
 EnvironmentFile=/etc/default/node_exporter
 ExecStart={{ install_bin_path }}/node_exporter ${NODE_EXPORTER_OPTS}
+{% else %}
+ExecStart={{ install_bin_path }}/node_exporter
+{% endif %}
 
 [Install]
 WantedBy=multi-user.target
