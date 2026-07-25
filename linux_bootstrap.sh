@@ -135,3 +135,7 @@ sudo systemctl disable ${UNNEEDED_SVCS}
 
 echo -e "\n"
 
+# Run ansible to add host to Foreman/Katello
+# Root Cause: ansible-pull constructs a limit string like localhost,hostname.example.com,hostname,127.0.0.1. If your inventory (static or dynamic) does not define a host with the name gamingrig (or its FQDN), Ansible finds zero matching hosts and fails. This is common in containerized environments or when using dynamic inventory scripts that do not return the local node.
+ansible-pull --diff -d /tmp/ansible-pull -i localhost --limit=all -U git@github.com:emannersvip/ansible.git playbook/get_facts_pb.yml
+
