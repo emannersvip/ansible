@@ -1,0 +1,8 @@
+---
+# ansible-playbook -K -i 192.168.70.141, playbook/sw_updates_pb.yml
+# ansible-playbook -K -i 192.168.70.141,tpc1,tpc2,tpc3,tpc4 playbook/sw_updates_pb.yml
+#- hosts: all,!ubuntu-purple.tail757ff9.ts.net,!compute1.tail757ff9.ts.net,!compute3.tail757ff9.ts.net,!homeserverpi.tail757ff9.ts.net
+- hosts: 192.168.70.141,tpc1,tpc2,tpc3,tpc4
+  become: true
+  roles:
+    - role: software-updates

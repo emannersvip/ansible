@@ -1,0 +1,14 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for software-updates
+
+# ansible-pull ${REGULAR_USER}/Code/ansible 
+- name: Run maintenance updates on all packages
+  ansible.builtin.apt:
+    update_cache: true
+    default_release: "{{ ansible_facts['distribution_release'] }}"
+    name: "*"
+    state: latest
+    autoremove: yes
+    purge: true
+    #upgrade: no      # dist|full|[no]|safe|yes
