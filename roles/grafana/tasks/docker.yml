@@ -79,7 +79,7 @@
     is_default: true
     state: 'present'
     grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-    #grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+    #grafana_api_key: "{{ grafana_api_key }}"
     grafana_user: 'admin'
     grafana_password: 'admin'
     ds_type: 'prometheus'
@@ -93,7 +93,7 @@
 #    is_default: false
 #    state: 'present'
 #    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-#    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+#    grafana_api_key: "{{ grafana_api_key }}"
 #    ds_type: 'loki'
 #    ds_url: 'http://pi-compute5-a.edsonmanners.com:3100'
 #    org_id: '1'
@@ -104,7 +104,7 @@
 #    is_default: false
 #    state: 'present'
 #    grafana_url: 'http://pi-compute5-a.edsonmanners.com:3000/'
-#    grafana_api_key: 'glsa_2NFqYkZm7PESUDv975Dng565d3v4SmCH_29156a81'
+#    grafana_api_key: "{{ grafana_api_key }}"
 #    ds_type: 'influxdb'
 #    ds_url: 'http://pi-compute5-a.edsonmanners.com:8086'
 #    org_id: '1'

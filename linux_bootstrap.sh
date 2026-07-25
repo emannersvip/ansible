@@ -86,7 +86,8 @@ BIN='/usr/bin'
 
 #TODO: swap sceen for tmux if distro is rocky 9
 
-USEFUL_APPS='vim git screen curl'
+#USEFUL_APPS='vim git screen curl'
+USEFUL_APPS='ansible curl git vim'
 for i in ${USEFUL_APPS};
   do if [ ! -f "{BIN}/${i}" ]; then
     echo -e "\n-- Adding useful app... ${i}"
