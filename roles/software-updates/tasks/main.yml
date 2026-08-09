@@ -5,10 +5,11 @@
 # ansible-pull ${REGULAR_USER}/Code/ansible 
 - name: Run maintenance updates on all packages
   ansible.builtin.apt:
-    update_cache: true
     default_release: "{{ ansible_facts['distribution_release'] }}"
     name: "*"
     state: latest
     autoremove: yes
     purge: true
+    update_cache: true
+    update_cache_retry_max_delay: 20
     #upgrade: no      # dist|full|[no]|safe|yes
