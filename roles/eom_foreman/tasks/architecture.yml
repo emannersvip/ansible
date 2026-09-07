@@ -1,0 +1,18 @@
+---
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/architecture_module.html
+- name: "Create non-Foreman architecture, most likely ARM 64."
+  theforeman.foreman.architecture:
+    name: 'aarch64'
+    #operatingsystems:
+    #  - "Rocky Linux"
+    #locations:
+    #  - 'Houston'
+    #organizations:
+    #  - "EdsonManners.com"
+    #
+    server_url: "https://{{ foreman_server }}"
+    username: "ansible"
+    password: "{{ ansible_user_pass }}"
+    validate_certs: false
+

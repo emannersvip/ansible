@@ -1,0 +1,19 @@
+---
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/medium_module.html
+- name: "Update the Default Out-of-the-Box (OOB) Rocky 9 Medium to exist in the correct Location and Org."
+  theforeman.foreman.installation_medium:
+    name: "Rocky Linux"
+    locations:
+      - 'Houston'
+    organizations:
+      - "EdsonManners.com"
+    #operatingsystems:
+    #  - "Rocky Linux"
+    #path:
+    #
+    server_url: "https://{{ foreman_server }}"
+    username: "ansible"
+    password: "{{ ansible_user_pass }}"
+    validate_certs: false
+

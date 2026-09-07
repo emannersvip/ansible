@@ -24,9 +24,22 @@
     server_url: "https://{{ foreman_server }}"
     name: 'EdsonManners.com'
     state: present
+    validate_certs: false
+    #ca_path: '/home/emanners/Documents/Git/ansible/callbacks/client_ca.pem'  # Must exist on ansible client
 
+- name: "Create my Primary Location"
+  theforeman.foreman.location:
+    username: 'admin'
+    password: "{{ foreman_admin_pass }}"
+    server_url: "https://{{ foreman_server }}"
+    name: 'Houston'
+    state: present
+    validate_certs: false
+    #ca_path: '/home/emanners/Documents/Git/ansible/callbacks/client_ca.pem'
 
 - include_tasks: users.yml
+- include_tasks: media.yml
+- include_tasks: architecture.yml
 - include_tasks: operatingsystems.yml
 - include_tasks: domains.yml
 - include_tasks: subnets.yml
