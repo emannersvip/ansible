@@ -8,6 +8,7 @@
   ansible.builtin.dnf:
     name: python3-requests
     state: present
+
 - name: "Install plugins on Foreman server"
   ansible.builtin.dnf:
     name:
@@ -15,6 +16,15 @@
       - rubygem-foreman_ansible
     state: present
     update_cache: yes
+
+- name: "Create my Primary Organization"
+  theforeman.foreman.organization:
+    username: 'admin'
+    password: "{{ foreman_admin_pass }}"
+    server_url: "https://{{ foreman_server }}"
+    name: 'EdsonManners.com'
+    state: present
+
 
 - include_tasks: users.yml
 - include_tasks: operatingsystems.yml
