@@ -1,10 +1,17 @@
 ---
 
 # https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/operatingsystem_module.html
+#
+# EOM: Why can't OSes be auto-poulated after ansible run??????
+#       - Turns out we need these OSes defined to be able to create hostgroups
+#       - And the media *HAS TO* be included in the correct ORG and LOCs.
+#
+
 - name: "Create the Rocky 9 OperatingSystem"
   theforeman.foreman.operatingsystem:
     name: "Rocky_Linux"
     major: 9
+    minor: 8
     description: "Rocky 9"
     family: Redhat
     architectures:
@@ -13,6 +20,27 @@
       - "Kickstart default"
     media:
       - "Rocky Linux"
+    state: present
+    #
+    server_url: "https://{{ foreman_server }}"
+    username: "ansible"
+    password: "{{ ansible_user_pass }}"
+    validate_certs: false
+
+- name: "Create the Ubuntu OperatingSystem"
+  theforeman.foreman.operatingsystem:
+    name: "Ubuntu"
+    major: 26
+    minor: 04
+    description: "Ubuntu 26.04 LTS"
+    family: Debian
+    release_name: "Resolute Raccoon"
+    architectures:
+      - "x86_64"
+    ptables:
+      - "Preseed default"
+    media:
+      - "Debian mirror"
     state: present
     #
     server_url: "https://{{ foreman_server }}"

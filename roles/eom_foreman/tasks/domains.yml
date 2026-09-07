@@ -1,5 +1,7 @@
 ---
 # tasks file for eom_foreman:domain
+# TODO: Run ansible checks for whether the domain exists or not. Not sure why the module tries t oforce creation instead of skipping on existence.
+#       - The subnet creation fails if the domain is not in the 'correct' Org and Loc.
 
 # https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/domain_module.html
 - name: "Create Foreman Domain"
