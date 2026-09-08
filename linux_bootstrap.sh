@@ -142,5 +142,7 @@ echo -e "\n"
 # Root Cause: ansible-pull constructs a limit string like localhost,hostname.example.com,hostname,127.0.0.1. If your inventory (static or dynamic) does not define a host with the name gamingrig (or its FQDN), Ansible finds zero matching hosts and fails. This is common in containerized environments or when using dynamic inventory scripts that do not return the local node.
 # Create /var/log/ansible if it doesn't already exist.
 [ -d /var/log/ansible ] || mkdir /var/log/ansible
-ansible-pull --diff -d /tmp/ansible-pull -i localhost --limit=all -U git@github.com:emannersvip/ansible.git playbook/get_facts_pb.yml
+chown root:emanners /var/log/ansible && chmod g+w /var/log/ansible
+#ansible-pull --diff -d /tmp/ansible-pull -i localhost --limit=all -U git@github.com:emannersvip/ansible.git playbook/get_facts_pb.yml
+ansible-pull --diff -d /tmp/ansible-pull -U git@github.com:emannersvip/ansible.git /tmp/ansible-pull/playbook/get_facts_pb.yml
 
