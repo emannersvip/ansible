@@ -1,6 +1,6 @@
 ---
 #- hosts: gamingrig.edsonmanners.com
-- hosts: katello
+- hosts: all
   tasks:
     - name: Gather facts
       setup:
