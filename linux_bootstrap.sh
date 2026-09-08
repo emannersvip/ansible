@@ -64,10 +64,12 @@ fi
 OS=$(grep ID_LIKE /etc/os-release | grep rhel | cut -d '=' -f 2 | sed s/\"//g | awk '{ print $1 }')
 if [ "$OS" == 'rhel' ]; then
   export INSTALL_PKG="dnf"
+  export ANSIBLE_PKG="ansible-core"
   echo -e "\n-- Update packages\n"
   sudo ${INSTALL_PKG} -y update
 else
   export INSTALL_PKG="apt"
+  export ANSIBLE_PKG="ansible"
   echo -e "\n-- Updating apt cache and running apt upgrade\n"
   sudo ${INSTALL_PKG} update
   sudo ${INSTALL_PKG} -y upgrade
@@ -87,7 +89,7 @@ BIN='/usr/bin'
 #TODO: swap sceen for tmux if distro is rocky 9
 
 #USEFUL_APPS='vim git screen curl'
-USEFUL_APPS='ansible curl git vim'
+USEFUL_APPS="${ANSIBLE_PKG} curl git vim"
 for i in ${USEFUL_APPS};
   do if [ ! -f "{BIN}/${i}" ]; then
     echo -e "\n-- Adding useful app... ${i}"
