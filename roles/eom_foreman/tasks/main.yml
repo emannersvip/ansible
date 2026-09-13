@@ -27,6 +27,15 @@
     validate_certs: false
     #ca_path: '/home/emanners/Documents/Git/ansible/callbacks/client_ca.pem'  # Must exist on ansible client
 
+- name: "Create my TailScale Organization"
+  theforeman.foreman.organization:
+    username: 'admin'
+    password: "{{ foreman_admin_pass }}"
+    server_url: "https://{{ foreman_server }}"
+    name: 'TailScale'
+    state: present
+    validate_certs: false
+
 - name: "Create my Primary Location"
   theforeman.foreman.location:
     username: 'admin'
@@ -35,7 +44,15 @@
     name: 'Houston'
     state: present
     validate_certs: false
-    #ca_path: '/home/emanners/Documents/Git/ansible/callbacks/client_ca.pem'
+
+- name: "Create my Secondary Location"
+  theforeman.foreman.location:
+    username: 'admin'
+    password: "{{ foreman_admin_pass }}"
+    server_url: "https://{{ foreman_server }}"
+    name: 'Tallahassee'
+    state: present
+    validate_certs: false
 
 - include_tasks: users.yml
 - include_tasks: media.yml
@@ -45,3 +62,4 @@
 - include_tasks: subnets.yml
 - include_tasks: hostgroups.yml
 - include_tasks: hosts.yml
+- include_tasks: jobs.yml

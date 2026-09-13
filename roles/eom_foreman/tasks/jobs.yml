@@ -1,0 +1,16 @@
+---
+
+# https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/job_invocation_module.html
+- name: "Create basic Foreman Job to run ansible roles"
+  theforeman.foreman.job_invocation:
+    search_query: "location  =  Houston" 
+    command: "Ansible Playbook"
+    job_template: "Ansible Roles - Ansible Default"
+    recurrence:
+      interval: 1
+      unit: "hour"
+    server_url: "https://{{ foreman_server }}"
+    username: "ansible"
+    password: "{{ ansible_user_pass }}"
+    validate_certs: false
+

@@ -5,3 +5,6 @@
 /collections
 /galaxy_cache
 galaxy_token
+*.swp
+# Git Hygiene
+*.retry
