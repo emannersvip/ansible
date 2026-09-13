@@ -33,7 +33,16 @@
     path: "{{ install_bin_path }}/node_exporter"
     mode: '0755'
 
-- name: "{{ package }}"
+- name: "Node Exporter environment file"
+  ansible.builtin.template:
+    src: 'default_opts.j2'
+    dest: '/etc/default/node_exporter'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: node_exporter_service
+
+- name: "Write node_exporter service file"
   ansible.builtin.template:
     src: 'node_exporter.service.j2'
     dest: '/etc/systemd/system/node_exporter.service'

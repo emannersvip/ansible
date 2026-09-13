@@ -2,12 +2,13 @@
 Description=Node Exporter Service
 After=network.target
 StartLimitIntervalSec=0
+
 [Service]
 Type=simple
 Restart=always
 RestartSec=1
 User=node_exporter
-{% ansible_facts["os_family"] == "RedHat" %}
+{% if ansible_facts["os_family"] == "RedHat" %}
 EnvironmentFile=/etc/default/node_exporter
 ExecStart={{ install_bin_path }}/node_exporter ${NODE_EXPORTER_OPTS}
 {% else %}
