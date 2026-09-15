@@ -1,0 +1,20 @@
+---
+- hosts: pi-compute5-a.edsonmanners.com
+  become: true
+  tasks:
+    - name: "Remove Actual Server container for re-dowwnload and upgrade"
+      community.docker.docker_container:
+        name: 'actual_budget'
+        state: absent
+    
+    - name: 'Re-download and upgrade Actual Server container to latest'
+      community.docker.docker_container:
+        name: 'actual_budget'
+        image: 'actualbudget/actual-server:latest'
+        pull: always
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "5006:5006/tcp"
+        volumes:
+          - '/opt/actualbudget/data/:/data'

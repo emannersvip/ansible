@@ -1,0 +1,20 @@
+---
+- hosts: pi-keyboard-500.edsonmanners.com
+  become: true
+  tasks:
+    - name: "Remove Uptime Kuma container for re-dowwnload and upgrade"
+      community.docker.docker_container:
+        name: 'uptime-kuma'
+        state: absent
+    
+    - name: 'Re-download and upgrade Uptime Kuma container to latest'
+      community.docker.docker_container:
+        name: 'uptime-kuma'
+        image: 'louislam/uptime-kuma:2'
+        pull: always
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "3001:3001/tcp"
+        volumes:
+          - 'uptime-kuma:/app/data'
