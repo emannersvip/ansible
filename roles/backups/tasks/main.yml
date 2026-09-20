@@ -31,6 +31,14 @@
       - nfs-ganesha-vfs
     state: present
 
+- name: Ensure nfs-ganesha systemd drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/nfs-ganesha.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
 - name: 'Configure NFS Ganesha'
   ansible.builtin.template:
     src: 'ganesha.conf.j2'
@@ -40,11 +48,25 @@
     mode: '0644'
   register: ganesha_conf
 
+- name: Require /mnt/extHD before nfs-ganesha starts
+  ansible.builtin.copy:
+    src: nfs-ganesha-requires-mount.conf
+    dest: /etc/systemd/system/nfs-ganesha.service.d/requires-mount.conf
+    owner: root
+    group: root
+    mode: "0644"
+  register: ganesha_dropin
+
+- name: Reload systemd after nfs-ganesha drop-in
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: ganesha_dropin.changed
+
 - name: 'Start & enable the Ganesha service'
   ansible.builtin.service:
     name: nfs-ganesha
     state: started
     enabled: yes
-  when: ganesha_conf.changed
+  when: ganesha_conf.changed or ganesha_dropin.changed
 
 

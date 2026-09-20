@@ -1,0 +1,36 @@
+---
+# NFS client + Docker NFS volume for Swarm nodes.
+# Server: infra01 Ganesha, export Path=/mnt/extHD Pseudo=/extHD
+# Swarm data lives in /extHD/DockerSwarm on that export.
+
+- name: Install NFS client packages
+  ansible.builtin.package:
+    name:
+      - nfs-common
+    state: present
+
+- name: Create NFS mount point
+  ansible.builtin.file:
+    path: "{{ nfs_client_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Mount NFS share and persist in fstab
+  ansible.posix.mount:
+    src: "{{ nfs_client_src }}"
+    path: "{{ nfs_client_path }}"
+    fstype: "{{ nfs_client_fstype }}"
+    opts: "{{ nfs_client_opts }}"
+    state: mounted
+
+- name: Create Docker NFS volume for Swarm shared storage
+  community.docker.docker_volume:
+    name: "{{ nfs_client_docker_volume_name }}"
+    driver: local
+    driver_options:
+      type: nfs
+      o: "{{ nfs_client_docker_opts }}"
+      device: "{{ nfs_client_docker_device }}"
+    state: present
