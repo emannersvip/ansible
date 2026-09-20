@@ -12,3 +12,18 @@
       - slurm-smd-slurmctld
     state: present
     update_cache: true
+
+- name: 'Install SLURM controller dependencies needed for full configuration'
+  ansible.builtin.apt:
+    name:
+      - bsd-mailx
+    state: present
+    update_cache: false
+
+- name: SLURM log directories
+  ansible.builtin.file:
+    path: /var/log/slurm
+    state: directory
+    owner: slurm
+    group: slurm
+    mode: 0775

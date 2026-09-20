@@ -55,3 +55,16 @@ scrape_configs:
         "tp-compute-3.edsonmanners.com:9100",
         "tp-compute-4.edsonmanners.com:9100"
       ]
+
+  - job_name: cadvisor
+    scrape_interval: 30s
+    scrape_timeout: 20s
+    static_configs:
+      - targets:
+          - pi-keyboard-500.edsonmanners.com:8070
+          - pi-compute5-a.edsonmanners.com:8080
+          - pi-compute5-b.edsonmanners.com:8080
+    metric_relabel_configs:
+      # Docker Compose / OCI labels explode cardinality on cAdvisor scrapes
+      - regex: "container_label_.*"
+        action: labeldrop

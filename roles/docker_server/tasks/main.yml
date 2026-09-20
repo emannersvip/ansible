@@ -22,3 +22,5 @@
   ansible.builtin.package:
     name: "docker-compose"
     state: latest
+
+# Create a systemd drop-in for the docker service
