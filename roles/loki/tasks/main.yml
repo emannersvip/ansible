@@ -33,13 +33,13 @@
     group: "{{ grafana_stack_admin_group }}"
     mode: '0664'
 
-      #- name: 'Loki alertmanager rule (test) file'
-      #  ansible.builtin.template:
-      #    src: 'loki-rules-mediamtx.yml.j2'
-      #    dest: "/opt/loki/etc/rules/fake/journald-mediamtx.yml"
-      #    owner: 'root'
-      #    group: "{{ grafana_stack_admin_group }}"
-      #    mode: '0664'
+- name: 'Loki ruler rule: error-level log lines'
+  ansible.builtin.template:
+    src: 'loki-rules-errors.yml.j2'
+    dest: "/opt/loki/etc/rules/fake/loki-log-errors.yml"
+    owner: 'root'
+    group: "{{ grafana_stack_admin_group }}"
+    mode: '0664'
 
 - name: 'Loki Docker Compose file'
   ansible.builtin.template:

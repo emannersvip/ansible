@@ -1,0 +1,14 @@
+groups:
+  - name: loki-log-errors
+    rules:
+      - alert: LokiErrorLogLine
+        # detected_level is Loki structured metadata (not an index label).
+        # Selector must keep a real index label ({job=...}); then filter with | detected_level.
+        expr: sum by (host, job) (count_over_time({job=~".+"} | detected_level="error" [1m])) > 0
+        for: 0m
+        labels:
+          severity: error
+          category: logs
+        annotations:
+          summary: {% raw %}"Error-level log lines on {{ $labels.host }}"{% endraw %}
+          description: {% raw %}"{{ $labels.host }} (job={{ $labels.job }}) emitted {{ $value }} error-level log line(s) in the last 1m."{% endraw %}

@@ -7,7 +7,7 @@
 $TTL 60
 ;
 @   IN  SOA ns1.edsonmanners.com. hostmaster.edsonmanners.com. (
-2026080900  ;serial 
+2026092100  ;serial 
 14400       ;refresh
 3600        ;retry
 604800      ;expire
@@ -35,6 +35,8 @@ _kpasswd.edsonmanners.com.               3600 IN URI 0 100 "krb5srv:m:udp:ipa.ed
 _ldap._tcp.edsonmanners.com.             3600 IN SRV 0 100 389 ipa.edsonmanners.com.
 ipa-ca.edsonmanners.com.                 3600 IN A 192.168.68.21
 ;
+alertmanager		CNAME	pi-compute5-a
+;
 deco-cave           A   192.168.68.248
 deco-living-room    A   192.168.68.247
 deco-mo-office      A   192.168.68.249
@@ -49,7 +51,6 @@ dhcp-secondary      CNAME   pi-compute
 docker1             CNAME   pc5
 ;
 dns1            A       192.168.68.5
-foremanctl	A	192.168.70.105
 homeassistant   A       192.168.69.60
 infra01         A       192.168.68.5
 katello         A       192.168.68.6

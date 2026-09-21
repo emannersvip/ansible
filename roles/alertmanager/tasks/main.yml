@@ -27,11 +27,12 @@
 
 #- name: 'Create Docker /opt/alertmanager'
 
-- name: 'Docker_Create the Grafana Container'
+- name: 'Docker_Create the Alertmanager Container'
   community.docker.docker_container:
     name: 'alertmanager'
     image: 'prom/alertmanager'
     state: started
+    restart_policy: 'unless-stopped'
     ports:
       - "9093:9093/tcp"
     volumes:
