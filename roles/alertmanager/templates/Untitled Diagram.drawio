@@ -1,16 +1,22 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="8Z7qo4v3krahIILo4XMT">
-    <mxGraphModel dx="1414" dy="797" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1664" dy="938" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="4s9u4DZD3055y9CM7_Zw-1" parent="1" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" value="AlertManager:9030&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="80" width="80" x="380" y="130" as="geometry" />
         </mxCell>
-        <mxCell id="4s9u4DZD3055y9CM7_Zw-2" parent="1" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" value="Loki:3100" vertex="1">
+        <mxCell id="S_AVGiaogYtIc1Sf2lv8-5" edge="1" parent="1" source="4s9u4DZD3055y9CM7_Zw-2" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="4s9u4DZD3055y9CM7_Zw-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4s9u4DZD3055y9CM7_Zw-2" parent="1" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" value="Loki:3100&lt;div&gt;Alertmanager expects rules for what is exported to the&lt;/div&gt;&lt;div&gt;alertmanager service to be configured here in the exporter&lt;/div&gt;" vertex="1">
           <mxGeometry height="80" width="80" x="120" y="420" as="geometry" />
         </mxCell>
-        <mxCell id="4s9u4DZD3055y9CM7_Zw-3" parent="1" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" value="Prometheus:9080" vertex="1">
+        <mxCell id="S_AVGiaogYtIc1Sf2lv8-4" edge="1" parent="1" source="4s9u4DZD3055y9CM7_Zw-3" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="4s9u4DZD3055y9CM7_Zw-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4s9u4DZD3055y9CM7_Zw-3" parent="1" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" value="Prometheus:9080&lt;div&gt;&lt;div&gt;Alertmanager expects rules for what is exported to the&lt;/div&gt;&lt;div&gt;alertmanager service to be configured here in the exporter&lt;/div&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="80" width="80" x="640" y="420" as="geometry" />
         </mxCell>
       </root>
