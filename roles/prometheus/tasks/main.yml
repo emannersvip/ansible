@@ -85,8 +85,9 @@
     ports:
       - "9090:9090/tcp"
     volumes:
-      - '/opt/prometheus/etc/prometheus.yml:/prometheus/prometheus.yml'
-      - '/opt/prometheus/etc/targets:/prometheus/targets'
+      #- '/opt/prometheus/etc/prometheus.yml:/prometheus/prometheus.yml'
+      #- '/opt/prometheus/etc/targets:/prometheus/targets'
+      - '/opt/prometheus/etc:/prometheus'
     #user: 'nobody'
     restart_policy: 'unless-stopped'
     env:

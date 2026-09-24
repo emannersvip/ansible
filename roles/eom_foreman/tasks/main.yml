@@ -9,6 +9,40 @@
     name: python3-requests
     state: present
 
+- name: "Check for existense of Foreman dnf/yum repository"
+  ansible.builtin.stat:
+    path: /etc/yum.repos.d/foreman.repo
+  register: foreman_repo
+
+- name: "Check for existense of OpenVox dnf/yum repository"
+  ansible.builtin.stat:
+    path: /etc/yum.repos.d/openvox.repo
+  register: openvox_repo
+
+- name: "Add Foreman dnf/yum repository"
+  ansible.builtin.get_url:
+    url: https://yum.theforeman.org/releases/5.0/el9/x86_64/foreman-release.rpm
+    dest: /tmp/foreman-release.rpm
+  when: not foreman_repo.stat.exists
+
+- name: "Add OpenVox 8.x dnf/yum repository"
+  ansible.builtin.get_url:
+    url: https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+    dest: /tmp/openvox-release.rpm
+  when: not openvox_repo.stat.exists
+
+- name: "Install Foreman dnf/yum repository"
+  ansible.builtin.dnf:
+    name: /tmp/foreman-release.rpm
+    state: present
+  when: not foreman_repo.stat.exists
+
+- name: "Install OpenVox 8.x dnf/yum repository"
+  ansible.builtin.dnf:
+    name: /tmp/openvox-release.rpm
+    state: present
+  when: not openvox_repo.stat.exists
+
 - name: "Install plugins on Foreman server"
   ansible.builtin.dnf:
     name:
