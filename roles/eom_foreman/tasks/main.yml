@@ -1,5 +1,11 @@
 ---
-# tasks file for eom_foreman
+# https://theforeman.org/manuals/5.0/quickstart_guide.html
+#
+# TODO: Add GPG key for Foreman and OpenVox repositories
+#
+# Tasks file for eom_foreman
+
+# Make sure the Foreman server has firewalld installed and running, and that the required ports are open
 - include_tasks: firewalld.yml
 
 # https://docs.ansible.com/projects/ansible/latest/collections/theforeman/foreman/user_module.html
@@ -16,7 +22,7 @@
 
 - name: "Check for existense of OpenVox dnf/yum repository"
   ansible.builtin.stat:
-    path: /etc/yum.repos.d/openvox.repo
+    path: /etc/yum.repos.d/openvox8-release.repo
   register: openvox_repo
 
 - name: "Add Foreman dnf/yum repository"
@@ -35,13 +41,20 @@
   ansible.builtin.dnf:
     name: /tmp/foreman-release.rpm
     state: present
+    disable_gpg_check: yes
   when: not foreman_repo.stat.exists
 
 - name: "Install OpenVox 8.x dnf/yum repository"
   ansible.builtin.dnf:
     name: /tmp/openvox-release.rpm
     state: present
+    disable_gpg_check: yes
   when: not openvox_repo.stat.exists
+
+- name: "Install foreman-installer on Foreman server"
+  ansible.builtin.dnf:
+    name: foreman-installer
+    state: present
 
 - name: "Install plugins on Foreman server"
   ansible.builtin.dnf:
@@ -50,6 +63,16 @@
       - rubygem-foreman_ansible
     state: present
     update_cache: yes
+
+- name: "Check whether Foreman is installed and running"
+  ansible.builtin.stat:
+    path: /usr/share/foreman-proxy/bin/smart-proxy
+  register: foreman_installed
+
+- name: "Fail with guidance if Foreman is not installed and running"
+  ansible.builtin.fail:
+    msg: "Foreman is not installed and running. Please run 'foreman-installer' on the Foreman server."
+  when: not foreman_installed.stat.exists
 
 - name: "Create my Primary Organization"
   theforeman.foreman.organization:
