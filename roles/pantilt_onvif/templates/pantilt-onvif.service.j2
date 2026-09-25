@@ -24,6 +24,10 @@ Environment=PANTILT_TILT_MIN={{ pantilt_tilt_min }}
 Environment=PANTILT_TILT_MAX={{ pantilt_tilt_max }}
 Environment=PANTILT_PAN_PIN={{ pantilt_pan_pin }}
 Environment=PANTILT_TILT_PIN={{ pantilt_tilt_pin }}
+Environment=PANTILT_I2C_BUS={{ pantilt_i2c_bus }}
+Environment=PANTILT_I2C_ADDR={{ pantilt_i2c_addr }}
+Environment=PANTILT_PAN_CH={{ pantilt_pan_ch }}
+Environment=PANTILT_TILT_CH={{ pantilt_tilt_ch }}
 Environment=GPIOZERO_PIN_FACTORY=lgpio
 ExecStart=/usr/bin/python3 {{ pantilt_install_dir }}/pantilt_onvif.py
 

@@ -7,6 +7,7 @@ local servos. Backends:
 
   * pimoroni   — Pimoroni Pan-Tilt HAT via python3-pantilthat (I2C)
   * sunfounder — Sunfounder PWM pan/tilt (gpiozero AngularServo, BCM 13/12)
+  * waveshare  — Waveshare Pan-Tilt HAT via PCA9685 (I2C 0x40, S1 pan / S0 tilt)
 
 Auth is accepted but not enforced; bind to the LAN and keep Frigate as the
 only client.
@@ -40,6 +41,10 @@ TILT_MIN = float(os.environ.get("PANTILT_TILT_MIN", "-90"))
 TILT_MAX = float(os.environ.get("PANTILT_TILT_MAX", "90"))
 PAN_PIN = int(os.environ.get("PANTILT_PAN_PIN", "13"))
 TILT_PIN = int(os.environ.get("PANTILT_TILT_PIN", "12"))
+I2C_BUS = int(os.environ.get("PANTILT_I2C_BUS", "1"))
+I2C_ADDR = int(os.environ.get("PANTILT_I2C_ADDR", "0x40"), 0)
+PAN_CH = int(os.environ.get("PANTILT_PAN_CH", "1"))
+TILT_CH = int(os.environ.get("PANTILT_TILT_CH", "0"))
 SERIAL = os.environ.get("PANTILT_SERIAL", os.uname().nodename)
 
 # Image is HFlip+VFlip in MediaMTX. Positive ONVIF pan = right on the
@@ -157,12 +162,117 @@ class SunfounderDriver:
         self._schedule_detach()
 
 
+class WaveshareDriver:
+    """Waveshare Pan-Tilt HAT: PCA9685 at 0x40, tilt S0 / pan S1.
+
+    Hardware PWM on the HAT, so no software-PWM jitter. Sleep the chip
+    after a short settle so analog servos are not held under constant
+    current (Waveshare notes that hold current causes hunting).
+    """
+
+    MODE1 = 0x00
+    PRESCALE = 0xFE
+    LED0_ON_L = 0x06
+    OSC = 25_000_000
+    PWM_FREQ = 50
+
+    def __init__(self) -> None:
+        try:
+            from smbus2 import SMBus
+        except ImportError:
+            try:
+                from smbus import SMBus  # type: ignore
+            except ImportError as exc:
+                sys.stderr.write(
+                    "smbus is not installed. On Raspberry Pi OS: "
+                    "sudo apt-get install -y python3-smbus python3-smbus2 i2c-tools\n"
+                )
+                raise SystemExit(1) from exc
+        self._bus = SMBus(I2C_BUS)
+        self._addr = I2C_ADDR
+        self._settle_s = float(os.environ.get("PANTILT_SETTLE_S", "0.20"))
+        self._idle_timer: threading.Timer | None = None
+        self._idle_lock = threading.Lock()
+        self._setup()
+
+    def _write8(self, reg: int, value: int) -> None:
+        self._bus.write_byte_data(self._addr, reg, value & 0xFF)
+
+    def _read8(self, reg: int) -> int:
+        return self._bus.read_byte_data(self._addr, reg)
+
+    def _setup(self) -> None:
+        self._write8(self.MODE1, 0x00)
+        time.sleep(0.01)
+        old = self._read8(self.MODE1)
+        self._write8(self.MODE1, (old & 0x7F) | 0x10)  # sleep
+        prescale = int(round(self.OSC / (4096.0 * self.PWM_FREQ)) - 1)
+        self._write8(self.PRESCALE, prescale)
+        self._write8(self.MODE1, old)
+        time.sleep(0.005)
+        self._write8(self.MODE1, old | 0xA0)  # auto-increment + restart
+        LOG.info("PCA9685 addr=0x%02x prescale=%s pan_ch=%s tilt_ch=%s", self._addr, prescale, PAN_CH, TILT_CH)
+
+    def _angle_to_ticks(self, angle: float, lo: float, hi: float) -> int:
+        angle = clamp(angle, lo, hi)
+        # 0.5ms..2.5ms over -90..90 at 50Hz / 4096 ticks
+        us = 1500.0 + (angle / 90.0) * 1000.0
+        ticks = int(round((us / 20000.0) * 4096))
+        return int(clamp(ticks, 102, 512))
+
+    def _set_channel(self, channel: int, ticks: int) -> None:
+        base = self.LED0_ON_L + 4 * channel
+        self._write8(base, 0)
+        self._write8(base + 1, 0)
+        self._write8(base + 2, ticks & 0xFF)
+        self._write8(base + 3, (ticks >> 8) & 0x0F)
+
+    def _off_channel(self, channel: int) -> None:
+        base = self.LED0_ON_L + 4 * channel
+        self._write8(base, 0)
+        self._write8(base + 1, 0)
+        self._write8(base + 2, 0)
+        self._write8(base + 3, 0x10)  # full-off
+
+    def read(self) -> tuple[float, float] | None:
+        return None
+
+    def _cancel_idle(self) -> None:
+        with self._idle_lock:
+            if self._idle_timer is not None:
+                self._idle_timer.cancel()
+                self._idle_timer = None
+
+    def _schedule_off(self) -> None:
+        def _off() -> None:
+            try:
+                self._off_channel(PAN_CH)
+                self._off_channel(TILT_CH)
+            except Exception:
+                LOG.exception("PCA9685 idle-off failed")
+
+        with self._idle_lock:
+            if self._idle_timer is not None:
+                self._idle_timer.cancel()
+            self._idle_timer = threading.Timer(self._settle_s, _off)
+            self._idle_timer.daemon = True
+            self._idle_timer.start()
+
+    def write(self, pan: float, tilt: float) -> None:
+        self._cancel_idle()
+        self._set_channel(PAN_CH, self._angle_to_ticks(pan, PAN_MIN, PAN_MAX))
+        self._set_channel(TILT_CH, self._angle_to_ticks(tilt, TILT_MIN, TILT_MAX))
+        self._schedule_off()
+
+
 def _make_driver():
     if BACKEND in ("pimoroni", "pantilthat"):
         return PimoroniDriver()
     if BACKEND in ("sunfounder", "gpiozero", "pigpio"):
         return SunfounderDriver()
-    sys.stderr.write(f"Unknown PANTILT_BACKEND={BACKEND!r} (pimoroni|sunfounder)\n")
+    if BACKEND in ("waveshare", "pca9685"):
+        return WaveshareDriver()
+    sys.stderr.write(f"Unknown PANTILT_BACKEND={BACKEND!r} (pimoroni|sunfounder|waveshare)\n")
     raise SystemExit(2)
 
 
@@ -293,6 +403,8 @@ def get_system_date_and_time() -> bytes:
 def get_device_information() -> bytes:
     if BACKEND in ("sunfounder", "gpiozero", "pigpio"):
         manufacturer, model, hw = "Sunfounder", "Pan-Tilt", "PWM-13-12"
+    elif BACKEND in ("waveshare", "pca9685"):
+        manufacturer, model, hw = "Waveshare", "Pan-Tilt HAT", "PCA9685"
     else:
         manufacturer, model, hw = "Pimoroni", "Pan-Tilt HAT", "PIM213"
     return _envelope(

@@ -17,3 +17,21 @@
         pantilt_home_tilt: 0
         pantilt_tilt_min: -90
         pantilt_tilt_max: 30
+
+- hosts: pi-robot-5.edsonmanners.com
+  become: true
+  roles:
+    - role: pantilt_onvif
+      vars:
+        pantilt_backend: waveshare
+        pantilt_home_pan: 0
+        pantilt_home_tilt: 0
+
+- hosts: pi-robot-1.edsonmanners.com
+  become: true
+  roles:
+    - role: pantilt_onvif
+      vars:
+        pantilt_backend: pimoroni
+        pantilt_home_pan: 0
+        pantilt_home_tilt: 0

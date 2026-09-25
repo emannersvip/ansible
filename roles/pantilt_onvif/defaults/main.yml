@@ -11,6 +11,10 @@ pantilt_tilt_min: -90
 pantilt_tilt_max: 90
 pantilt_pan_pin: 13
 pantilt_tilt_pin: 12
+pantilt_i2c_bus: 1
+pantilt_i2c_addr: "0x40"
+pantilt_pan_ch: 1
+pantilt_tilt_ch: 0
 pantilt_rtsp_path: "rtsp://{{ ansible_default_ipv4.address }}:8554/cam"
 pantilt_install_dir: /opt/pantilt_onvif
 pantilt_apt_packages:
@@ -21,3 +25,7 @@ pantilt_apt_packages:
   sunfounder:
     - python3-gpiozero
     - python3-lgpio
+  waveshare:
+    - python3-smbus
+    - python3-smbus2
+    - i2c-tools
