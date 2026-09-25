@@ -1,0 +1,9 @@
+- hosts: all
+  become: true
+  roles:
+    - role: alloy
+      vars:
+        alloy_architecture: amd64
+    - role: node_exporter
+      vars:
+        node_export_architecture: amd64

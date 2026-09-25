@@ -1,9 +1,12 @@
-- hosts: gamingrig.edsonmanners.com
-  become: true
-  roles:
-    - role: alloy
-      vars:
-        alloy_architecture: amd64
-    - role: node_exporter
-      vars:
-        node_export_architecture: amd64
+- hosts: all
+  #become: true
+  tasks:
+    - name: Gather facts
+      setup:
+  #roles:
+  #  - role: alloy
+  #    vars:
+  #      alloy_architecture: amd64
+  #  - role: node_exporter
+  #    vars:
+  #      node_export_architecture: amd64
