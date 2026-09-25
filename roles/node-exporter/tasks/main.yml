@@ -1,4 +1,7 @@
 ---
+# Make sure the Node Exporter server has firewalld installed and running, and that the required ports are open
+- include_tasks: firewalld.yml
+
 # tasks file for node-exporter
 - name: 'Install OS packages to handle archives'
   ansible.builtin.package:

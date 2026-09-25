@@ -1,0 +1,17 @@
+---
+# Tasks for allowing firewalld to open ports for node-exporter
+# https://docs.ansible.com/projects/ansible/latest/collections/ansible/posix/firewalld_module.html
+- name: "Ensure firewalld is running and enabled"
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: "Open Node Exporter port 9100 in firewalld"
+  ansible.builtin.firewalld:
+    port: 9100/tcp
+    permanent: true
+    state: enabled
+    immediate: yes
+  when: ansible_facts['os_family'] == 'RedHat'
