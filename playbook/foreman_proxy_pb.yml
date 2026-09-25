@@ -1,0 +1,41 @@
+- hosts: katello.edsonmanners.com
+  become: true
+  tasks:
+    - name: Install RPM to allow 'foreman-proxy-certs-generate' to run
+      ansible.builtin.dnf:
+        name: foreman-installer-katello
+        state: present
+    - name: Generate the Foreman Proxy SSL certificate
+      ansible.builtin.command:
+        cmd: foreman-proxy-certs-generate --foreman-proxy-fqdn infra01.edsonmanners.com --certs-tar /tmp/infra01-foreman-proxy-certs.tar
+        creates: /tmp/infra01-foreman-proxy-certs.tar
+      register: cert_generation_output
+    - name: Debug the output of the certificate generation command
+      ansible.builtin.debug:
+        var: cert_generation_output.stdout_lines 
+    # Need to figure out how to SCP in a playbook.  This is a workaround for now.
+    # scp /root/infra01.edsonmanners.com-certs.tar root@infra01.edsonmanners.com:/root/infra01.edsonmanners.com-certs.tar
+    - name: Copy the Foreman Proxy SSL certificate to the target host
+      ansible.builtin.copy:
+        src: /tmp/infra01-foreman-proxy-certs.tar
+        dest: /tmp/infra01-foreman-proxy-certs.tar
+
+- hosts: infra01.edsonmanners.com
+  become: true
+  tasks:
+    - name: Run the Foreman Proxy installer with the provided SSL certificate
+      ansible.builtin.command:
+        argv:
+        - foreman-proxy-installer
+        - --certs-tar-file
+        - /tmp/infra01-foreman-proxy-certs.tar
+        - --foreman-proxy-foreman-base-url
+        - https://katello.edsonmanners.com
+        - --foreman-proxy-trusted-hosts
+        - katello.edsonmanners.com
+        - --foreman-proxy-trusted-hosts
+        - infra01.edsonmanners.com
+        - --foreman-oauth-consumer-key
+        - QfhUV4edQxgcoMa6qzcEym6PunoTwM5n
+        - --foreman-oauth-consumer-secret
+        - DnKyAJkBVtk6DPB9iCbY6D29eDb6aW3W

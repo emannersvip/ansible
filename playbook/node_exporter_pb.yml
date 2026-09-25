@@ -1,7 +1,8 @@
 ---
 - hosts:
+    - gamingrig.edsonmanners.com
     #- infra01.edsonmanners.com
-    - katello.edsonmanners.com
+    #- katello.edsonmanners.com
     #- pi-compute.edsonmanners.com
     #- pi-compute5-a.edsonmanners.com
     #- pi-compute5-b.edsonmanners.com
