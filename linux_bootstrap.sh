@@ -144,5 +144,6 @@ echo -e "\n"
 [ -d /var/log/ansible ] || mkdir /var/log/ansible
 chown root:emanners /var/log/ansible && chmod g+w /var/log/ansible
 #ansible-pull --diff -d /tmp/ansible-pull -i localhost --limit=all -U git@github.com:emannersvip/ansible.git playbook/get_facts_pb.yml
-ansible-pull --diff -d /tmp/ansible-pull -U git@github.com:emannersvip/ansible.git /tmp/ansible-pull/playbook/get_facts_pb.yml
+#ansible-pull --diff -d /tmp/ansible-pull -U https://github.com/emannersvip/ansible.git /tmp/ansible-pull/playbook/get_facts_pb.yml
+ansible-pull --diff -U https://github.com/emannersvip/ansible.git
 
