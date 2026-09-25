@@ -9,6 +9,7 @@
 
 [all]
 gamingrig.edsonmanners.com alloy_architecture=amd64 node_exporter_architecture=amd64
+#gamingrig ansible_host=gamingrig.example.com
 katello.edsonmanners.com alloy_architecture=amd64 node_exporter_architecture=amd64
 infra01.edsonmanners.com alloy_architecture=amd64 node_exporter_architecture=amd64
 pi-compute.edsonmanners.com

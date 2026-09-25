@@ -140,10 +140,15 @@ echo -e "\n"
 
 # Run ansible to add host to Foreman/Katello
 # Root Cause: ansible-pull constructs a limit string like localhost,hostname.example.com,hostname,127.0.0.1. If your inventory (static or dynamic) does not define a host with the name gamingrig (or its FQDN), Ansible finds zero matching hosts and fails. This is common in containerized environments or when using dynamic inventory scripts that do not return the local node.
+# If your getting the error "ERROR! Specified hosts and/or --limit does not match any hosts" when running ansible-pull, you can fix it by adding the hostname to the inventory file or by making sure that the fqdn shows up when using hostnamectl.
 # Create /var/log/ansible if it doesn't already exist.
 [ -d /var/log/ansible ] || mkdir /var/log/ansible
 chown root:emanners /var/log/ansible && chmod g+w /var/log/ansible
 #ansible-pull --diff -d /tmp/ansible-pull -i localhost --limit=all -U git@github.com:emannersvip/ansible.git playbook/get_facts_pb.yml
 #ansible-pull --diff -d /tmp/ansible-pull -U https://github.com/emannersvip/ansible.git /tmp/ansible-pull/playbook/get_facts_pb.yml
-ansible-pull --directory /tmp/ansible-pull --inventory gamingrig,/tmp/ansible-pull/inventory.yml -U https://github.com/emannersvip/ansible.git /tmp/ansible-pull/playbook/local.yml
+ansible-pull --directory /tmp/ansible-pull \
+	--inventory $(uname -n),/tmp/ansible-pull/inventory.yml \
+	-U https://github.com/emannersvip/ansible.git \
+	--purge \
+	/tmp/ansible-pull/playbook/local.yml
 
