@@ -4,6 +4,6 @@
     - role: alloy
       vars:
         alloy_architecture: amd64
-    - role: node_exporter
+    - role: node-exporter
       vars:
         node_export_architecture: amd64
