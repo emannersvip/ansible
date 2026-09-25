@@ -93,7 +93,13 @@ class PimoroniDriver:
 
 
 class SunfounderDriver:
-    """Sunfounder PWM pan/tilt: BCM 13 pan, BCM 12 tilt (eom_pantilt_sunfounder.py)."""
+    """Sunfounder PWM pan/tilt: BCM 13 pan, BCM 12 tilt (eom_pantilt_sunfounder.py).
+
+    gpiozero on Trixie uses software PWM (lgpio). That pulse train jitters
+    analog servos if left running. Pimoroni stays still because pantilthat
+    idle_timeout() stops I2C PWM. Mirror that: pulse to the new angle, then
+    detach so the servo holds mechanically.
+    """
 
     def __init__(self) -> None:
         try:
@@ -113,13 +119,42 @@ class SunfounderDriver:
         kw = {"min_pulse_width": 0.0005, "max_pulse_width": 0.0025}
         self._pan = AngularServo(PAN_PIN, min_angle=PAN_MIN, max_angle=PAN_MAX, **kw)
         self._tilt = AngularServo(TILT_PIN, min_angle=TILT_MIN, max_angle=TILT_MAX, **kw)
+        self._last = (None, None)
+        self._settle_s = float(os.environ.get("PANTILT_SETTLE_S", "0.15"))
+        self._idle_timer: threading.Timer | None = None
+        self._idle_lock = threading.Lock()
 
     def read(self) -> tuple[float, float] | None:
         return None
 
+    def _cancel_idle(self) -> None:
+        with self._idle_lock:
+            if self._idle_timer is not None:
+                self._idle_timer.cancel()
+                self._idle_timer = None
+
+    def _schedule_detach(self) -> None:
+        def _detach() -> None:
+            try:
+                self._pan.detach()
+                self._tilt.detach()
+            except Exception:
+                LOG.exception("servo detach failed")
+
+        with self._idle_lock:
+            if self._idle_timer is not None:
+                self._idle_timer.cancel()
+            self._idle_timer = threading.Timer(self._settle_s, _detach)
+            self._idle_timer.daemon = True
+            self._idle_timer.start()
+
     def write(self, pan: float, tilt: float) -> None:
-        self._pan.angle = pan
-        self._tilt.angle = tilt
+        self._cancel_idle()
+        if self._last != (pan, tilt):
+            self._pan.angle = pan
+            self._tilt.angle = tilt
+            self._last = (pan, tilt)
+        self._schedule_detach()
 
 
 def _make_driver():
