@@ -1,0 +1,44 @@
+---
+- name: Install Pimoroni pan-tilt HAT Python library
+  ansible.builtin.apt:
+    name:
+      - python3-pantilthat
+      - python3-smbus
+      - i2c-tools
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install ONVIF bridge directory
+  ansible.builtin.file:
+    path: "{{ pantilt_install_dir }}"
+    state: directory
+    owner: emanners
+    group: emanners
+    mode: "0755"
+
+- name: Install ONVIF bridge script
+  ansible.builtin.copy:
+    src: pantilt_onvif.py
+    dest: "{{ pantilt_install_dir }}/pantilt_onvif.py"
+    owner: emanners
+    group: emanners
+    mode: "0755"
+  notify: restart pantilt-onvif
+
+- name: Install pantilt-onvif systemd unit
+  ansible.builtin.template:
+    src: pantilt-onvif.service.j2
+    dest: /etc/systemd/system/pantilt-onvif.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - reload systemd
+    - restart pantilt-onvif
+
+- name: Enable and start pantilt-onvif
+  ansible.builtin.service:
+    name: pantilt-onvif
+    state: started
+    enabled: true

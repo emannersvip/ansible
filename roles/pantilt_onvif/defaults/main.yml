@@ -1,0 +1,8 @@
+---
+pantilt_onvif_port: 8000
+pantilt_onvif_host: "0.0.0.0"
+pantilt_home_pan: -23
+pantilt_home_tilt: -13
+pantilt_max_rate: 30
+pantilt_rtsp_path: "rtsp://{{ ansible_default_ipv4.address }}:8554/cam"
+pantilt_install_dir: /opt/pantilt_onvif

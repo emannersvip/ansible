@@ -1,0 +1,4 @@
+- hosts: pi-zero-2w.edsonmanners.com
+  become: true
+  roles:
+    - role: pantilt_onvif

@@ -1,0 +1,23 @@
+[Unit]
+Description=Pimoroni Pan-Tilt HAT ONVIF bridge for Frigate
+After=network.target mediamtx.service
+Wants=mediamtx.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=2
+User=emanners
+Group=emanners
+SupplementaryGroups=i2c gpio
+WorkingDirectory={{ pantilt_install_dir }}
+Environment=PANTILT_ONVIF_HOST={{ pantilt_onvif_host }}
+Environment=PANTILT_ONVIF_PORT={{ pantilt_onvif_port }}
+Environment=PANTILT_RTSP_PATH={{ pantilt_rtsp_path }}
+Environment=PANTILT_HOME_PAN={{ pantilt_home_pan }}
+Environment=PANTILT_HOME_TILT={{ pantilt_home_tilt }}
+Environment=PANTILT_MAX_RATE={{ pantilt_max_rate }}
+ExecStart=/usr/bin/python3 {{ pantilt_install_dir }}/pantilt_onvif.py
+
+[Install]
+WantedBy=multi-user.target
