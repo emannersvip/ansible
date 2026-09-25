@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""Minimal ONVIF PTZ facade for a Pimoroni Pan-Tilt HAT.
+"""Minimal ONVIF PTZ facade for Pi pan-tilt kits.
 
-Frigate only drives PTZ over ONVIF (ContinuousMove + Stop). The HAT is an
-I2C servo pair with absolute angles, so this process:
+Frigate only drives PTZ over ONVIF (ContinuousMove + Stop). This process
+advertises just enough Device/Media/PTZ SOAP for Frigate 0.14+ and jogs
+local servos. Backends:
 
-  * advertises just enough Device/Media/PTZ SOAP for Frigate 0.14+
-  * translates ContinuousMove velocity into a background pan/tilt jog
-  * exposes the existing MediaMTX RTSP path as the camera's media profile
+  * pimoroni   — Pimoroni Pan-Tilt HAT via python3-pantilthat (I2C)
+  * sunfounder — Sunfounder PWM pan/tilt (gpiozero AngularServo, BCM 13/12)
 
 Auth is accepted but not enforced; bind to the LAN and keep Frigate as the
 only client.
@@ -22,28 +22,25 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from xml.etree import ElementTree as ET
 
-try:
-    import pantilthat
-except ImportError as exc:
-    sys.stderr.write(
-        "pantilthat is not installed. On Raspberry Pi OS: "
-        "sudo apt-get install -y python3-pantilthat python3-smbus\n"
-    )
-    raise SystemExit(1) from exc
-
 LOG = logging.getLogger("pantilt-onvif")
 
 LISTEN_HOST = os.environ.get("PANTILT_ONVIF_HOST", "0.0.0.0")
 LISTEN_PORT = int(os.environ.get("PANTILT_ONVIF_PORT", "8000"))
-RTSP_PATH = os.environ.get("PANTILT_RTSP_PATH", "rtsp://192.168.69.150:8554/cam")
+BACKEND = os.environ.get("PANTILT_BACKEND", "pimoroni").strip().lower()
+RTSP_PATH = os.environ.get("PANTILT_RTSP_PATH", "rtsp://127.0.0.1:8554/cam")
 HOME_PAN = float(os.environ.get("PANTILT_HOME_PAN", "-23"))
 HOME_TILT = float(os.environ.get("PANTILT_HOME_TILT", "-13"))
 # Degrees per second at |velocity| == 1.0
 MAX_RATE = float(os.environ.get("PANTILT_MAX_RATE", "30"))
 SAFETY_STOP_S = float(os.environ.get("PANTILT_SAFETY_STOP", "10"))
 TICK_S = 0.05
-PAN_MIN, PAN_MAX = -90.0, 90.0
-TILT_MIN, TILT_MAX = -90.0, 90.0
+PAN_MIN = float(os.environ.get("PANTILT_PAN_MIN", "-90"))
+PAN_MAX = float(os.environ.get("PANTILT_PAN_MAX", "90"))
+TILT_MIN = float(os.environ.get("PANTILT_TILT_MIN", "-90"))
+TILT_MAX = float(os.environ.get("PANTILT_TILT_MAX", "90"))
+PAN_PIN = int(os.environ.get("PANTILT_PAN_PIN", "13"))
+TILT_PIN = int(os.environ.get("PANTILT_TILT_PIN", "12"))
+SERIAL = os.environ.get("PANTILT_SERIAL", os.uname().nodename)
 
 # Image is HFlip+VFlip in MediaMTX. Positive ONVIF pan = right on the
 # flipped image, which matches eom_pantilt.py KEY_RIGHT (pan decreases).
@@ -71,15 +68,78 @@ def clamp(value: float, lo: float, hi: float) -> float:
     return lo if value < lo else hi if value > hi else value
 
 
+class PimoroniDriver:
+    def __init__(self) -> None:
+        try:
+            import pantilthat
+        except ImportError as exc:
+            sys.stderr.write(
+                "pantilthat is not installed. On Raspberry Pi OS: "
+                "sudo apt-get install -y python3-pantilthat python3-smbus\n"
+            )
+            raise SystemExit(1) from exc
+        self._hat = pantilthat
+        self._hat.idle_timeout(0.5)
+
+    def read(self) -> tuple[float, float] | None:
+        try:
+            return float(self._hat.get_pan()), float(self._hat.get_tilt())
+        except Exception:
+            return None
+
+    def write(self, pan: float, tilt: float) -> None:
+        self._hat.pan(pan)
+        self._hat.tilt(tilt)
+
+
+class SunfounderDriver:
+    """Sunfounder PWM pan/tilt: BCM 13 pan, BCM 12 tilt (eom_pantilt_sunfounder.py)."""
+
+    def __init__(self) -> None:
+        try:
+            from gpiozero import AngularServo, Device
+            from gpiozero.pins.lgpio import LGPIOFactory
+        except ImportError as exc:
+            sys.stderr.write(
+                "gpiozero is not installed. On Raspberry Pi OS: "
+                "sudo apt-get install -y python3-gpiozero python3-lgpio\n"
+            )
+            raise SystemExit(1) from exc
+        # systemd units do not inherit an interactive pin factory. Force
+        # lgpio so software PWM works on BCM 12/13 (Pi 4, no hardware PWM).
+        if Device.pin_factory is None or type(Device.pin_factory).__name__ != "LGPIOFactory":
+            Device.pin_factory = LGPIOFactory()
+        # Match servo.py pigpio mapping: 0.5ms..2.5ms over -90..90.
+        kw = {"min_pulse_width": 0.0005, "max_pulse_width": 0.0025}
+        self._pan = AngularServo(PAN_PIN, min_angle=PAN_MIN, max_angle=PAN_MAX, **kw)
+        self._tilt = AngularServo(TILT_PIN, min_angle=TILT_MIN, max_angle=TILT_MAX, **kw)
+
+    def read(self) -> tuple[float, float] | None:
+        return None
+
+    def write(self, pan: float, tilt: float) -> None:
+        self._pan.angle = pan
+        self._tilt.angle = tilt
+
+
+def _make_driver():
+    if BACKEND in ("pimoroni", "pantilthat"):
+        return PimoroniDriver()
+    if BACKEND in ("sunfounder", "gpiozero", "pigpio"):
+        return SunfounderDriver()
+    sys.stderr.write(f"Unknown PANTILT_BACKEND={BACKEND!r} (pimoroni|sunfounder)\n")
+    raise SystemExit(2)
+
+
 class PanTiltHat:
     def __init__(self) -> None:
-        pantilthat.idle_timeout(0.5)
-        try:
-            self.pan = float(pantilthat.get_pan())
-            self.tilt = float(pantilthat.get_tilt())
-        except Exception:
+        self.driver = _make_driver()
+        pos = self.driver.read()
+        if pos is None:
             self.pan = HOME_PAN
             self.tilt = HOME_TILT
+        else:
+            self.pan, self.tilt = pos
         self.vx = 0.0
         self.vy = 0.0
         self.moving = False
@@ -89,10 +149,8 @@ class PanTiltHat:
         worker = threading.Thread(target=self._loop, name="pantilt-jog", daemon=True)
         worker.start()
 
-    @staticmethod
-    def _apply(pan: float, tilt: float) -> None:
-        pantilthat.pan(pan)
-        pantilthat.tilt(tilt)
+    def _apply(self, pan: float, tilt: float) -> None:
+        self.driver.write(pan, tilt)
 
     def _loop(self) -> None:
         while True:
@@ -112,7 +170,7 @@ class PanTiltHat:
             try:
                 self._apply(pan, tilt)
             except Exception:
-                LOG.exception("pantilthat write failed")
+                LOG.exception("servo write failed")
 
     def continuous_move(self, pan_v: float, tilt_v: float) -> None:
         if abs(pan_v) < 0.05 and abs(tilt_v) < 0.05:
@@ -198,13 +256,17 @@ def get_system_date_and_time() -> bytes:
 
 
 def get_device_information() -> bytes:
+    if BACKEND in ("sunfounder", "gpiozero", "pigpio"):
+        manufacturer, model, hw = "Sunfounder", "Pan-Tilt", "PWM-13-12"
+    else:
+        manufacturer, model, hw = "Pimoroni", "Pan-Tilt HAT", "PIM213"
     return _envelope(
         "<tds:GetDeviceInformationResponse>"
-        "<tds:Manufacturer>Pimoroni</tds:Manufacturer>"
-        "<tds:Model>Pan-Tilt HAT</tds:Model>"
-        "<tds:FirmwareVersion>0.1.0</tds:FirmwareVersion>"
-        "<tds:SerialNumber>pi-zero-2w</tds:SerialNumber>"
-        "<tds:HardwareId>PIM213</tds:HardwareId>"
+        f"<tds:Manufacturer>{manufacturer}</tds:Manufacturer>"
+        f"<tds:Model>{model}</tds:Model>"
+        "<tds:FirmwareVersion>0.2.0</tds:FirmwareVersion>"
+        f"<tds:SerialNumber>{SERIAL}</tds:SerialNumber>"
+        f"<tds:HardwareId>{hw}</tds:HardwareId>"
         "</tds:GetDeviceInformationResponse>"
     )
 
@@ -506,9 +568,10 @@ def main() -> None:
     )
     httpd = ThreadingHTTPServer((LISTEN_HOST, LISTEN_PORT), Handler)
     LOG.info(
-        "ONVIF PTZ listening on %s:%s (rtsp=%s home=%.1f,%.1f)",
+        "ONVIF PTZ listening on %s:%s backend=%s rtsp=%s home=%.1f,%.1f",
         LISTEN_HOST,
         LISTEN_PORT,
+        BACKEND,
         RTSP_PATH,
         HOME_PAN,
         HOME_TILT,

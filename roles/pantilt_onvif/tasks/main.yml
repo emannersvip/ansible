@@ -1,10 +1,7 @@
 ---
-- name: Install Pimoroni pan-tilt HAT Python library
+- name: Install pan-tilt backend packages
   ansible.builtin.apt:
-    name:
-      - python3-pantilthat
-      - python3-smbus
-      - i2c-tools
+    name: "{{ pantilt_apt_packages[pantilt_backend] }}"
     state: present
     update_cache: true
     cache_valid_time: 3600

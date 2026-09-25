@@ -2,3 +2,18 @@
   become: true
   roles:
     - role: pantilt_onvif
+      vars:
+        pantilt_backend: pimoroni
+        pantilt_home_pan: -23
+        pantilt_home_tilt: -13
+
+- hosts: pi-robot-2.edsonmanners.com
+  become: true
+  roles:
+    - role: pantilt_onvif
+      vars:
+        pantilt_backend: sunfounder
+        pantilt_home_pan: 0
+        pantilt_home_tilt: 0
+        pantilt_tilt_min: -90
+        pantilt_tilt_max: 30

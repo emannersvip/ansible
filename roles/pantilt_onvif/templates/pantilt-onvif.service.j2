@@ -1,5 +1,5 @@
 [Unit]
-Description=Pimoroni Pan-Tilt HAT ONVIF bridge for Frigate
+Description=Pan-Tilt ONVIF bridge for Frigate ({{ pantilt_backend }})
 After=network.target mediamtx.service
 Wants=mediamtx.service
 
@@ -10,13 +10,21 @@ RestartSec=2
 User=emanners
 Group=emanners
 SupplementaryGroups=i2c gpio
-WorkingDirectory={{ pantilt_install_dir }}
+WorkingDirectory=/home/emanners
+Environment=PANTILT_BACKEND={{ pantilt_backend }}
 Environment=PANTILT_ONVIF_HOST={{ pantilt_onvif_host }}
 Environment=PANTILT_ONVIF_PORT={{ pantilt_onvif_port }}
 Environment=PANTILT_RTSP_PATH={{ pantilt_rtsp_path }}
 Environment=PANTILT_HOME_PAN={{ pantilt_home_pan }}
 Environment=PANTILT_HOME_TILT={{ pantilt_home_tilt }}
 Environment=PANTILT_MAX_RATE={{ pantilt_max_rate }}
+Environment=PANTILT_PAN_MIN={{ pantilt_pan_min }}
+Environment=PANTILT_PAN_MAX={{ pantilt_pan_max }}
+Environment=PANTILT_TILT_MIN={{ pantilt_tilt_min }}
+Environment=PANTILT_TILT_MAX={{ pantilt_tilt_max }}
+Environment=PANTILT_PAN_PIN={{ pantilt_pan_pin }}
+Environment=PANTILT_TILT_PIN={{ pantilt_tilt_pin }}
+Environment=GPIOZERO_PIN_FACTORY=lgpio
 ExecStart=/usr/bin/python3 {{ pantilt_install_dir }}/pantilt_onvif.py
 
 [Install]

@@ -1,8 +1,23 @@
 ---
+pantilt_backend: pimoroni
 pantilt_onvif_port: 8000
 pantilt_onvif_host: "0.0.0.0"
 pantilt_home_pan: -23
 pantilt_home_tilt: -13
 pantilt_max_rate: 30
+pantilt_pan_min: -90
+pantilt_pan_max: 90
+pantilt_tilt_min: -90
+pantilt_tilt_max: 90
+pantilt_pan_pin: 13
+pantilt_tilt_pin: 12
 pantilt_rtsp_path: "rtsp://{{ ansible_default_ipv4.address }}:8554/cam"
 pantilt_install_dir: /opt/pantilt_onvif
+pantilt_apt_packages:
+  pimoroni:
+    - python3-pantilthat
+    - python3-smbus
+    - i2c-tools
+  sunfounder:
+    - python3-gpiozero
+    - python3-lgpio
