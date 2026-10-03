@@ -1,0 +1,25 @@
+#SPDX-License-Identifier: MIT-0
+---
+# Tasks file for roles/gitea
+
+- name: 'Create Docker /opt/gitea subdirectories for Gitea'
+  ansible.builtin.file:
+    path: "/opt/gitea/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - data
+    - config
+    - logs
+
+- name: 'Docker_Create the Gitea Container'
+  community.docker.docker_container:
+    name: 'gitea'
+    image: 'gitea/gitea:latest'
+    state: 'present'
+    restart_policy: unless-stopped
+    ports:
+      - "3000:3000/tcp"
+      - "2222:22/tcp"
+    volumes:
+      - '/opt/gitea/data:/data'
