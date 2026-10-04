@@ -6,3 +6,18 @@ dns_service_name: 'named'
 # Default Redhat service admin group name. ('??' for Debian)
 dns_admin_group: 'named'
 dns_slave_transfers: '192.168.69.1;192.168.69.31;192.168.69.32;'
+
+# --- xCAT DDNS -----------------------------------------------------------
+# xCAT's nsupdate client authenticates to this BIND with this TSIG key. The
+# identical secret must exist as xcat_ddns_tsig_secret in group_vars/all/vault.yml
+# and in /etc/xcat/nsupdate.key on the xCAT MN (written by the xcat role).
+# All three must agree or nsupdate fails silently.
+xcat_ddns_enabled: true
+xcat_ddns_tsig_key_name: "xcat_key"
+xcat_ddns_tsig_algorithm: "hmac-sha256"
+# Zones xCAT may update: forward A records plus reverse PTR records.
+xcat_ddns_zones:
+  - "edsonmanners.com"
+  - "68.168.192.in-addr.arpa"
+# Only the xCAT management node may submit updates.
+xcat_ddns_update_address: "192.168.68.7"

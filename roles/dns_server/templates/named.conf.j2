@@ -10,21 +10,22 @@
 options {
 	directory		"/var/named";
 	dump-file		"/var/named/data/cache_dump.db";
-	statistics-file "/var/named/data/named_stats.txt";
-	memstatistics-file "/var/named/data/named_mem_stats.txt";
-	secroots-file	"/var/named/data/named.secroots";
-	recursing-file	"/var/named/data/named.recursing";
+	statistics-file 	"/var/named/data/named_stats.txt";
+	memstatistics-file	"/var/named/data/named_mem_stats.txt";
+	secroots-file		"/var/named/data/named.secroots";
+	recursing-file		"/var/named/data/named.recursing";
 	allow-query		{ any; };
+	allow-recursion		{ 192.168.68.0/22; 192.168.69.0/24; 192.168.70.0/24; localhost; };
 
 	/* 
 	 - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
 	 - If you are building a RECURSIVE (caching) DNS server, you need to enable 
-	   recursion. 
+   recursion. 
 	 - If your recursive DNS server has a public IP address, you MUST enable access 
-	   control to limit queries to your legitimate users. Failing to do so will
-	   cause your server to become part of large scale DNS amplification 
-	   attacks. Implementing BCP38 within your network would greatly
-	   reduce such attack surface 
+   control to limit queries to its legitimate users. Failing to do so will 
+   cause your server to become part of large scale DNS amplification 
+   attacks. Implementing BCP38 within your network would greatly 
+   reduce such attack surface 
 	*/
 	recursion yes;
 	forwarders { 192.168.68.1; 1.1.1.1; 8.8.8.8; };
@@ -41,6 +42,15 @@ options {
 	include "/etc/crypto-policies/back-ends/bind.config";
 };
 
+{% if xcat_ddns_enabled | default(false) %}
+// xCAT DDNS: the management node pushes A/PTR records with nsupdate.
+// The same secret lives in /etc/xcat/nsupdate.key on the xCAT MN.
+key "{{ xcat_ddns_tsig_key_name }}" {
+	algorithm {{ xcat_ddns_tsig_algorithm }};
+	secret "{{ xcat_ddns_tsig_secret }}";
+};
+{% endif %}
+
 logging {
         channel default_debug {
                 file "data/named.run";
@@ -56,7 +66,11 @@ zone "." IN {
 zone "edsonmanners.com" IN {
 	type master;
 	file "edsonmanners.com";
+{% if xcat_ddns_enabled | default(false) %}
+	allow-update { key {{ xcat_ddns_tsig_key_name }}; };
+{% else %}
 	allow-update { none; };
+{% endif %}
 	allow-transfer { {{ dns_slave_transfers }} };
 	notify yes;
 };
@@ -72,7 +86,11 @@ zone "tailscale" IN {
 zone "68.168.192.in-addr.arpa" IN {
 	type master;
 	file "68.168.192.in-addr.arpa";
+{% if xcat_ddns_enabled | default(false) %}
+	allow-update { key {{ xcat_ddns_tsig_key_name }}; };
+{% else %}
 	allow-update { none; };
+{% endif %}
 	allow-transfer { {{ dns_slave_transfers }} };
 	notify yes;
 };

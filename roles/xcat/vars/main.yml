@@ -1,0 +1,8 @@
+---
+# vars file for xcat
+
+# Tailscale port is not used here; xCAT SSH is plain LAN SSH.
+xcat_ssh_port: 22
+
+# Services that must never run on this host. Kept in defaults/main.yml so the
+# value is visible next to the reasoning; re-declared here only for the port.

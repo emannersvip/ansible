@@ -1,0 +1,257 @@
+---
+# xCAT management node — DHCP-less, DDNS to external BIND on infra01.
+#
+# Note: xcatsetup is deliberately NOT used. Its own man page restricts it to
+# System P and it only bulk-fills attributes from a naming-convention file.
+# Direct chdef/mkdef on the object tables is non-interactive and idempotent,
+# which is what Ansible needs.
+
+- name: Assert this host is the xCAT management node
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['default_ipv4']['address'] == xcat_mn_ip
+    fail_msg: >-
+      This host is {{ ansible_facts['default_ipv4']['address'] }}, but the xcat
+      role expects the management node at {{ xcat_mn_ip }}. Fix the inventory
+      entry or xcat_mn_ip before running this role.
+    quiet: true
+
+# --- Repositories --------------------------------------------------------
+# Configure the repo files explicitly rather than leaning on the xCAT-release
+# helper RPM. dnf cannot resolve a package name in --check mode (it never
+# populates its cache), so an explicit dnf list is what makes the dry run
+# meaningful and the real run deterministic.
+
+- name: Install the xcat-core and xcat-dep repository definitions
+  ansible.builtin.yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    enabled: true
+    gpgcheck: true
+    repo_gpgcheck: false
+    gpgkey: "{{ item.gpgkey }}"
+  loop: "{{ xcat_repos }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+# gpgcheck (package signatures) stays ON above. repo_gpgcheck (repomd.xml
+# signatures) is OFF because dnf cannot verify those until the signing key is
+# in RPM's keyring, and it otherwise fails with "Bad GPG signature" even though
+# the signature is valid (verified: "Good signature from xCAT Signing Key").
+# The keys are imported by the task below, so repo_gpgcheck can be turned back
+# on if you want belt-and-braces metadata verification.
+
+- name: Ensure the xCAT key staging directory exists
+  ansible.builtin.file:
+    path: "{{ xcat_key_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Download the xCAT repo signing keys
+  ansible.builtin.get_url:
+    url: "{{ item.gpgkey }}"
+    dest: "{{ xcat_key_dir }}/{{ item.name }}-repomd.xml.key"
+    mode: '0644'
+  loop: "{{ xcat_repos }}"
+  loop_control:
+    label: "{{ item.name }}"
+    # All three repos publish their key as "repomd.xml.key", so the destination
+    # is namespaced by repo name or they overwrite each other.
+
+- name: Import the xCAT repo signing keys into the RPM keyring
+  ansible.builtin.rpm_key:
+    key: "{{ xcat_key_dir }}/{{ item.name }}-repomd.xml.key"
+    state: present
+  loop: "{{ xcat_repos }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Show which xCAT builds dnf can actually see
+  ansible.builtin.command:
+    cmd: dnf -q list --available 'xCAT*'
+  register: xcat_available
+  changed_when: false
+
+- name: Fail early if the xCAT package is not visible to dnf
+  ansible.builtin.assert:
+    that:
+      - xcat_available.stdout | length > 0
+    fail_msg: >-
+      dnf cannot see any xCAT package. Check that the VM can reach xcat.org and
+      that gpgcheck is not rejecting the repo key.
+  # Skipped in check mode: command modules do not run, and the repo files are
+  # not written, so dnf would report nothing even on a perfectly good host.
+  when: not ansible_check_mode
+
+# --- Extra repositories --------------------------------------------------
+# xCAT 2.19.x needs legacy perl modules that Rocky 9 base/appstream do not
+# carry. Upstream's own go-xcat installer probes for exactly two of them:
+#   EL_EPEL_TEST_RPM="perl-Crypt-CBC"   -> must come from EPEL
+#   EL_CRB_TEST_RPM="perl-IO-Tty"       -> must come from CRB
+# Both must be enabled or `dnf install xCAT` fails on unresolvable deps.
+# Verified on Rocky 9.8: perl-IO-Tty provides IO::Pty, closing the last gap.
+
+- name: Ensure EPEL is available (perl-Crypt-CBC, perl-Expect, perl-Net-Telnet)
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+
+- name: Ensure CRB is enabled (perl-IO-Tty, perl-Module-Runtime)
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled crb
+  register: xcat_crb
+  changed_when: "'already enabled' not in xcat_crb.stdout"
+
+- name: Install the perl dependencies xCAT-server requires
+  ansible.builtin.package:
+    name: "{{ xcat_perl_deps }}"
+    state: present
+
+- name: Install xCAT
+  ansible.builtin.package:
+    name: "{{ xcat_packages }}"
+    state: present
+
+# --- DHCP-less: make sure nothing tries to own DHCP/TFTP -----------------
+# The xCAT postinstall can leave these enabled. infra01 already serves DHCP on
+# 192.168.68.0/22; a second dhcpd here would double-answer on the same
+# broadcast domain, so stop and mask before we configure anything.
+
+- name: Ensure DHCP and TFTP are stopped and disabled on the management node
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+    masked: true
+  loop: "{{ xcat_disabled_services }}"
+  failed_when: false
+  register: xcat_disabled
+
+# --- site table ----------------------------------------------------------
+# externaldns=1 is the important one: it stops makedns from starting a local
+# nameserver, so xCAT can never contend with BIND on infra01 for port 53.
+
+- name: Configure xCAT site table
+  ansible.builtin.command:
+    cmd: >-
+      chdef -t site
+      master={{ xcat_mn_ip }}
+      domain={{ xcat_domain }}
+      nameservers={{ xcat_dns_servers_list }}
+      forwarders={{ xcat_forwarders }}
+      installdir=/install
+      externaldns=1
+      dhcpinterfaces=
+  register: xcat_site
+  changed_when: "'objects changed' in xcat_site.stdout"
+
+- name: Define the cluster network (no DHCP range; external DHCP serves it)
+  ansible.builtin.command:
+    cmd: >-
+      mkdef -t network
+      net={{ xcat_network_name }}
+      address={{ xcat_network_address }}
+      netmask={{ xcat_netmask }}
+      type={{ xcat_network_type }}
+      ddnsdomain={{ xcat_ddns_domain }}
+      staticrange={{ xcat_network_address }}
+  register: xcat_net
+  changed_when: "'objects changed' in xcat_net.stdout or 'already exists' not in xcat_net.stdout"
+
+- name: Point the network at the external DNS server for DDNS
+  ansible.builtin.command:
+    cmd: chdef -t network -o {{ xcat_network_name }} nameservers={{ xcat_dns_server }}
+  register: xcat_net_nameservers
+  changed_when: "'objects changed' in xcat_net_nameservers.stdout"
+
+# --- DDNS to infra01 -----------------------------------------------------
+# /etc/xcat/nsupdate.key holds the TSIG secret xCAT's nsupdate client uses.
+# The public half lives in infra01's named.conf, managed by the dns_server role.
+
+- name: Ensure the xCAT nsupdate key directory exists
+  ansible.builtin.file:
+    path: /etc/xcat
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Install the TSIG key xCAT uses to update infra01
+  ansible.builtin.copy:
+    content: |
+      key "xcat_key" {
+          algorithm hmac-sha256;
+          secret "{{ xcat_ddns_tsig_secret }}";
+      };
+    dest: /etc/xcat/nsupdate.key
+    owner: root
+    group: root
+    mode: '0600'
+  no_log: true
+
+- name: Initialize DNS in external mode (does not start a local nameserver)
+  ansible.builtin.command:
+    cmd: makedns -e
+  register: xcat_makedns
+  changed_when: xcat_makedns.rc == 0
+
+- name: Ensure xcatd is running and enabled
+  ansible.builtin.systemd:
+    name: xcatd
+    state: started
+    enabled: true
+  # The xcatd unit only exists once the xCAT package is installed, which is
+  # skipped in check mode. In a real run the install above already happened.
+  when: not ansible_check_mode
+
+# --- Firewall ------------------------------------------------------------
+# Only what a config-management MN needs: SSH from the LAN, plus the xCAT
+# web/console port and NFS/TFTP if you later add provisioning.
+
+- name: Open required ports on the management node
+  ansible.builtin.firewalld:
+    port: "{{ item }}"
+    zone: public
+    permanent: true
+    immediate: true
+    state: enabled
+  loop:
+    - "{{ xcat_ssh_port }}/tcp"
+    - "514/udp"   # syslog from managed nodes
+  loop_control:
+    label: "{{ item }}"
+
+# --- Verification --------------------------------------------------------
+# These assert the real outcome, not just that the tasks ran.
+
+- name: Read back the site table
+  ansible.builtin.command: tabdump site
+  register: xcat_site_dump
+  changed_when: false
+
+- name: Read back the network table
+  ansible.builtin.command: tabdump networks
+  register: xcat_net_dump
+  changed_when: false
+
+- name: Assert xCAT is configured DHCP-less against external DNS
+  ansible.builtin.assert:
+    that:
+      - "'\"externaldns\",\"1\"' in xcat_site_dump.stdout"
+      - "'\"master\",\"{{ xcat_mn_ip }}\"' in xcat_site_dump.stdout"
+      - "'\"domain\",\"{{ xcat_domain }}\"' in xcat_site_dump.stdout"
+      - xcat_net_dump.stdout | length > 0
+    fail_msg: "site/networks table does not reflect the intended DHCP-less config"
+  # The tabdump reads above are skipped in check mode, so there is nothing to
+  # assert against. These assertions are the real-run verification gate.
+  when: not ansible_check_mode
+
+- name: Assert no DHCP daemon is listening on the management node
+  ansible.builtin.command: "ss -lun | grep -c ':67 '"
+  register: xcat_dhcp_check
+  changed_when: false
+  failed_when: xcat_dhcp_check.stdout.strip() != '0'
+  when: not ansible_check_mode

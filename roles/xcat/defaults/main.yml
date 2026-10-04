@@ -1,0 +1,82 @@
+---
+# defaults file for xcat
+#
+# xCAT 2.19.1 management node, DHCP-less, DDNS pushed to an external BIND.
+
+# --- Where xCAT comes from -----------------------------------------------
+# Repo definitions written explicitly to /etc/yum.repos.d. Matches what the
+# xCAT-release helper RPM would write, but is inspectable and testable.
+xcat_repos:
+  - name: xcat-core
+    description: "xCAT 2 Core packages"
+    baseurl: "https://xcat.org/files/xcat/repos/yum/latest/xcat-core"
+    repo_gpgcheck: false
+    gpgkey: "https://xcat.org/files/xcat/repos/yum/latest/xcat-core/repodata/repomd.xml.key"
+  - name: xcat-dep
+    description: "xCAT 2 dependencies (rh9 x86_64)"
+    baseurl: "https://xcat.org/files/xcat/repos/yum/latest/xcat-dep/rh9/x86_64"
+    repo_gpgcheck: true
+    gpgkey: "https://xcat.org/files/xcat/repos/yum/latest/xcat-dep/rh9/x86_64/repodata/repomd.xml.key"
+  - name: xcat-dep-common
+    description: "xCAT 2 common dependencies"
+    baseurl: "https://xcat.org/files/xcat/repos/yum/latest/xcat-dep/common"
+    repo_gpgcheck: true
+    gpgkey: "https://xcat.org/files/xcat/repos/yum/latest/xcat-dep/common/repodata/repomd.xml.key"
+
+xcat_packages:
+  - xCAT
+
+# Legacy perl modules xCAT-server requires that Rocky 9 base/appstream lack.
+# perl-IO-Tty also provides IO::Pty, which xCAT-server requires directly.
+xcat_perl_deps:
+  - perl-Crypt-CBC
+  - perl-Crypt-Rijndael
+  - perl-Crypt-SSLeay
+  - perl-Expect
+  - perl-IO-Tty
+  - perl-Module-Runtime
+  - perl-namespace-autoclean
+  - perl-Net-Telnet
+
+# Where the repo signing keys are staged before being imported into RPM's
+# keyring. rpm --import cannot fetch over HTTPS on EL9, so get_url downloads
+# them first and rpm_key imports the local file.
+xcat_key_dir: /etc/pki/rpm-gpg/xcat
+
+# --- Cluster identity ----------------------------------------------------
+# The management node's own address. Set by xCAT at install time from the
+# primary interface, but we assert it here so a changed VM IP fails loudly
+# instead of silently mislabelling every node object.
+xcat_mn_ip: "192.168.68.7"
+xcat_domain: "edsonmanners.com"
+
+# --- External DNS (BIND on infra01) --------------------------------------
+# site.externaldns=1 stops xCAT from starting its own nameserver, so it can
+# never contend with infra01 for port 53. nsupdate pushes records to infra01.
+xcat_dns_server: "192.168.68.5"
+xcat_dns_servers_list: "192.168.68.5,192.168.69.1"
+xcat_forwarders: "192.168.68.1,1.1.1.1,8.8.8.8"
+
+# TSIG key xCAT authenticates with when updating infra01. Must match the
+# xcat_key stanza in infra01's named.conf (managed by the dns_server role)
+# and be stored in group_vars/all/vault.yml as xcat_ddns_tsig_key.
+xcat_ddns_tsig_key: "xcat_key"
+
+# --- DHCP-less ------------------------------------------------------------
+# infra01 already serves DHCP for 192.168.68.0/22. xCAT must NOT run a second
+# dhcpd on the same broadcast domain, so site.dhcpinterfaces stays empty.
+xcat_enable_dhcp: false
+
+# Static node range reserved for xCAT-managed clients. Only used to populate
+# the networks table for documentation/DNS purposes; no dhcpd is started.
+xcat_network_name: "homelab"
+xcat_network_address: "192.168.68.0"
+xcat_netmask: "255.255.252.0"
+xcat_network_type: "ethernet"
+xcat_ddns_domain: "edsonmanners.com"
+
+# --- Services xCAT must NOT run ------------------------------------------
+xcat_disabled_services:
+  - dhcpd
+  - tftp
+  - tftpd-hpa
