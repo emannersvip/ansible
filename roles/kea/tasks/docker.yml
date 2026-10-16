@@ -1,0 +1,29 @@
+#SPDX-License-Identifier: MIT-0
+---
+# Tasks file for roles/kea
+- name: 'Create /opt/kea subdirectory for Kea'
+  ansible.builtin.file:
+    path: /opt/kea
+    state: directory
+
+- name: 'Create configuration subdirectory, /opt/kea/config, for Kea'
+  ansible.builtin.file:
+    path: /opt/kea/config
+    state: directory
+
+- name: 'Create data subdirectory, /opt/kea/data, for Kea'
+  ansible.builtin.file:
+    path: /opt/kea/data
+    state: directory
+
+- name: 'Docker create the Kea Container'
+  community.docker.docker_container:
+    name: 'kea'
+    image: 'docker.cloudsmith.io/isc/docker/kea-dhcp4:3.0.0'
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - '/opt/kea/config:/etc/kea'
+      - '/opt/kea/data:/var/lib/kea'
+    network_mode: 'host'
+    platform: 'linux/arm64/v8'

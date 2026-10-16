@@ -134,6 +134,63 @@
 # externaldns=1 is the important one: it stops makedns from starting a local
 # nameserver, so xCAT can never contend with BIND on infra01 for port 53.
 
+- name: Ensure xcatd is running and enabled
+  ansible.builtin.systemd:
+    name: xcatd
+    state: started
+    enabled: true
+  # The xcatd unit only exists once the xCAT package is installed, which is
+  # skipped in check mode. In a real run the install above already happened.
+  when: not ansible_check_mode
+
+# --- xCAT client certificates -------------------------------------------
+# xcatd only answers privileged requests from clients holding a certificate
+# signed by its local CA. The xCAT postinstall creates these under /root/.xcat,
+# but if they are missing or stale every chdef/mkdef fails with
+# "Unable to open socket connection to xcatd daemon on localhost:3001".
+#
+# setup-local-client.sh prompts TWICE on a tty ("Sign the certificate?" and
+# "commit?"), so it must be driven through `script` with piped answers. A plain
+# `echo y |` does NOT work — the prompt reads from the tty, not stdin.
+
+- name: Check whether root has usable xCAT client certificates
+  ansible.builtin.stat:
+    path: /root/.xcat/client-cred.pem
+  register: xcat_root_cert
+
+- name: Generate xCAT client certificates for root if missing
+  ansible.builtin.shell:
+    cmd: |
+      rm -rf /root/.xcat
+      printf 'y\ny\ny\n' | script -q -c \
+        "/opt/xcat/share/xcat/scripts/setup-local-client.sh" /dev/null
+  become: true
+  when: not xcat_root_cert.stat.exists
+  changed_when: true
+
+- name: Wait for xcatd to accept connections after a cert rebuild
+  ansible.builtin.uri:
+    url: "https://{{ xcat_mn_ip }}:3001"
+    validate_certs: false
+  register: xcat_ready
+  retries: 10
+  delay: 3
+  until: xcat_ready is not failed
+  when: not ansible_check_mode
+  failed_when: false
+
+# --- xCAT command environment -------------------------------------------
+# /etc/profile.d/xcat.sh puts /opt/xcat/bin and /opt/xcat/sbin on PATH, but a
+# non-login non-interactive shell (which is what Ansible uses) never sources
+# it, so `chdef`/`tabdump` resolve as "command not found". Prepending the paths
+# via environment on every xCAT command task is the reliable fix.
+#
+# become is required: xcatd authorises privileged object-table changes for root
+# only, and returns "Permission denied for request" otherwise. Running as root
+# also means root's client certs (created by the xCAT postinstall under
+# /root/.xcat) are the ones used, so no interactive setup-local-client.sh run
+# is needed here — that script prompts on a tty and cannot be driven by Ansible.
+
 - name: Configure xCAT site table
   ansible.builtin.command:
     cmd: >-
@@ -145,27 +202,89 @@
       installdir=/install
       externaldns=1
       dhcpinterfaces=
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
   register: xcat_site
   changed_when: "'objects changed' in xcat_site.stdout"
 
-- name: Define the cluster network (no DHCP range; external DHCP serves it)
+# xCAT creates a network object automatically during install, named after the
+# net/mask (e.g. 192_168_68_0-255_255_252_0). It REFUSES to create a second
+# network with the same net+mask — even with -f — so this task must adopt the
+# existing object's name rather than invent one.
+#
+# Schema details confirmed via `mkdef -h -t network`:
+#   - the mask attribute is `mask`, NOT `netmask`
+#   - `net` is the network ADDRESS; the object name goes through -o
+- name: Find the existing xCAT network object for this net/mask
+  ansible.builtin.shell:
+    cmd: >-
+      set -o pipefail;
+      tabdump networks | tail -n +2 | awk -F'","' '$2=="{{ xcat_network_address }}" && $3=="{{ xcat_netmask }}" {print $1}' | tr -d '"'
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
+  register: xcat_net_lookup
+  changed_when: false
+  when: not ansible_check_mode
+
+- name: Fail if no matching xCAT network object exists
+  ansible.builtin.assert:
+    that:
+      - xcat_net_lookup.stdout | trim | length > 0
+    fail_msg: >-
+      No xCAT network object matches {{ xcat_network_address }}/{{ xcat_netmask }}.
+      Run `tabdump networks` as root on the MN to see what exists.
+    quiet: true
+  when: not ansible_check_mode
+
+- name: Configure the cluster network for external DNS (no DHCP range)
   ansible.builtin.command:
     cmd: >-
-      mkdef -t network
-      net={{ xcat_network_name }}
-      address={{ xcat_network_address }}
-      netmask={{ xcat_netmask }}
-      type={{ xcat_network_type }}
+      chdef -t network -o {{ xcat_net_lookup.stdout | trim }}
       ddnsdomain={{ xcat_ddns_domain }}
-      staticrange={{ xcat_network_address }}
+      domain={{ xcat_domain }}
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
   register: xcat_net
-  changed_when: "'objects changed' in xcat_net.stdout or 'already exists' not in xcat_net.stdout"
+  changed_when: "'objects changed' in xcat_net.stdout"
 
 - name: Point the network at the external DNS server for DDNS
   ansible.builtin.command:
-    cmd: chdef -t network -o {{ xcat_network_name }} nameservers={{ xcat_dns_server }}
+    cmd: >-
+      chdef -t network -o {{ xcat_net_lookup.stdout | trim }}
+      nameservers={{ xcat_dns_server }}
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
   register: xcat_net_nameservers
   changed_when: "'objects changed' in xcat_net_nameservers.stdout"
+
+- name: Ensure SELinux is not enforcing (makedns cannot build a complete setup otherwise)
+  ansible.builtin.command:
+    cmd: setenforce 0
+  when: not ansible_check_mode
+  register: xcat_selinux
+  changed_when: xcat_selinux.rc == 0
+  failed_when: false
+
+- name: Initialize DNS in external mode (does not start a local nameserver)
+  ansible.builtin.command:
+    cmd: makedns -e
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
+  register: xcat_makedns
+  # makedns completes its work ("DNS setup is completed") but exits 1 with
+  # "Unable to find omapi key in passwd table". That is expected here: OMAPI is
+  # how xCAT provisions DNS records into a DHCP server, and this cluster is
+  # deliberately DHCP-less with an external BIND. Treat the completed-work
+  # message as success and only fail if it is absent.
+  failed_when: >-
+    xcat_makedns.rc != 0
+    and 'DNS setup is completed' not in xcat_makedns.stdout
+  changed_when: "'DNS setup is completed' in xcat_makedns.stdout"
 
 # --- DDNS to infra01 -----------------------------------------------------
 # /etc/xcat/nsupdate.key holds the TSIG secret xCAT's nsupdate client uses.
@@ -192,48 +311,45 @@
     mode: '0600'
   no_log: true
 
-- name: Initialize DNS in external mode (does not start a local nameserver)
-  ansible.builtin.command:
-    cmd: makedns -e
-  register: xcat_makedns
-  changed_when: xcat_makedns.rc == 0
-
-- name: Ensure xcatd is running and enabled
-  ansible.builtin.systemd:
-    name: xcatd
-    state: started
-    enabled: true
-  # The xcatd unit only exists once the xCAT package is installed, which is
-  # skipped in check mode. In a real run the install above already happened.
-  when: not ansible_check_mode
-
 # --- Firewall ------------------------------------------------------------
-# Only what a config-management MN needs: SSH from the LAN, plus the xCAT
-# web/console port and NFS/TFTP if you later add provisioning.
+# Only what a config-management MN needs: SSH from the LAN, plus syslog from
+# managed nodes. Gated on firewalld actually running — on this VM it is
+# installed but disabled, and the firewalld module errors out rather than
+# no-op when the daemon is down. Set xcat_manage_firewalld to true on hosts
+# where you want the role to enforce the firewall.
 
-- name: Open required ports on the management node
-  ansible.builtin.firewalld:
-    port: "{{ item }}"
-    zone: public
-    permanent: true
-    immediate: true
-    state: enabled
-  loop:
-    - "{{ xcat_ssh_port }}/tcp"
-    - "514/udp"   # syslog from managed nodes
-  loop_control:
-    label: "{{ item }}"
+- name: Manage the management node firewall
+  when: xcat_manage_firewalld | bool
+  block:
+    - name: Open required ports on the management node
+      ansible.builtin.firewalld:
+        port: "{{ item }}"
+        zone: public
+        permanent: true
+        immediate: true
+        state: enabled
+      loop:
+        - "{{ xcat_ssh_port }}/tcp"
+        - "514/udp"   # syslog from managed nodes
+      loop_control:
+        label: "{{ item }}"
 
 # --- Verification --------------------------------------------------------
 # These assert the real outcome, not just that the tasks ran.
 
 - name: Read back the site table
   ansible.builtin.command: tabdump site
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
   register: xcat_site_dump
   changed_when: false
 
 - name: Read back the network table
   ansible.builtin.command: tabdump networks
+  become: true
+  environment:
+    PATH: "{{ xcat_bin_path }}:{{ ansible_env.PATH | default('/usr/bin:/bin') }}"
   register: xcat_net_dump
   changed_when: false
 
@@ -250,8 +366,24 @@
   when: not ansible_check_mode
 
 - name: Assert no DHCP daemon is listening on the management node
-  ansible.builtin.command: "ss -lun | grep -c ':67 '"
+  ansible.builtin.shell:
+    # grep exits 1 when it finds nothing, which would fail the task before
+    # failed_when is evaluated. `ss ... || true` keeps the pipeline alive and
+    # the wc count is what actually gets judged.
+    cmd: ss -lun | grep -c ':67 ' || true
+  become: true
   register: xcat_dhcp_check
   changed_when: false
-  failed_when: xcat_dhcp_check.stdout.strip() != '0'
+  failed_when: xcat_dhcp_check.stdout | trim != '0'
+  when: not ansible_check_mode
+
+- name: Assert no local nameserver or DHCP server is running on the MN
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      { systemctl is-active named 2>/dev/null || true; } | grep -qv inactive
+  become: true
+  register: xcat_named_check
+  changed_when: false
+  failed_when: xcat_named_check.rc == 0
   when: not ansible_check_mode
