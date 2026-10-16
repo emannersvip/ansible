@@ -29,3 +29,36 @@
     dest: /usr/local/bin/nvim
     mode: '+x'
   delegate_to: localhost
+
+- name: Create a symlink for nvim
+  ansible.builtin.file:
+    src: /usr/local/bin/nvim
+    dest: /usr/bin/nvim
+    state: link
+  delegate_to: localhost
+
+#- name: Backup existing neovim configuration if it exists
+#  ansible.builtin.command:
+#    cmd:
+#      - mv ~emanners/.config/nvim ~emanners/.config/nvim.bak || true
+#      - mv ~emanners/.local/share/nvim ~emanners/.local/share/nvim.bak
+#      - mv ~emanners/.local/state/nvim ~emanners/.local/state/nvim.bak
+#  ignore_errors: true
+#  delegate_to: localhost
+
+- name: Use `git clone` to clone the official LazyVim starter configuration into the user's home directory
+  ansible.builtin.git:
+    repo: https://github.com/LazyVim/starter
+    dest: ~emanners/.config/nvim
+    version: main
+
+- name: Restore the user's .config/nvim directory to being owned by the user
+  ansible.builtin.file:
+    path: ~emanners/.config/nvim
+    owner: emanners
+    group: emanners
+
+# If this is the first time running this playbook, the user will need to run `nvim` once to install plugins. This is because LazyVim uses a plugin manager that installs plugins on the first run. The following task checks if the `~/.local/share/nvim/site/pack/packer/start` directory exists, which indicates that plugins have been installed. If it does not exist, it runs `nvim --headless +Lazy! +qall` to install plugins in headless mode.
+- name: Check if plugins have been installed
+  ansible.builtin.stat:
+    path: ~emanners/.local/share/nvim/site/pack/packer/start
