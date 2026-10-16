@@ -1,0 +1,8 @@
+---
+- hosts:
+    #- infra01.edsonmanners.com
+    #- gamingrig.edsonmanners.com
+    - katello.edsonmanners.com
+  become: true
+  roles:
+    - role: letsencrypt

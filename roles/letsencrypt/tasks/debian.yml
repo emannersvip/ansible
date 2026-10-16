@@ -1,0 +1,19 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/letsencrypt
+
+- name: Install the LetsEncrypt getssl DEB from github
+  ansible.builtin.apt:
+    #name: 'https://github.com/srvrco/getssl/releases/download/v2.52/getssl_2.52-1_all.deb'
+    deb: 'https://github.com/srvrco/getssl/releases/download/v2.52/getssl_2.52-1_all.deb'
+    state: present
+    update_cache: false
+
+
+- name: 'Create domain directory format'
+  ansible.builtin.command:
+    cmd: getssl -c edsonmanners.com
+    creates: '/root/.getssl'
+    #chdir: '/tmp'
+    #cmd: getssl -c {{ letsencrypt_domain }}
+    

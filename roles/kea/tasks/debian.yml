@@ -1,0 +1,16 @@
+---
+#
+
+# https://cloudsmith.io/~isc/repos/stork/setup/#formats-deb
+- name: 'Add ISC repository for Kea'
+  ansible.builtin.apt_repository:
+    repo: 'deb [signed-by=/usr/share/keyrings/isc-keama-archive-keyring.gpg] https://dl.cloudsmith.io/public/isc/keama/deb/debian bookworm main'
+    state: present
+    filename: 'isc-stork'
+
+# https://downloads.isc.org/isc/kea/3.2.1/doc/html/arm/quickstart.html#quick-start-guide-using-native-packages
+- name: 'Install the lastest Kea DHCP Server'
+  ansible.builtin.apt:
+    name: 'kea'
+    state: present
+    update_cache: true

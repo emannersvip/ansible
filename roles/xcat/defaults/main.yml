@@ -43,6 +43,10 @@ xcat_perl_deps:
 # them first and rpm_key imports the local file.
 xcat_key_dir: /etc/pki/rpm-gpg/xcat
 
+# xCAT's commands live here. /etc/profile.d/xcat.sh adds them to PATH, but a
+# non-login non-interactive shell (Ansible) never sources that file.
+xcat_bin_path: "/opt/xcat/bin:/opt/xcat/sbin:/opt/xcat/share/xcat/tools"
+
 # --- Cluster identity ----------------------------------------------------
 # The management node's own address. Set by xCAT at install time from the
 # primary interface, but we assert it here so a changed VM IP fails loudly
@@ -72,7 +76,6 @@ xcat_enable_dhcp: false
 xcat_network_name: "homelab"
 xcat_network_address: "192.168.68.0"
 xcat_netmask: "255.255.252.0"
-xcat_network_type: "ethernet"
 xcat_ddns_domain: "edsonmanners.com"
 
 # --- Services xCAT must NOT run ------------------------------------------

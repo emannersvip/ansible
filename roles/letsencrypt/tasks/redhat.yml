@@ -1,0 +1,23 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/letsencrypt
+
+- name: Install the LetsEncrypt getssl RPM from github
+  ansible.builtin.dnf:
+    #name: 'https://github.com/grafana/alloy/releases/download/v1.16.3/alloy-1.16.3-1.amd64.rpm'
+    name: 'https://github.com/srvrco/getssl/releases/download/v2.52/getssl-2.52-1.noarch.rpm'
+    state: present
+    disable_gpg_check: true
+
+- name: 'Install bind-utils package for dig command'
+  ansible.builtin.dnf:
+    name: 'bind-utils'
+    state: present
+
+- name: 'Create domain directory format'
+  ansible.builtin.command:
+    #chdir: /tmp/
+    #cmd: getssl -c {{ letsencrypt_domain }}
+    cmd: getssl -c katello.edsonmanners.com
+    creates: /root/.getssl
+    
